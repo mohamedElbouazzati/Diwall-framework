@@ -1,6 +1,3 @@
-
-.. _load_build:
-
 Take charge of the liteX
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 .. contents:: Table of Contents 
@@ -98,6 +95,3 @@ You have 2 solutions for resolve this problem.
             # MAIN_RAM parameters
             soc_group.add_argument("--integrated-main-ram-size", default=0x20000, type=auto_int, help="size/enable the integrated main RAM.")
 
-
-
-Reference `load_build`_.

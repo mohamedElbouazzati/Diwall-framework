@@ -1,9 +1,8 @@
-.. _create_board:
-
-Create your board in latex
+Create your board in LiteX
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. contents:: Table of Contents 
-    :depth: 2
+
+.. toctree::
+    :maxdepth: 2
 
 
 In this part, i describe how i **create my board and my customs pins** inspired by the files already written. I create customs copy of **Digilent basys3** .
@@ -86,5 +85,3 @@ If you dont use actual constructor names, you should create your's at ``<dir_pro
             :language: python
 
 
-
-Reference `create_board`_.

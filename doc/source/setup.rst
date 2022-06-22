@@ -1,12 +1,3 @@
-.. T
-    .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-   self
-
-.. _setup:
-
 Config and setup LiteX on Linux
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. contents:: Table of Contents 

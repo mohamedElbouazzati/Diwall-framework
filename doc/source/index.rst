@@ -3,29 +3,22 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-   Welcome to TEST's documentation!
-   ================================
+Welcome to TEST's documentation!
+================================
 
-   .. toctree::
-      :maxdepth: 2
-      :caption: Contents:
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
 
-      hello
-   Indices and tables
-   ==================
-
-   * :ref:`hello`
-   * :ref:`genindex`
-   * :ref:`modindex`
-   * :ref:`search`
-
+   setup
+   load_build
+   create_board
 
 Indices and tables
 ==================
 
-* :ref:`setup`
-* :ref:`load_build`
-* :ref:`create_board`
-
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
 
 
