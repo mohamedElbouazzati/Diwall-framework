@@ -2,3 +2,5 @@
 #ignore vagrant files
 venv/.vagrant
 
+#sphinx doc
+doc/build
