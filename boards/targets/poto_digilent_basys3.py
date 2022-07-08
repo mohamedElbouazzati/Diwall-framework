@@ -77,23 +77,11 @@ class BaseSoC(SoCCore):
             from litex.soc.cores.spi import SPIMaster         
             self.submodules.loraspi = SPIMaster(pads=platform.request("lora_spi"), data_width=8, sys_clk_freq=sys_clk_freq, spi_clk_freq=int(100e3), with_csr=True, mode="raw")
             
-            self.submodules.di=GPIOIn(pads = platform.request_all("di"),with_irq=True)
-            self.submodules.dr = GPIOOut(pads=platform.request("rst"))
-        
-        #LITESPI
-        #from litespi import LiteSPI    
-        #if with_custom_pin:
-        #    self.submodules.lite_spi =  LiteSPI(    clock_domain="sys",
-        #                                            phy=platform.request("phy"),
-        #                                            with_mmap=False,
-        #                                            master_tx_fifo_depth=len(platform.request("miso_tx")),
-        #                                            master_rx_fifo_depth=len(platform.request("mosi_rx")),
-        #                                            with_csr=True
-        #                                        )#LiteSPI( pads = platform.request("lite_spi") )
-        #                                                    
-        #                                         #("custom_led", 0, Pins("J1"), IOStandard("LVCMOS33")),
-        #    #self.submodules.gpio_bp = GPIOIn( pads = platform.request("custom_btn")) #("custom_btn", 0, Pins("L2"), IOStandard("LVCMOS33")),
-            
+            #self.submodules.dio=GPIOTristate(pads = platform.request_all("di"),with_irq=True)
+            platform.add_extension(board.dio_methode("dio"))
+            self.submodules.dio=GPIOTristate(platform.request("dio"),with_irq=True)
+            self.submodules.rst =GPIOTristate(pads=platform.request("rst"),with_irq=True)
+    
 
        
    

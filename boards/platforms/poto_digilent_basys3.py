@@ -1,142 +1,153 @@
-#!/usr/bin/env python3
-
 #
 # This file is part of LiteX-Boards.
 #
-# Copyright (c) 2020-2021 Xuanyu Hu <xuanyu.hu@whu.edu.cn>
-# SPDX-License-Identifier: BSD-2-Clause
+# Copyright (c) 2022 TERRINE Christophe <terrine.chr@gmail.com>
+# 
 
-import imp
-from migen import *
+from litex.build.generic_platform import *
+from litex.build.xilinx import XilinxPlatform, VivadoProgrammer
+from litex.build.openocd import OpenOCD
 
-from litex_boards.platforms import board
+# IOs ----------------------------------------------------------------------------------------------
 
-from litex.soc.cores.clock import *
-from litex.soc.integration.soc import SoCRegion  #import des i
-from litex.soc.integration.soc_core import *
-from litex.soc.integration.builder import *
-from litex.soc.cores.video import VideoVGAPHY
-from litex.soc.cores.led import LedChaser
-from litex.soc.cores.gpio import *
+_io = [
+    # Clk / Rst
+    ("clk100", 0, Pins("W5"), IOStandard("LVCMOS33")),
 
+    # -----------------------  Leds  ----------------------------------
+    ("user_led",  0, Pins("U16"), IOStandard("LVCMOS33")),
+    ("user_led",  1, Pins("E19"), IOStandard("LVCMOS33")),
+    ("user_led",  2, Pins("U19"), IOStandard("LVCMOS33")),
+    ("user_led",  3, Pins("V19"), IOStandard("LVCMOS33")),
+    ("user_led",  4, Pins("W18"), IOStandard("LVCMOS33")),
+    ("user_led",  5, Pins("U15"), IOStandard("LVCMOS33")),
+    ("user_led",  6, Pins("U14"), IOStandard("LVCMOS33")),
+    ("user_led",  7, Pins("V14"), IOStandard("LVCMOS33")),
+    ("user_led",  8, Pins("V13"), IOStandard("LVCMOS33")),
+    ("user_led",  9, Pins("V3"),  IOStandard("LVCMOS33")),
+    ("user_led", 10, Pins("W3"),  IOStandard("LVCMOS33")),
+    ("user_led", 11, Pins("U3"),  IOStandard("LVCMOS33")),
+    ("user_led", 12, Pins("P3"),  IOStandard("LVCMOS33")),
+    ("user_led", 13, Pins("N3"),  IOStandard("LVCMOS33")),
+    ("user_led", 14, Pins("P1"),  IOStandard("LVCMOS33")),
+    ("user_led", 15, Pins("L1"),  IOStandard("LVCMOS33")),
 
-# CRG ----------------------------------------------------------------------------------------------
+    # ---------------------- Switches ---------------------------------
+    ("user_sw",  0, Pins("V17"), IOStandard("LVCMOS33")),
+    ("user_sw",  1, Pins("V16"), IOStandard("LVCMOS33")),
+    ("user_sw",  2, Pins("W16"), IOStandard("LVCMOS33")),
+    ("user_sw",  3, Pins("W17"), IOStandard("LVCMOS33")),
+    ("user_sw",  4, Pins("W15"), IOStandard("LVCMOS33")),
+    ("user_sw",  5, Pins("V15"), IOStandard("LVCMOS33")),
+    ("user_sw",  6, Pins("W14"), IOStandard("LVCMOS33")),
+    ("user_sw",  7, Pins("W13"), IOStandard("LVCMOS33")),
+    ("user_sw",  8, Pins("V2"),  IOStandard("LVCMOS33")),
+    ("user_sw",  9, Pins("T3"),  IOStandard("LVCMOS33")),
+    ("user_sw", 10, Pins("T2"),  IOStandard("LVCMOS33")),
+    ("user_sw", 11, Pins("R3"),  IOStandard("LVCMOS33")),
+    ("user_sw", 12, Pins("W2"),  IOStandard("LVCMOS33")),
+    ("user_sw", 13, Pins("U1"),  IOStandard("LVCMOS33")),
+    ("user_sw", 14, Pins("T1"),  IOStandard("LVCMOS33")),
+    ("user_sw", 15, Pins("R2"),  IOStandard("LVCMOS33")),
 
-class _CRG(Module):
-    def __init__(self, platform, sys_clk_freq):
-        self.rst = Signal()
-        self.clock_domains.cd_sys       = ClockDomain()
-        self.clock_domains.cd_vga       = ClockDomain()
+    # ----------------------  Buttons  --------------------------------
+    ("user_btnu", 0, Pins("T18"), IOStandard("LVCMOS33")),
+    ("user_btnd", 0, Pins("U17"), IOStandard("LVCMOS33")),
+    ("user_btnl", 0, Pins("W19"), IOStandard("LVCMOS33")),
+    ("user_btnr", 0, Pins("T17"), IOStandard("LVCMOS33")),
+    ("user_btnc", 0, Pins("U18"), IOStandard("LVCMOS33")),
 
-        self.submodules.pll = pll = S7MMCM(speedgrade=-1)
-        self.comb += pll.reset.eq(platform.request("user_btnc") | self.rst)                 #<---inf
-
-        pll.register_clkin(platform.request("clk100"), 100e6)
-        pll.create_clkout(self.cd_sys, sys_clk_freq)
-        pll.create_clkout(self.cd_vga, 40e6)
-        platform.add_false_path_constraints(self.cd_sys.clk, pll.clkin) # Ignore sys_clk to pll.clkin path created by SoC's rst.
-        #platform.add_platform_command("set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets clk100_IBUF]").
-
-# BaseSoC ------------------------------------------------------------------------------------------
-
-class BaseSoC(SoCCore):
-    def __init__(self, sys_clk_freq=int(75e6), with_custom_spi=True,with_led_chaser=True, with_video_terminal=False, **kwargs):
-        platform = board.Platform()
-
-        # SoCCore ----------------------------------_-----------------------------------------------
-        SoCCore.__init__(self, platform, sys_clk_freq,
-            ident = "LiteX SoC on board",
-            **kwargs)
-
-        # CRG --------------------------------------------------------------------------------------
-        self.submodules.crg = _CRG(platform, sys_clk_freq)
-
-        # Video ------------------------------------------------------------------------------------
-        if with_video_terminal:
-            self.submodules.videophy = VideoVGAPHY(platform.request("vga"), clock_domain="vga")
-            if with_video_terminal:
-                self.add_video_terminal(phy=self.videophy, timings="800x600@60Hz", clock_domain="vga")
-
-        # Leds -------------------------------------------------------------------------------------
-        if with_led_chaser:
-            self.submodules.leds = LedChaser(
-                                                
-                                                pads         = platform.request_all("user_led"),
-                                                sys_clk_freq = sys_clk_freq
-                                            )
-
+    # ------------------------ Custom peripherique --------------------
+    #("custom_led", 0, Pins("J1"), IOStandard("LVCMOS33")),
+    #("custom_btn", 0, Pins("L2"), IOStandard("LVCMOS33")),
+    
+    # ---------------------  SPI MASTER  ------------------------------
+    #("pmoda",    "J1   L2  J2  G2  H1  K2  H2  G3"), USED FOR SPI LORA
+    (   "lora_spi", 0,
+        Subsignal("clk", Pins("J1")),              #PIN0
+        Subsignal("miso", Pins("L2")),             #PIN1
+        Subsignal("mosi", Pins("J2")),             #PIN2
+        Subsignal("cs_n"  , Pins("G2")),           #PIN3
         
-  
+        IOStandard("LVCMOS33")
+    ),
+    #("pmodxdac", " J3  L3  M2  N2  K3  M3  M1  N1"), USED FOR DIO
+    ("rst", 0, Pins("N1"), IOStandard("LVCMOS33")),
 
-        # Custom LORA-------------------------------------------------------------------------------
-        self.add_timer(name="timer1")
-        #if timer_uptime:
-                #self.timer0.add_uptime()
-        #FLASH SPI
-        if with_custom_spi:
-            from litex.soc.cores.spi import SPIMaster         
-            self.submodules.loraspi = SPIMaster(pads=platform.request("lora_spi"), data_width=8, sys_clk_freq=sys_clk_freq, spi_clk_freq=int(100e3), with_csr=True, mode="raw")
-            
-            self.submodules.di=GPIOIn(pads = platform.request_all("di"),with_irq=True)
-            self.submodules.dr = GPIOOut(pads=platform.request("rst"))
-        
-        #LITESPI
-        #from litespi import LiteSPI    
-        #if with_custom_pin:
-        #    self.submodules.lite_spi =  LiteSPI(    clock_domain="sys",
-        #                                            phy=platform.request("phy"),
-        #                                            with_mmap=False,
-        #                                            master_tx_fifo_depth=len(platform.request("miso_tx")),
-        #                                            master_rx_fifo_depth=len(platform.request("mosi_rx")),
-        #                                            with_csr=True
-        #                                        )#LiteSPI( pads = platform.request("lite_spi") )
-        #                                                    
-        #                                         #("custom_led", 0, Pins("J1"), IOStandard("LVCMOS33")),
-        #    #self.submodules.gpio_bp = GPIOIn( pads = platform.request("custom_btn")) #("custom_btn", 0, Pins("L2"), IOStandard("LVCMOS33")),
-            
+    # ----------------------  Serial  ---------------------------------
+    ("serial", 0,
+        Subsignal("tx", Pins("A18")),
+        Subsignal("rx", Pins("B18")),
+        IOStandard("LVCMOS33"),
+    ),
 
-       
-   
+    # ---------------------------  VGA  -------------------------------
+     ("vga", 0,
+        Subsignal("hsync_n", Pins("P19")),
+        Subsignal("vsync_n", Pins("R18")),
+        Subsignal("r", Pins("G19 H19 J19 N19")),
+        Subsignal("g", Pins("J17 H17 G17 D17")),
+        Subsignal("b", Pins("N18 L18 K18 J18")),
+        IOStandard("LVCMOS33")
+    ),
+    
+    # ---------------------------  USB PS/2  --------------------------
+    ("usbhost", 0,
+       Subsignal("ps2_clk", Pins("B6")),
+       Subsignal("ps2_data", Pins("A6")),
+       IOStandard("LVCMOS33"))
 
+]
+# ---------------------  DIO METHODE  ---------------------------------
+def dio_methode(dio):
+    return [(dio, 0, Pins(" ".join([f"{dio}:{i:d}" for i in range(7)])), IOStandard("LVCMOS33"))]
 
-# Build --------------------------------------------------------------------------------------------  
-def main():
-    from litex.soc.integration.soc import LiteXSoCArgumentParser
-    parser = LiteXSoCArgumentParser(description="LiteX SoC on board")
-    target_group = parser.add_argument_group(title="Target options")
-    target_group.add_argument("--build",               action="store_true", help="Build bitstream.")
-    target_group.add_argument("--load",                action="store_true", help="Load bitstream.")
-    target_group.add_argument("--sys-clk-freq",        default=75e6,        help="System clock frequency.")
-    sdopts = target_group.add_mutually_exclusive_group()
-    sdopts.add_argument("--with-spi-sdcard",     action="store_true", help="Enable SPI-mode SDCard support.")
-    sdopts.add_argument("--with-sdcard",         action="store_true", help="Enable SDCard support.")
-    target_group.add_argument("--sdcard-adapter",      type=str,            help="SDCard PMOD adapter (digilent or numato).")
-    viopts = target_group.add_mutually_exclusive_group()
-    viopts.add_argument("--with-video-terminal", action="store_true", help="Enable Video Terminal (VGA).")
-    builder_args(parser)
-    soc_core_args(parser)
-    args = parser.parse_args()
+# Connectors ---------------------------------------------------------------------------------------
 
-    soc = BaseSoC(
-        sys_clk_freq           = int(float(args.sys_clk_freq)),
-        with_video_terminal    = args.with_video_terminal,
-        **soc_core_argdict(args)
-    )
-    soc.platform.add_extension(board._sdcard_pmod_io)
-    if args.with_spi_sdcard:
-        soc.add_spi_sdcard()
-    if args.with_sdcard:
-        soc.add_sdcard()
-    if args.with_spi_sdcard:
-        soc.add_spi_sdcard()
-    if args.with_sdcard:
-        soc.add_sdcard()
-    builder = Builder(soc, **builder_argdict(args))
-    builder.build(run=args.build)
+_connectors = [
+    #("pmoda",    "J1   L2  J2  G2  H1  K2  H2  G3"),
+    ("pmodb",    "A14 A16 B15 B16 A15 A17 C15 C16"),
+    ("pmodc",    "K17 M18 N17 P18 L17 M19 P17 R18"),
+    #("pmodxdac", " J3  L3  M2  N2  K3  M3  M1  N1"),
+    ("dio", " J3  L3  M2  N2  K3  M3  M1"),
+]
 
-    if args.load:
-        prog = soc.platform.create_programmer()
-        prog.load_bitstream(builder.get_bitstream_filename(mode="sram"))
+# PMODS --------------------------------------------------------------------------------------------
 
-if __name__ == "__main__":
-    main()
+def sdcard_pmod_io(pmod):
+    return [
+        # SDCard PMOD:
+        # - https://store.digilentinc.com/pmod-microsd-microsd-card-slot/
+        ("spisdcard", 0,
+            Subsignal("clk",  Pins(f"{pmod}:3")),
+            Subsignal("mosi", Pins(f"{pmod}:1"), Misc("PULLUP True")),
+            Subsignal("cs_n", Pins(f"{pmod}:0"), Misc("PULLUP True")),
+            Subsignal("miso", Pins(f"{pmod}:2"), Misc("PULLUP True")),
+            Misc("SLEW=FAST"),
+            IOStandard("LVCMOS33"),
+        ),
+        ("sdcard", 0,
+            Subsignal("data", Pins(f"{pmod}:2 {pmod}:4 {pmod}:5 {pmod}:0"), Misc("PULLUP True")),
+            Subsignal("cmd",  Pins(f"{pmod}:1"), Misc("PULLUP True")),
+            Subsignal("clk",  Pins(f"{pmod}:3")),
+            Subsignal("cd",   Pins(f"{pmod}:6")),
+            Misc("SLEW=FAST"),
+            IOStandard("LVCMOS33"),
+        ),
+
+]
+_sdcard_pmod_io = sdcard_pmod_io("pmoda") # SDCARD PMOD on JD.
+
+class Platform(XilinxPlatform):
+    default_clk_name   = "clk100"
+    default_clk_period = 1e9/100e6
+
+    def __init__(self, toolchain="vivado"):
+        XilinxPlatform.__init__(self, "xc7a35t-CPG236-1", _io, _connectors, toolchain=toolchain)
+
+    def create_programmer(self):
+        return OpenOCD("openocd_xc7_ft2232.cfg", "bscan_spi_xc7a35t.bit")
+    
+    def do_finalize(self, fragment):
+        XilinxPlatform.do_finalize(self, fragment)
+        self.add_period_constraint(self.lookup_request("clk100", loose=True), 1e9/100e6)
