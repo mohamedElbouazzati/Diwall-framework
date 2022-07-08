@@ -7,7 +7,7 @@
           - role: '/home/tanguy/travail/recherche/researchlab/provisioners/ansible/playbooks/roles/vivado'
             vivado_group: vagrant
             vivado_version: 2019.2
-            vivado_installer: Xilinx_Unified_2019.2_1118_1232_Lin64.bin
+            vivado_installer: Xilinx_Unified_2019.2_1106_2127_Lin64.bin
             xilinx_vivado_path: /home/vagrant/opt/Xilinx
             vivado_install_path: "{{xilinx_vivado_path}}/{{vivado_version}}"
             vivado_settings:  "{{vivado_install_path}/settings64.sh"
