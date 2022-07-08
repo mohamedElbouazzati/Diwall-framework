@@ -9,7 +9,7 @@
 import imp
 from migen import *
 
-from litex_boards.platforms import board
+from boards.platforms import poto_digilent_basys3 as board
 
 from litex.soc.cores.clock import *
 from litex.soc.integration.soc import SoCRegion  #import des i
