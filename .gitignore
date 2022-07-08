@@ -1,3 +1,8 @@
+#
+build
+
+# Python
+__pycache__
 
 #ignore venv files
 venv/vagrant/.vagrant
@@ -5,3 +10,9 @@ venv/pyenv
 
 #sphinx doc
 doc/build
+
+# Toolchain
+third_party/riscv64-unknown-elf-gcc-10.1.0-2020.08.2-x86_64-linux-ubuntu14.tar.gz
+third_party/riscv64-unknown-elf-gcc-10.1.0-2020.08.2-x86_64-linux-ubuntu14/
+third_party/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14.tar.gz
+third_party/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/
