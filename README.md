@@ -68,7 +68,13 @@ make -C doc html
 firefox doc/build/html/index.html
 ```
 
-# TODO
+## Issues
 
-* issue with toolchain riscv64-unknown-elf-gcc-10.1.0-2020.08.2-x86_64-linux-ubuntu14
+* [] see issue with toolchain riscv64-unknown-elf-gcc-10.1.0-2020.08.2-x86_64-linux-ubuntu14
     * when demo is loaded it is stuck to --- liftoff ---
+    
+## ROADMAP
+ 
+* [] add interrupt support to manage RFM95w interrupt
+
+
