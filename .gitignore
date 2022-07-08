@@ -1,6 +1,7 @@
 
-#ignore vagrant files
-venv/.vagrant
+#ignore venv files
+venv/vagrant/.vagrant
+venv/pyenv
 
 #sphinx doc
 doc/build
