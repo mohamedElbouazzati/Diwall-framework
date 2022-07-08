@@ -2,6 +2,11 @@
 
 Repository about a SoC with wireless capabilities build with LiTex for FPGA.
 
+```
+git clone https://ptanguy@git.renater.fr/authscm/ptanguy/git/stage-terrine/stage-terrine.git
+git submodule init
+git submodule update
+```
 
 ## Read the doc
 
