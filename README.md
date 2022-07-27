@@ -76,5 +76,9 @@ firefox doc/build/html/index.html
 ## ROADMAP
  
 * [] add interrupt support to manage RFM95w interrupt
+* [] add support to manage Dragino LoRa shield v1.4 with Arty A7 board
+* [] add submodule for LoRa-MAC node stack and fork it to  add support for LoRa
+  Shield by following the steps details here https://github.com/Lora-net/LoRaMac-node/discussions/1101
+  or by following the porting guide https://stackforce.github.io/LoRaMac-doc/LoRaMac-doc-v4.5.1/_p_o_r_t_i_n_g__g_u_i_d_e.html
 
 
