@@ -16,3 +16,6 @@
 [submodule "third_party/pythondata-software-compiler_rt"]
 	path = third_party/pythondata-software-compiler_rt
 	url = https://github.com/litex-hub/pythondata-software-compiler_rt.git
+[submodule "third_party/pythondata-cpu-cv32e41p"]
+	path = third_party/pythondata-cpu-cv32e41p
+	url = https://github.com/litex-hub/pythondata-cpu-cv32e41p.git
