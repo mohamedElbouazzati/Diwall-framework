@@ -1,0 +1,69 @@
+Le dossier test_lib est une zone ou on stock les tests réalisés pour valider
+le fonctionnement des fonctions et algorithmes.
+
+testlibisr.c :
+
+    Le but est de creer du code pour gerer automatique l'ordre de priorité des DIOs,
+
+    Creation d'une structure :
+
+        typedef struct   
+        {
+            IrqPriorities prio;
+            uint32_t (*pending_alert)(void);
+            void (*pending_write)(uint32_t);
+            void (*enable_write)(uint32_t);
+            void (*irq_handler)(void);
+            //int num
+        }StateIRQ;
+
+        Cette structure prend en paramettre tout les fonctionnalités pour gerer les fonctions isr.
+
+    Creation de fonctions de rangemment:
+
+        void SetOrderPriority(StateIRQ DIOStateIRQ[],uint8_t size)
+        {
+            for(int8_t i =0;i<size-1;i++)
+            {
+                if(&DIOStateIRQ[i]<&DIOStateIRQ[i+1])  // Si le dio a la position la plus prioritaire est inférieur à dio à la position la moins priotaire permuter
+                {
+                    permut(&DIOStateIRQ[i],&DIOStateIRQ[i+1]);
+                    i=-1;
+                }
+            }
+        }
+
+        void permut(StateIRQ *a,StateIRQ *b)
+        {
+            StateIRQ save = *a;
+            *a=*b;
+            *b=save;
+        }
+
+        La fonction SetOrderPriority permet juste de ranger le tableau par ordre de priorité.
+        Et la fonction permut permet d'échanger les valeurs de 2 adresses.
+
+    Creation d'une fonction de valitation de fonctionnement:
+
+        void afficherDIO(StateIRQ DIO[6])
+        {
+            for(int i =0;i<6;i++)
+            printf("%d ",DIO[i].num);
+        }
+        La fonction affiche l'ordre du tableau.
+
+    Automatisation de :
+        -void dio_set_IRQ(void);
+        -void dio_irq(void)
+        - priorité
+    
+    Definition à implementer : 
+        StateIRQ DIOStateIRQ[6]={   
+        {IRQ_VERY_LOW_PRIORITY,&dio_ev_pending_i0_read,&dio_ev_pending_i0_write,dio_ev_enable_i0_write,irq_handler_i0,0}, //DIO0
+        {IRQ_VERY_LOW_PRIORITY,&dio_ev_pending_i1_read,&dio_ev_pending_i1_write,dio_ev_enable_i1_write,irq_handler_i1,1}, //DIO1
+        {IRQ_VERY_LOW_PRIORITY,&dio_ev_pending_i2_read,&dio_ev_pending_i2_write,dio_ev_enable_i2_write,irq_handler_i2,2}, //DIO2   
+        {IRQ_VERY_LOW_PRIORITY,&dio_ev_pending_i3_read,&dio_ev_pending_i3_write,dio_ev_enable_i3_write,irq_handler_i3,3}, //DIO3       
+        {IRQ_VERY_LOW_PRIORITY,&dio_ev_pending_i4_read,&dio_ev_pending_i4_write,dio_ev_enable_i4_write,irq_handler_i4,4}, //DIO4
+        {IRQ_VERY_LOW_PRIORITY,&dio_ev_pending_i5_read,&dio_ev_pending_i5_write,dio_ev_enable_i5_write,irq_handler_i5,5}, //DIO5
+        };
+
