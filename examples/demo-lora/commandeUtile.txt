@@ -1,0 +1,23 @@
+ZIP FILE:
+zip -r programme.zip ./demo -x "./demo/*build*" -x "./demo/*prog*"
+
+DEPLACEMENT - RENOMMAGE:
+mv commandeUtile.txt commandeUtileTerminal.txt
+
+COPIER - COLLER:
+cp ./commandeUtile.txt ../
+
+COMMANDE LITEX BUILD LOAD
+python3 -m litex_boards.targets.digilent_arty_poto --variant=a7-100 --build --load
+python3 -m litex_boards.targets.digilent_arty_poto --load
+
+CONNECT TERMINAL SERIE LITEXTERM
+litex_term /dev/ttyUSB1 --kernel ./demo.bin
+make clean && make && clear && litex_term /dev/ttyUSB1 --kernel ./demo.bin
+make clean && clear && make
+
+DEFAULT DEMO PROJECT PROG
+litex_bare_metal_demo --build-path=build/digilent_arty_poto
+
+COMPILE
+make clean && clear && make && litex_term /dev/ttyUSB1 --kernel ./demo.bin
