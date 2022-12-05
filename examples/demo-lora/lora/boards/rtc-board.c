@@ -26,7 +26,7 @@
 #include "board-config.h"
 #include "board.h"
 #include "timer.h"
-#include "systime.h
+#include "systime.h"
 #include "gpio.h"
 
 #include "rtc-board.h"
