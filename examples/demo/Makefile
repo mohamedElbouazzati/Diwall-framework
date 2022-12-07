@@ -1,4 +1,4 @@
-BUILD_DIR?=/home/tanguy/travail/recherche/supervisions/stages/stage-Christophe_TERRINE/repo/build/poto_digilent_basys3
+BUILD_DIR?=../../build/digilent_arty_cv32e41p
 
 include $(BUILD_DIR)/software/include/generated/variables.mak
 include $(SOC_DIRECTORY)/software/common.mak

@@ -1,26 +1,26 @@
-BUILD_DIR?=/home/med/Desktop/workflow/build/digilent_arty_cv32e41p
+BUILD_DIR?=../../build/digilent_arty_cv32e41p
 
 include $(BUILD_DIR)/software/include/generated/variables.mak
 include $(SOC_DIRECTORY)/software/common.mak
 
 BASE_DIR = .
 OBJ_DIR = $(BASE_DIR)/obj
-TOOLS_DIR = $(BASE_DIR)/tools
-LORA_DIR = $(BASE_DIR)/lora
+LORA_DIR = $(BASE_DIR)/loramacnode
 BOARDS_DIR = $(LORA_DIR)/boards
+LITEX_LIB_DIR = $(BOARDS_DIR)/LitexLib
 RADIO_DIR = $(LORA_DIR)/radio
 SYSTEM_DIR = $(LORA_DIR)/system
 THIRD_PARTY = $(BASE_DIR)/third_party
-LD_DIR = $(BASE_DIR)/ld
+LD_DIR = $(LITEX_LIB_DIR)/ld
 
 
-CSOURCES   :=  $(wildcard $(TOOLS_DIR)/*.c)  $(wildcard $(BASE_DIR)/*.c) $(wildcard $(SYSTEM_DIR)/*.c)  $(wildcard $(RADIO_DIR)/*.c)  $(wildcard $(BOARDS_DIR)/*.c)
+CSOURCES   :=  $(wildcard $(LITEX_LIB_DIR)/*.c)  $(wildcard $(BASE_DIR)/*.c) $(wildcard $(SYSTEM_DIR)/*.c)  $(wildcard $(RADIO_DIR)/*.c)  $(wildcard $(BOARDS_DIR)/*.c)
 ASOURCES   :=  $(wildcard $(CPU_DIRECTORY)/crt0.S)
 COBJS      := $(addprefix $(OBJ_DIR)/, $(notdir $(CSOURCES:.c=.o)))
 AOBJS      := $(addprefix $(OBJ_DIR)/, $(notdir $(ASOURCES:.S=.o)))
 
-LOCAL_INCLUDE = -I$(TOOLS_DIR)  -I$(BOARDS_DIR)  -I$(RADIO_DIR)  -I$(SYSTEM_DIR) 
-L_INCLUDE = -L$(TOOLS_DIR)  -L$(BOARDS_DIR)  -L$(RADIO_DIR)  -L$(SYSTEM_DIR) 
+LOCAL_INCLUDE = -I$(LITEX_LIB_DIR)  -I$(BOARDS_DIR)  -I$(RADIO_DIR)  -I$(SYSTEM_DIR) 
+L_INCLUDE = -L$(LITEX_LIB_DIR)  -L$(BOARDS_DIR)  -L$(RADIO_DIR)  -L$(SYSTEM_DIR) 
 
 c_flags = $(LOCAL_INCLUDE) $(CFLAGS)
 l_flags = $(L_INCLUDE) $(LOCAL_INCLUDE) $(LDFLAGS)
@@ -31,7 +31,7 @@ endef
 
 
 OBJECTS = $(COBJS) $(AOBJS)
-OTHER_OBJECTS   = donut.o helloc.o crt0.o testspi.o iotest.o main.o test1.o
+OTHER_OBJECTS   = crt0.o helloc.o  dio_test.o main.o lora_receive.o lora_transmit.o reset_test.o dio_test.o spi_test.o timer_test.o
 
 all: demo.bin
 
@@ -65,7 +65,7 @@ $(OBJ_DIR)/%.o: %.c
 $(OBJ_DIR)/crt0.o: $(CPU_DIRECTORY)/crt0.S
 	$(assemble)
 
-$(OBJ_DIR)/%.o: $(TOOLS_DIR)/%.c 
+$(OBJ_DIR)/%.o: $(LITEX_LIB_DIR)/%.c 
 	$(compile)
 $(OBJ_DIR)/%.o: $(SYSTEM_DIR)/%.c 
 	$(compile)
@@ -78,12 +78,13 @@ $(OBJ_DIR)/%.o: $(BOARDS_DIR)/%.c
 
 %.o: %.S
 	$(assemble)
+
 prog:demo.bin
 	sudo chmod -R 777 /dev/ttyUSB*
 	litex_term --kernel=demo.bin /dev/ttyUSB*
 
 clean:
-	$(RM) $(OBJECTS) $(OBJECTS:.o=.d) demo.elf demo.bin .*~ *~
+	$(RM) $(OBJECTS) $(OBJECTS:.o=.d) demo.elf demo.bin demo.elf.map .*~ *~
 	$(RM) -r $(OBJ_DIR)
 
 .PHONY: all $(OBJ_DIR)/main.o clean screen

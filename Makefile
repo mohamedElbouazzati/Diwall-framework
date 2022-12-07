@@ -1,17 +1,18 @@
 
 .PHONY: pyenv
+#Processor and firmware : 
+CPU_TYPE?=cv32e41p 
+VARIANT?=standard
+APPLICATION?=demo
 
 gateware:
-	python3 -m boards.targets.poto_digilent_basys3 --integrated-main-ram-size=0x20000 --build
-
+	python3 -m boards.targets.digilent_arty_cv32e41p --variant=a7-100 --cpu-type=$(CPU_TYPE) --cpu-variant=$(VARIANT) --build
 load_bitstream:
-	python3 -m boards.targets.poto_digilent_basys3 --load                           
-
-demo:
-	make -C examples/demo
-
-load_demo:
-	litex_term /dev/ttyUSB1 --kernel examples/demo/demo.bin                              
+	python3 -m boards.targets.digilent_arty_cv32e41p --variant=a7-100 --cpu-type=$(CPU_TYPE) --cpu-variant=$(VARIANT) --load                           
+compile_app:
+	make -C examples/$(APPLICATION)
+load_app:
+	litex_term /dev/ttyUSB1 --kernel examples/$(APPLICATION)/demo.bin                              
 
 python-deps: pyenv  # installs python dependencies inside virtual environment
 	pip install -r requirements.txt
@@ -21,4 +22,9 @@ pyenv:  # creates virtual environment if it does not exist
 	source venv/pyenv/bin/activate
 
 clean:
+	make -C examples/$(APPLICATION) clean
+	rm -rf examples/$(APPLICATION)/obj
 	rm -rf build
+	
+	
+	

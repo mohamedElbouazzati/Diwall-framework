@@ -30,7 +30,6 @@
 #include "../system/delay.h"
 #include "sx1276.h"
 #include "../boards/sx1276-board.h"
-#include "../../tools/libspi.h"
 /*!
  * \brief Internal frequency of the radio
  */
@@ -318,7 +317,7 @@ void SX1276Init( RadioEvents_t *events )
     TimerInit( &TxTimeoutTimer, SX1276OnTimeoutIrq );
     TimerInit( &RxTimeoutTimer, SX1276OnTimeoutIrq );
     TimerInit( &RxTimeoutSyncWord, SX1276OnTimeoutIrq );
-   // SX1276OnTimeoutIrq();
+
 
    SX1276Reset( );
    
@@ -868,7 +867,7 @@ void SX1276Send( uint8_t *buffer, uint8_t size )
             }
             // Write payload buffer
             SX1276WriteFifo( buffer, size );
-            //txTimeout = SX1276.Settings.LoRa.TxTimeout;
+            txTimeout = SX1276.Settings.LoRa.TxTimeout;
         }
         break;
     }
@@ -878,14 +877,14 @@ void SX1276Send( uint8_t *buffer, uint8_t size )
 
 void SX1276SetSleep( void )
 {
-   // TimerStop( &RxTimeoutTimer );
-   // TimerStop( &TxTimeoutTimer );
-   // TimerStop( &RxTimeoutSyncWord );
+   TimerStop( &RxTimeoutTimer );
+   TimerStop( &TxTimeoutTimer );
+   TimerStop( &RxTimeoutSyncWord );
 
     SX1276SetOpMode( RF_OPMODE_SLEEP );
 
     // Disable TCXO radio is in SLEEP mode
-   // SX1276SetBoardTcxo( false );
+   SX1276SetBoardTcxo( false );
 
     SX1276.Settings.State = RF_IDLE;
 }
@@ -1284,36 +1283,12 @@ void SX1276SetModem( RadioModems_t modem )
 void SX1276Write( uint32_t addr, uint8_t data )
 {
     SX1276WriteBuffer( addr, &data, 1 );
-    // startSPI();                         // START SPI
-  /// loraspi_mosi_write(addr|0x80);        // ADDR + WRITE
-
-  // loraspi_control_start_write(1);
- //   WaitXfer();
-    
-  //  loraspi_mosi_write(data);                // WRITTING CMD
-   // loraspi_control_start_write(1);
-   // WaitXfer();
-  // stopSPI();                          // STOP SPI 
-
-
 }
 
 uint8_t SX1276Read( uint32_t addr )
 {
 
-/*
-        startSPI();
-    loraspi_mosi_write(addr&(0x7F));    // ADDR + READ
-    loraspi_control_start_write(1);
-    WaitXfer();
 
-    loraspi_mosi_write(0);              //EMPTY CMD FOR WAITTING DATA
-    loraspi_control_start_write(1);
-    WaitXfer();
-    uint8_t res =loraspi_miso_read();   // READING byte
-    stopSPI();
-    return res;
-*/
   uint8_t data;
    SX1276ReadBuffer( addr, &data, 1 );
  return data;
@@ -1322,24 +1297,9 @@ uint8_t SX1276Read( uint32_t addr )
 void SX1276WriteBuffer( uint32_t addr, uint8_t *buffer, uint8_t size )
 {
     uint8_t i;
-/*
-    //NSS = 0;
-    startSPI();
-    loraspi_mosi_write(addr|0x80);        // ADDR + WRITE
-   // loraspi_mosi_write(addr);
-    loraspi_control_start_write(1);
-    WaitXfer();
-    for( i = 0; i < size; i++ )
-    {
-     loraspi_mosi_write(buffer[i]);                // WRITTING CMD
-    loraspi_control_start_write(1);
-    WaitXfer();
-    }
-    stopSPI();
-*/
 
     GpioWrite( &SX1276.Spi.Nss, 0 );
-// startSPI();
+
     
     SpiInOut( addr | 0x80 );
 
@@ -1348,7 +1308,7 @@ void SX1276WriteBuffer( uint32_t addr, uint8_t *buffer, uint8_t size )
         SpiInOut( buffer[i] );
         
     }
-  // stopSPI();
+  
     //NSS = 1;
    GpioWrite( &SX1276.Spi.Nss, 1 );
 
@@ -1361,7 +1321,7 @@ void SX1276ReadBuffer( uint32_t addr, uint8_t *buffer, uint8_t size )
 
     //NSS = 0;
     GpioWrite( &SX1276.Spi.Nss, 0 );
-   //startSPI();
+
     SpiInOut( addr & 0x7F );
     
     for( i = 0; i < size; i++ )
@@ -1371,7 +1331,7 @@ void SX1276ReadBuffer( uint32_t addr, uint8_t *buffer, uint8_t size )
 
     //NSS = 1;
     GpioWrite( &SX1276.Spi.Nss, 1 );
-  // stopSPI();
+
 }
 
 static void SX1276WriteFifo( uint8_t *buffer, uint8_t size )

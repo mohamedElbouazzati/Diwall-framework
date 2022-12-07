@@ -7,16 +7,12 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "tools/libisr.h"
-#include "lora/system/gpio.h"
-#include "lora/radio/sx1276.h"
-#include "lora/boards/sx1276-board.h"
-#include "lora/radio/sx1276Regs-LoRa.h"
-#include "tools/delai.h"
-
-void testgpio(void);
-void _spi(uint32_t test_value );
-
+#include "loramacnode/boards/LitexLib/libisr.h"
+#include "loramacnode/system/gpio.h"
+#include "loramacnode/radio/sx1276.h"
+#include "loramacnode/boards/sx1276-board.h"
+#include "loramacnode/radio/sx1276Regs-LoRa.h"
+#include "loramacnode/boards/LitexLib/delai.h"
 
 /*-----------------------------------------------------------------------*/
 /* Uart                                                                  */
@@ -94,14 +90,15 @@ static void help(void)
 #ifdef CSR_LEDS_BASE
 	puts("led                - Led demo");
 #endif
-
-	puts("testspi            - Test du spi");
-	puts("simple             - Test simple spi");
+	puts("lora_receive            - Test de recepteur lora");
+	puts("lora_transmit             - Test de l'emetteur lora");
 #ifdef __RADIO_H__
 	puts("a                  - Programme d'essai Ramdom");
 #endif
-	puts("iotest             - Programme de test des gpios I/O");
-	puts("donut              - Spinning Donut demo");
+	puts("dio_test             - Programme de test des DIOs I/O");
+	puts("spi_test             - Programme de test de SPI");
+	puts("reset_test             - Programme de test reset");
+	puts("timer_test             - Programme de test de timer");
 	puts("helloc             - Hello C");
 #ifdef WITH_CXX
 	puts("hellocpp           - Hello C++");
@@ -150,42 +147,37 @@ static void led_cmd(void)
 #endif
 
 #ifdef CSR_LORASPI_BASE
-extern void testspi(void);
-static void testspi_cmd(void)
-{
-	printf("lancement testspi ...\n");
-	testspi();
-}
+
 #endif
 
-extern void iotest(void);
-static void iotest_cmd(void)
+extern void dio_test(void);
+static void dio_test_cmd(void)
 {
-	printf("Lancement du test de GPIO ...\n\r");
-	iotest();
+	printf("Lancement du test de DIO ...\n\r");
+	dio_test();
 }
 
-extern void simple_test(void);
-static void simple_test_cmd(void)
+extern void spi_test(void);
+static void spi_test_cmd(void)
 {
-	simple_test();
+	printf("Lancement du test de SPI ...\n\r");
+	spi_test();
 }
 
-#ifdef __RADIO_H__
-extern void a(void);
-static void a_cmd(void)
+extern void reset_test(void);
+static void reset_test_cmd(void)
 {
-	printf("Ecrire un data spi 0bxxxx xxxx: ...\n");
-	//a();
+	printf("Lancement du test de reset lora ...\n\r");
+	reset_test();
 }
-#endif
 
-extern void donut(void);
-static void donut_cmd(void)
+extern void timer_test(void);
+static void timer_test_cmd(void)
 {
-	printf("Donut demo...\n");
-	donut();
+	printf("Lancement du test de timer ...\n\r");
+	timer_test();
 }
+
 
 extern void helloc(void);
 static void helloc_cmd(void)
@@ -193,11 +185,18 @@ static void helloc_cmd(void)
 	printf("Hello C demo...\n");
 	helloc();
 }
-extern void test1(void);
-static void test1_cmd(void)
+extern void lora_receive(void);
+static void lora_receive_cmd(void)
 {
-	printf("test1 C demo...\n");
-     test1();
+	printf("lora_receive C demo...\n");
+     lora_receive();
+}
+
+extern void lora_transmit(void);
+static void lora_transmit_cmd(void)
+{
+	printf("lora_transmit C demo...\n");
+     lora_transmit();
 }
 
 
@@ -235,25 +234,18 @@ static void console_service(void)
 	else if(strcmp(token, "led") == 0)
 		led_cmd();
 #endif
-
-	else if(strcmp(token, "testspi") == 0)
-		testspi_cmd();
-	
-	else if(strcmp(token, "simple") == 0)
-		simple_test_cmd();
-
-	else if(strcmp(token, "iotest") == 0)
-			iotest_cmd();
-	else if(strcmp(token, "test1") == 0)
-			test1_cmd();
-
-#ifdef __RADIO_H__
-	else if(strcmp(token, "a") == 0)
-			a_cmd();
-#endif
-
-	else if(strcmp(token, "donut") == 0)
-		donut_cmd();
+	else if(strcmp(token, "dio_test") == 0)
+			dio_test_cmd();
+	else if(strcmp(token, "spi_test") == 0)
+			spi_test_cmd();		
+	else if(strcmp(token, "reset_test") == 0)
+			reset_test_cmd();	
+	else if(strcmp(token, "timer_test") == 0)
+			timer_test_cmd();					
+	else if(strcmp(token, "lora_receive") == 0)
+			lora_receive_cmd();
+	else if(strcmp(token, "lora_transmit") == 0)
+			lora_transmit_cmd();
 
 	else if(strcmp(token, "helloc") == 0)
 		helloc_cmd();
@@ -276,74 +268,15 @@ int main(void)
 	time0_init();
 	time1_init();
 	uart_init();
-	
-    //rst_init();
 	dio_init();
 
 	help();
 	prompt();
-	//_spi(0xaa )	;
 
 	while(1) {
 		console_service();
-			//testgpio();
 	}
 
 	return 0;
 }
-void testgpio(void){
 
-	SX1276IoInit();
-	//InitSPI();
-	//printf("DIO1 = %d",SX1276GetDio1PinState());
-	//GpioWrite(&SX1276.DIO2,1);
-	//printf("DIO2 = %d",GpioRead(&SX1276.DIO2));
-	//printf("test module = ");
-	//println_bin(SX1276Read(REG_LR_OPMODE));	
-	//printf("test SPI = ");
-	//println_bin(Read_SPI(REG_LR_OPMODE));
-    printf("Write command : ");
-	//printf("test SPI = ");
- 	SX1276Write(REG_LR_OPMODE,0x08);
-	printf("test module = ");
-	println_bin(SX1276Read(REG_LR_OPMODE));
-	SX1276Write(REG_LR_OPMODE,0x00);
-	println_bin(SX1276Read(REG_LR_OPMODE));
-	//printf("test SPI = ");
-	//println_bin(Read_SPI(REG_LR_OPMODE));
-	delay_ms(300);
-	
-}
-
-void _spi(uint32_t test_value )
-{	
-
-    printf("Before Transmission: \n");
-	
-    printf("Contents of Control Register: %lx\n", loraspi_control_read());
-    printf("Contents of Status Register: 0x%lx\n", loraspi_status_done_read());
-    printf("Contents of MOSI:  0x%lx\n", loraspi_mosi_read());
-    unsigned int ctrl = (8 << 8) | (1 << 0);  // Value to write in the Control Register, 
-    printf("THE VALUE OF CTRL IS: 0x%x\n" ,ctrl);
-    
-    printf("Starting transmission \n");
-
-    loraspi_loopback_write(1); // Enable Loopback test
-    delay_ms(10);
-    SX1276Write(0,test_value);
-    //loraspi_mosi_write(test_value);     // Write value to MOSI Register
-    delay_ms(10);
-    printf("Contents of MOSI:  0x%lx\n", loraspi_mosi_read());
-
-   // loraspi_control_write(ctrl); // set message length and start transmission
-
-    //loraspi_control_start_write(0x1);
-    printf("Contents of Status Register: 0x%lx\n", loraspi_status_done_read());
-    printf("after writing to mosi, contents of Status Register: 0x%lx\n", loraspi_status_done_read());
-
-  //  while (!loraspi_status_read()); //wait for transmission to finish
-
-    printf("MISO: 0x%lx\n",loraspi_miso_read()); // check if transmission has been successful
-	
-
-}

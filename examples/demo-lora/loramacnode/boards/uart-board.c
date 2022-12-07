@@ -26,12 +26,12 @@
 #include "board.h"
 #include "uart-board.h"
 
-// /struct usart_sync_descriptor Usart0;
+//struct usart_sync_descriptor Usart0;
 
-void UartMcuInit( Uart_t *obj, uint8_t uartId, PinNames tx, PinNames rx )
-{
+//void UartMcuInit(Uart_t *obj, uint8_t uartId, PinNames tx, PinNames rx )
+//{
   
-}
+//}
 
 void UartMcuConfig( Uart_t *obj, UartMode_t mode, uint32_t baudrate, WordLength_t wordLength, StopBits_t stopBits, Parity_t parity, FlowCtrl_t flowCtrl )
 {

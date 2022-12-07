@@ -1,5 +1,12 @@
-#
+#build
 build
+#build-app
+examples/*/obj
+examples/*/*.d
+examples/*/*.o
+examples/*/*.elf
+examples/*/*.bin
+examples/*/*.elf.map
 
 # Python
 __pycache__

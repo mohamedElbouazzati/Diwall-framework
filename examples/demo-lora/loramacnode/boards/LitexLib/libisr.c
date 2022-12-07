@@ -1,5 +1,5 @@
 #include "libisr.h"
-#include "../lora/system/gpio.h"
+#include "../../system/gpio.h"
 #include <stdio.h>
 #include "libspi.h"
 #include <generated/csr.h>
@@ -184,16 +184,16 @@ void SetInterrupt(IrqModes irqMode, IrqPriorities irqPriority, GpioIrqHandler *i
     case IRQ_RISING_EDGE:
         DIOs[num].mode_write(0);
         DIOs[num].edge_write(0);
-        printf("DIO %d done with mode %d and edge %d ", num,DIOs[num].mode_read(),DIOs[num].edge_read() );
+        //printf("DIO %d done with mode %d and edge %d ", num,DIOs[num].mode_read(),DIOs[num].edge_read() );
         break;
     case IRQ_FALLING_EDGE:
         DIOs[num].mode_write(0);
         DIOs[num].edge_write(1);
-        printf("DIO %d done with mode %d and edge %d ", num,DIOs[num].mode_read(),DIOs[num].edge_read() );
+        //printf("DIO %d done with mode %d and edge %d ", num,DIOs[num].mode_read(),DIOs[num].edge_read() );
         break;
     case IRQ_RISING_FALLING_EDGE:
         DIOs[num].mode_write(1);
-        printf("DIO %d done with mode %d and edge %d ", num,DIOs[num].mode_read(),DIOs[num].edge_read() );
+        //printf("DIO %d done with mode %d and edge %d ", num,DIOs[num].mode_read(),DIOs[num].edge_read() );
         break;    
     default:
         break;

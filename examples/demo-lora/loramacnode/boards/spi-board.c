@@ -23,7 +23,7 @@
 
 #include "spi-board.h"
 #include "../system/delay.h"
-#include "../../tools/libspi.h"
+#include "LitexLib/libspi.h"
 #include <generated/csr.h>
 
 //void SpiFormat( void)

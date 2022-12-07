@@ -54,10 +54,10 @@ extern "C" {
      * @brief List of interruption handler functions. 
      * 
     */
-#include "../lora/system/gpio.h"
-#include "../lora/boards/board-config.h"
+#include "../../system/gpio.h"
+#include "../board-config.h"
 #include "defint.h"
-#include "../lora/radio/sx1276.h"
+#include "../../radio/sx1276.h"
 
 #define NBDIO 3
 /*dio_edge_read, dio_edge_write, dio_mode_read, dio_mode_write, dio_in_read, dio_out_read, out_write,*/ //<-- INUTILE DANS LA STRUCTURE NON INDEPENDANT
