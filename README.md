@@ -27,17 +27,25 @@ export PATH="INSTALL-PATH/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-u
 Generate bitstream:
 
 ```
-python3 -m boards.targets.poto_digilent_basys3 --integrated-main-ram-size=0x20000 --build 
+make gateware CPU_TYPE=(cv32e41p/vexriscv) VARIANT=(standard/HIDS_SYNTH) 
+
 ```
 
 Load bitstream:
 ```
-python3 -m boards.targets.poto_digilent_basys3 --load 
+make load_bitstream CPU_TYPE=(cv32e41p/vexriscv) VARIANT=(standard/HIDS_SYNTH)
 ```
 
-Load application via serial
+Comile application:
 ```
-litex_term /dev/ttyUSB1 --kernel examples/demo.bin
+make compile_app APPLICATION=(demo/demo-lora/demo-loramacnode)
+```
+
+
+Load application via serial
+
+```
+make load_app APPLICATION=(demo/demo-lora/demo-loramacnode)
 ```
 
 To start the loading process press button BTNC on basys3
