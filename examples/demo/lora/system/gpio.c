@@ -24,11 +24,11 @@
  *
  * \author    Gregory Cristian ( Semtech )
  */
-#include "../boards/gpio-board.h"
+#include "gpio-board.h"
 
-void GpioInit( Gpio_t *obj, PinNames pin, PinModes mode, PinStates value )
+void GpioInit( Gpio_t *obj, PinNames pin, PinModes mode,  PinConfigs config, PinTypes type, uint32_t value )
 {
-    GpioMcuInit( obj, pin, mode, value);
+    GpioMcuInit( obj, pin, mode, config, type, value );
 }
 
 void GpioSetContext( Gpio_t *obj, void* context )

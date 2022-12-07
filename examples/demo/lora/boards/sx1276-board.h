@@ -30,7 +30,7 @@ extern "C"
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "../radio/sx1276.h"
+#include "lora/radio/sx1276.h"
 
 /*!
  * \brief Radio hardware registers initialization definition

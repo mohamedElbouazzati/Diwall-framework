@@ -1,66 +1,102 @@
-#include "tools/delai.h"
-#include "lora/system/spi.h"
-#include "tools/binary.h"
-#include <libbase/console.h>
+
+#include <stdio.h>
+#include <string.h>
 #include <generated/csr.h>
-#include "lora/radio/sx1276Regs-LoRa.h"
+
 #include "tools/libspi.h"
+#include "tools/console.h"
+#include "tools/binary.h"
 
-// DIO0=TxDone 
-// DIO1= detected the IRQ
-// DIO3=CADDone
-// DIO2=FhssChangeChannel
+#include "lora/radio/sx1276Regs-LoRa.h"
 
-/*
-POUR DEMARRER VERIFIER QUE LA SX127X :
-    AI LA PIN RESET EN HAUTE IMPEDANCE(INPUT),
-    AI LA PIN ENABLE DÉBRANCHÉ OU EN 3V3
-*/
-/*
-    LES PINS DOIVENT ETRE CONFIGURABLE EN DOUBLE MODE (INPUT/OUTPUT) 
-    PLUS PRÉCISEMENT POUR LE RESET.
-*/
-bool active=0;
+int etat  = 0;
+void test0(char * command);
 void testspi(void);
-void main_test(char * buff);
-/******************************/
-void main_test1(char * val);
-
-void ecrire(uint8_t addr, uint8_t cmd);
-void lire(uint8_t val);
-void startSPI(void);
-
-void stopSPI(void);
-/*****************************/
-/*----------------------------------------------*/
-// FONCTION DE CMD BIOS
-/*----------------------------------------------*/
-void testspi(void)
-{   
-  //main_test("");
-  main_test1("");
-}
-
-/*----------------------------------------------*/
-// FONCTION DE PRINCIPAL POUR LES TESTS
-/*----------------------------------------------*/
-void main_test(char * buff)
-{
-    InitSPI();
-    println_bin(Read_SPI(REG_LR_OPMODE));
-    Write_SPI(REG_LR_OPMODE, 0b0001000);
-    println_bin(Read_SPI(REG_LR_OPMODE));
-}
-
-void main_test1(char *val)
+void f(char *text,bool *exit);
+void test0(char * command)
 {
 
-    //TEST1 
-    InitSPI();
-    println_bin(Read_SPI(REG_LR_OPMODE));
-    println_bin(WriteRead_SPI(REG_LR_OPMODE, 0b0001000));
+        unsigned int commandDec = strBHD2int(command);
+        if(!commandDec);
+        else
+        {
+            //InitSPI();
+            //println_bin(Read_SPI(REG_LR_OPMODE));
+            //printf("Write command : ");
+            //println_bin(strBHD2int(command));
+            //println_bin(WriteRead_SPI(REG_LR_OPMODE,commandDec));
+            
+        }     
+
     
+}
 
+void f(char *text,bool *exit)
+{
+    if(!exit)
+    {
+        do
+        {
+           text=input(&test0);
+        } while(text==NULL);
+        /*do
+        {
+           text=input(&test0);
+        } while(text==NULL);*/
+
+        if( !strcmp(text,"exit"))
+        {
+            *exit=true;
+            //break;
+        }
+        else if( !strcmp(text,"EXIT"))
+        {
+            *exit=true;
+            //break;
+        }
+        else if( !strcmp(text,"Exit"))
+        {
+            *exit=true;
+            //break;
+        }
+        else printf("Bad format\r\n");
+    }
+}
+
+void testspi(void)
+{
+    char *cmd=NULL;
+    char *address=NULL;
+    bool exit = 0;
+    while (!exit)
+    {
+        f(cmd,&exit);
+        f(address,&exit);
+    }
+    printf("Testspi closed.\n");
 }
 
 
+
+void print_all_reg(void)
+{
+    printf("cmd = ");
+    print_bin(loraspi_control_read());
+    printf("\n");
+
+    printf("sts = ");
+    print_bin(loraspi_status_read());
+    printf("\n");
+
+    printf("mosi = ");
+    print_bin(loraspi_mosi_read());
+    printf("\n");
+
+    printf("miso = ");
+    print_bin(loraspi_miso_read());
+    printf("\n");
+    
+    printf("cs_n = ");
+    print_bin(loraspi_cs_read());
+    printf("\n\n\n");
+}

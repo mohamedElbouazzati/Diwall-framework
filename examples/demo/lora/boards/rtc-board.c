@@ -26,8 +26,8 @@
 #include <hw_timer.h>
 #include "board-config.h"
 #include "board.h"
-#include "timer.h"
-#include "systime.h"
+#include "../system/timer.h"
+#include "../system/systime.h"
 #include "gpio.h"
 
 #include "rtc-board.h"
@@ -81,6 +81,7 @@ Gpio_t DbgRtcPin1;
  * WARNING: Temporary fix fix. Should use MCU NVM internal
  *          registers
  */
+
 uint32_t RtcBkupRegisters[] = { 0, 0 };
 
 /*!
@@ -93,6 +94,10 @@ static void RtcAlarmIrq( void );
  */
 static void RtcOverflowIrq( void );
 
+/**
+ * @brief RTCININ init RtcTimerContext
+ * 
+ */
 void RtcInit( void )
 {
     if( RtcInitialized == false )
@@ -102,8 +107,8 @@ void RtcInit( void )
         GpioInit( &DbgRtcPin1, RTC_DBG_PIN_1, PIN_OUTPUT, PIN_PUSH_PULL, PIN_NO_PULL, 0 );
 #endif
         // RTC timer
-        HwTimerInit( );
-        HwTimerAlarmSetCallback( RtcAlarmIrq );
+        //HwTimerInit( );// initilisation d'un timer materiel
+        HwTimerAlarmSetCallback( RtcAlarmIrq );// Set la fonction de call pour l'interruption du timer
         HwTimerOverflowSetCallback( RtcOverflowIrq );
 
         RtcTimerContext.AlarmState = ALARM_STOPPED;

@@ -1,4 +1,6 @@
-BUILD_DIR?=/home/med/Desktop/workflow/build/digilent_arty_cv32e41p
+TARGET := digilent_arty_cv32e41p
+THIS_DIR := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
+BUILD_DIR?=$(THIS_DIR)/../../build/$(TARGET)
 
 include $(BUILD_DIR)/software/include/generated/variables.mak
 include $(SOC_DIRECTORY)/software/common.mak

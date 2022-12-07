@@ -35,7 +35,7 @@
 #ifndef __BOARD_CONFIG_H__
 #define __BOARD_CONFIG_H__
 
-#include "../system/gpio.h"
+#include "lora/system/gpio.h"
 
 #ifdef __cplusplus
 extern "C"

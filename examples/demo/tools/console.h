@@ -43,7 +43,7 @@ extern "C" {
 int readchar_nonblock(void);
 char *readstr(void);
 char *get_token(char **str);
-bool input(void (*function)(char *));
+char *input(void (*function)(char *));
 #ifdef __cplusplus
 }
 #endif

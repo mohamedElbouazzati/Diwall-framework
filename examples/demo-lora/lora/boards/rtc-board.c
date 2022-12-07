@@ -22,11 +22,12 @@
  *
  * \author    Marten Lootsma(TWTG) on behalf of Microchip/Atmel (c)2017
  */
-
+//#include <hal_init.h>
+//#include <hw_timer.h>
 #include "board-config.h"
 #include "board.h"
-#include "timer.h"
-#include "systime.h
+#include "../system/timer.h"
+#include "../system/systime.h"
 #include "gpio.h"
 
 #include "rtc-board.h"
@@ -80,6 +81,7 @@ Gpio_t DbgRtcPin1;
  * WARNING: Temporary fix fix. Should use MCU NVM internal
  *          registers
  */
+
 uint32_t RtcBkupRegisters[] = { 0, 0 };
 
 /*!
@@ -92,15 +94,23 @@ static void RtcAlarmIrq( void );
  */
 static void RtcOverflowIrq( void );
 
+/**
+ * @brief RTCININ init RtcTimerContext
+ * 
+ */
 void RtcInit( void )
 {
     if( RtcInitialized == false )
     {
+#if( RTC_DEBUG_GPIO_STATE == RTC_DEBUG_ENABLE )
+        GpioInit( &DbgRtcPin0, RTC_DBG_PIN_0, PIN_OUTPUT, PIN_PUSH_PULL, PIN_NO_PULL, 0 );
+        GpioInit( &DbgRtcPin1, RTC_DBG_PIN_1, PIN_OUTPUT, PIN_PUSH_PULL, PIN_NO_PULL, 0 );
+#endif
         // RTC timer
-       // HwTimerInit( );
-        //HwTimerAlarmSetCallback( RtcAlarmIrq );
-        //HwTimerOverflowSetCallback( RtcOverflowIrq );
-        
+        //HwTimerInit( );// initilisation d'un timer materiel
+        HwTimerAlarmSetCallback( RtcAlarmIrq );// Set la fonction de call pour l'interruption du timer
+        HwTimerOverflowSetCallback( RtcOverflowIrq );
+
         RtcTimerContext.AlarmState = ALARM_STOPPED;
         RtcSetTimerContext( );
         RtcInitialized = true;
@@ -109,7 +119,7 @@ void RtcInit( void )
 
 uint32_t RtcSetTimerContext( void )
 {
-    RtcTimerContext.Time = 0;
+    RtcTimerContext.Time = ( uint32_t )HwTimerGetTime( );
     return ( uint32_t )RtcTimerContext.Time;
 }
 
@@ -180,7 +190,7 @@ void RtcStartAlarm( uint32_t timeout )
     RtcTimeoutPendingPolling = false;
 
     RtcTimerContext.AlarmState = ALARM_RUNNING;
-    if( ( RtcTimerContext.Time + RtcTimerContext.Delay ) == false )
+    if( HwTimerLoadAbsoluteTicks( RtcTimerContext.Time + RtcTimerContext.Delay ) == false )
     {
         // If timer already passed
         if( RtcTimeoutPendingInterrupt == true )
@@ -198,19 +208,19 @@ void RtcStartAlarm( uint32_t timeout )
 
 uint32_t RtcGetTimerValue( void )
 {
-    return 0;
+    return ( uint32_t )HwTimerGetTime( );
 }
 
 uint32_t RtcGetTimerElapsedTime( void )
 {
-    return 0 - RtcTimerContext.Time;
+    return ( uint32_t)( HwTimerGetTime( ) - RtcTimerContext.Time );
 }
 
 uint32_t RtcGetCalendarTime( uint16_t *milliseconds )
 {
     uint32_t ticks = 0;
 
-    uint32_t calendarValue = 0;
+    uint32_t calendarValue = HwTimerGetTime( );
 
     uint32_t seconds = ( uint32_t )calendarValue >> 10;
 

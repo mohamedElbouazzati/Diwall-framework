@@ -1,0 +1,229 @@
+#include "libisr.h"
+#include "libgpio.h"
+#include <stdio.h>
+#include "delai.h"
+#include "binary.h"
+
+
+/*  irqPriority,
+    pending_read,
+    pending_write, 
+    enable_read, 
+    enable_write, 
+    status_read, 
+    irqHandler, 
+    context, 
+    number
+*/
+GPIOs_control DIOs[NBDIO]={   
+    {
+        IRQ_VERY_LOW_PRIORITY,
+        &dio_ev_pending_i0_read,
+        &dio_ev_pending_i0_write,
+        &dio_ev_enable_i0_read,
+        &dio_ev_enable_i0_write,/*dio_edge_read, dio_edge_write, dio_mode_read, dio_mode_write, dio_in_read, dio_out_read, out_write,*/ 
+        &dio_ev_status_i0_read,
+        &void0, &void1, 0
+    },
+    {
+        IRQ_VERY_LOW_PRIORITY,
+        &dio_ev_pending_i1_read,
+        &dio_ev_pending_i1_write,
+        &dio_ev_enable_i1_read,
+        &dio_ev_enable_i1_write,
+        &dio_ev_status_i1_read,
+        &void0, &void1, 1
+    },
+    {
+        IRQ_VERY_LOW_PRIORITY,
+        &dio_ev_pending_i2_read,
+        &dio_ev_pending_i2_write,
+        &dio_ev_enable_i2_read,
+        &dio_ev_enable_i2_write,
+        &dio_ev_status_i2_read,
+        &void0, &void1, 2
+    },
+   /* {
+        IRQ_VERY_LOW_PRIORITY,
+        &dio_ev_pending_i3_read,
+        &dio_ev_pending_i3_write,
+        &dio_ev_enable_i3_read,
+        &dio_ev_enable_i3_write,
+        &dio_ev_status_i3_read,
+        &void0, &void1, 3
+    },*/  
+};
+
+
+/*********************************************************************
+DIO FUNCTION
+**********************************************************************/
+
+void dio_init(uint8_t val)
+{   
+
+
+    //POUR DIO (liste) en CSR
+    irq_setmask(irq_getmask()|1<<DIO_INTERRUPT);
+    for(uint8_t i=0;i<NBDIO;i++)
+        DIOs[i].enable_write(val);  
+    
+
+    SetOrderPriority();    
+}
+
+void dio_isr(unsigned int irqs) //Active le pending dans l'ordre
+{
+    
+    //POUR DIO (liste) en CSR 
+    
+        for(uint8_t i=0; i<NBDIO;i++)                                    
+        {
+            if(DIOs[i].pending_read())
+            {
+                
+                DIOs[i].pending_write(1);
+                //printf("Interruption détecté dio%d\n irqs = ",i);
+                testa(i);
+                
+                //DIOs[i].irqHandler(DIOs[i].context);// en attendant
+                DIOs[i].enable_write(1);    
+            }
+        }
+           
+
+    
+     
+    
+    //POUR DIO (liste) en CSR
+    //SetOrderPriority(DIOs,NBDIO);  // Vérifier que la fonction SetOrderPriority
+                                // soit actif à l'initialisation et effacer cette ligne
+    /*for(uint8_t i=0; i<NBDIO;i++)                                    
+    {
+        if(DIOs[i].pending_alert)
+        {
+            printf("Interruption détecté dio%d\n",i);
+            DIOs[i].pending_write(1);
+            DIOs[i].irqHandler(DIOs[i].context);// en attendant
+            DIOs[i].enable_write(1);
+        }
+    }*/
+}
+
+/*********************************************************************
+RST FUNCTION
+**********************************************************************/
+void rst_init(void)
+{
+    irq_setmask(irq_getmask()|(1<<RST_INTERRUPT));
+    rst_ev_enable_write(1);
+}
+
+void rst_isr(void)
+{
+    rst_ev_pending_write(1);
+    printf("interruption rst detecté\r\n");
+    rst_ev_enable_write(1); 
+}
+
+void testa(uint8_t i)
+{
+    printf("dio%d interrupt.\n",i);
+}
+
+/*********************************************************************
+CONTROL FUNCTION
+**********************************************************************/
+/*Fonction de gestion des gpios*/
+uint32_t edge_read(uint8_t dioNumber)
+{
+    return (dio_edge_read()&(1<<dioNumber))?1:0;
+}
+void edge_write(uint8_t dioNumber,uint8_t value)
+{
+    dio_edge_write(value?dio_edge_read()|(1<<dioNumber):dio_edge_read()&~(1<<dioNumber));
+}
+
+uint32_t mode_read(uint8_t dioNumber)
+{
+    return (dio_mode_read()&(1<<dioNumber))?1:0;
+}
+void mode_write(uint8_t dioNumber,uint8_t value)
+{
+    dio_mode_write(value?dio_mode_read()|(1<<dioNumber):dio_mode_read()&~(1<<dioNumber));
+}
+
+uint32_t in_read(uint8_t dioNumber)
+{
+    return (dio_in_read()&(1<<dioNumber))?1:0;
+}
+
+uint32_t out_read(uint8_t dioNumber)
+{
+    return (dio_out_read()&(1<<dioNumber))?1:0;
+}
+void out_write(uint8_t dioNumber,uint8_t value)
+{
+    dio_out_write(value?dio_out_read()|(1<<dioNumber):dio_out_read()&~(1<<dioNumber));
+}
+/*Fonction inactif*/
+void void0(void (*f))
+{
+    printf("fonctiton vide\n");
+}
+void void1(void)
+{
+    printf("fonctiton vide\n");
+}
+
+/*Fonction de controle*/
+void SetOrderPriority(void)
+{
+    for(int8_t i =0;i<NBDIO-1;i++)
+    {
+        if(DIOs[i].irqPriority<DIOs[i+1].irqPriority)  // Si le dio a la position la plus prioritaire est inférieur à dio ...
+        {                                              // ... à la position la moins priotaire permuter.
+            permut(&DIOs[i],&DIOs[i+1]);
+            i=-1;
+        }
+    }
+}
+void Init(uint8_t PinNumber, PinModes io, PinTypes edge, uint8_t value)
+{
+
+}
+void SetContext( void* context,uint8_t pinNumber  )
+{
+    DIOs[pinNumber].context=context;
+}
+
+void SetInterrupt(IrqModes irqMode, IrqPriorities irqPriority, GpioIrqHandler *irqHandler, uint8_t pinNumber )
+{
+    //DIOs[pinNumber].enable_write(1);// autoriser evenement
+    dio_ev_enable_write(dio_ev_enable_read()|(uint32_t)(1<<pinNumber));//autoriser evenemen
+    dio_edge_write(dio_edge_read()&~(uint32_t)(irqMode<<pinNumber));// front montant   (set in structure )
+
+    DIOs[pinNumber].irqPriority=irqPriority;// mettre la priorité
+    DIOs[pinNumber].irqHandler=irqHandler;// mettre la fonction de handler
+    SetOrderPriority();
+}
+
+void RemoveInterrupt(uint8_t pinNumber )
+{
+    dio_ev_enable_write(dio_ev_enable_read()&~(uint32_t)(1<<pinNumber));
+
+    // ne pas autoriser evenement
+    //DIOs[num].enable_write(0);
+    //DIOs[num].context=((void *)0);// supprimer context
+    //DIOs[num].irqHandler=((void *)0); // supprimer irq
+}
+void Toggle(uint8_t pinNumber )
+{
+    dio_out_write(dio_out_read()^(1<<pinNumber));
+}
+void permut(GPIOs_control *a,GPIOs_control *b)
+{
+    GPIOs_control save = *a;
+    *a=*b;
+    *b=save;
+}

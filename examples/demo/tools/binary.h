@@ -2,9 +2,6 @@
  * \file      binary.h binary.c
  *
  * \brief     String converter implementation for Litex
- *
- * \copyright MadHighTech of source \ref LICENSE.
- *
  * \code
  *            _______              __                                            
  *           /       \            /  |                                           
@@ -53,7 +50,7 @@ res_bin lenstr(char * chaine);
  *                 value "17"           -> return 17 
  *          
  * @param chaine BINARY OR HEXADECIMAL OR DECIMAL string format
- * @return resultat of string
+ * @return resultat of string. If no valid conversion could be performed, it returns zero
  */
 unsigned int strBHD2int(char * chaine);
 
@@ -67,5 +64,6 @@ unsigned int strBHD2int(char * chaine);
  */
 void print_bin(unsigned int val);
 void println_bin(unsigned int val);
+void print_all_reg(void);
 
 #endif

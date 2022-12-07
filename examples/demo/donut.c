@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "tools/console.h"
+#include <libbase/console.h>
 
 #define R(mul,shift,x,y) \
   _=x; \

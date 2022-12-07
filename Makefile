@@ -1,11 +1,20 @@
-
 .PHONY: pyenv
 
+THIS_DIR := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
+#Juste changer la target
+TARGET:=digilent_arty_cv32e41p
+
 gateware:
-	python3 -m boards.targets.poto_digilent_basys3 --integrated-main-ram-size=0x20000 --build
+	python3 -m boards.targets.$(TARGET) --integrated-main-ram-size=0x20000 --build
 
 load_bitstream:
-	python3 -m boards.targets.poto_digilent_basys3 --load                           
+	python3 -m boards.targets.$(TARGET) --load  
+
+docs:                         
+	python3 -m boards.targets.$(TARGET) --doc
+
+open_docs:
+	microsoft-edge $(THIS_DIR)build/$(TARGET)/doc/_build/html/index.html
 
 demo:
 	make -C examples/demo
@@ -21,4 +30,6 @@ pyenv:  # creates virtual environment if it does not exist
 	source venv/pyenv/bin/activate
 
 clean:
+	cd $(THIS_DIR)examples/demo && $(MAKE) clean 
+	cd $(THIS_DIR)examples/demo-lora && $(MAKE) clean
 	rm -rf build

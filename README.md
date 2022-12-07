@@ -9,7 +9,6 @@ git submodule update
 ```
 
 
-f
 Setup env:
 
 ```

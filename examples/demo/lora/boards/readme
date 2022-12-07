@@ -1,0 +1,51 @@
+FAIT :
+
+    - board.h
+    - board.c 
+
+    - delay-board.h
+    - delay-board.c
+
+    - spi-board.h
+    - spi-board.c
+
+    - utilities.h
+    - utilities.c
+
+
+A FAIRE :
+
+    - sx1276-board.h
+    - sx1276mb1las-board.c
+    - sx1276mb1mas-board.c
+
+A NE PAS FAIRE :
+
+    - eeprom-board.h
+    - eeprom-board.c
+
+    - rtc-board.h
+    - rtc-board.c
+
+    - i2c-board.h
+    - i2c-board.c
+
+    - lpm-board.h
+    - display-board.h
+    - gps-board.h
+
+    - adc-board.h
+
+    - uart-board.c
+    - uart-board.h
+
+    - uart-usb-board.h
+
+
+NE SAIS PAS :
+
+    - board-config.h
+    - pinName-board.h
+
+    - pinName-ioe.h
+    - 

@@ -27,11 +27,29 @@
 extern "C"
 {
 #endif
-#include <stdint.h>
+
+#include "gpio.h"
+
+/*!
+ * SPI peripheral ID
+ */
+typedef enum
+{
+    SPI_1,
+    SPI_2,
+}SpiId_t;
+
 /*!
  * SPI object type definition
  */
-
+typedef struct Spi_s
+{
+    SpiId_t SpiId;
+    Gpio_t Mosi;
+    Gpio_t Miso;
+    Gpio_t Sclk;
+    Gpio_t Nss;
+}Spi_t;
 
 /*!
  * \brief Initializes the SPI object and MCU peripheral
@@ -45,14 +63,14 @@ extern "C"
  * \param [IN] sclk SPI SCLK pin name to be used
  * \param [IN] nss  SPI NSS pin name to be used
  */
-void SpiInit( void );
+void SpiInit( Spi_t *obj, SpiId_t spiId, PinNames mosi, PinNames miso, PinNames sclk, PinNames nss );
 
 /*!
  * \brief De-initializes the SPI object and MCU peripheral
  *
  * \param [IN] obj SPI object
  */
-void SpiDeInit( void);
+void SpiDeInit( Spi_t *obj );
 
 /*!
  * \brief Configures the SPI peripheral
@@ -65,7 +83,7 @@ void SpiDeInit( void);
  * \param [IN] cpha  Clock phase
  * \param [IN] slave When set the peripheral acts in slave mode
  */
-void SpiFormat(void);
+void SpiFormat( Spi_t *obj, int8_t bits, int8_t cpol, int8_t cpha, int8_t slave );
 
 /*!
  * \brief Sets the SPI speed
@@ -73,7 +91,7 @@ void SpiFormat(void);
  * \param [IN] obj SPI object
  * \param [IN] hz  SPI clock frequency in hz
  */
-void SpiFrequency( void );
+void SpiFrequency( Spi_t *obj, uint32_t hz );
 
 /*!
  * \brief Sends outData and receives inData
@@ -82,7 +100,7 @@ void SpiFrequency( void );
  * \param [IN] outData Byte to be sent
  * \retval inData      Received byte.
  */
-uint16_t SpiInOut(uint16_t outData );
+uint16_t SpiInOut( Spi_t *obj, uint16_t outData );
 
 #ifdef __cplusplus
 }

@@ -28,7 +28,7 @@ extern "C"
 {
 #endif
 
-#include "../system/gpio.h"
+#include "gpio.h"
 
 /*!
  * \brief Initializes the given GPIO object
@@ -41,7 +41,7 @@ extern "C"
  * \param [IN] type   Pin type [PIN_NO_PULL, PIN_PULL_UP, PIN_PULL_DOWN]
  * \param [IN] value  Default output value at initialization
  */
-void GpioMcuInit( Gpio_t *obj, PinNames pin, PinModes mode, PinStates value );
+void GpioMcuInit( Gpio_t *obj, PinNames pin, PinModes mode, PinConfigs config, PinTypes type, uint32_t value );
 
 /*!
  * \brief Sets a user defined object pointer
@@ -77,7 +77,7 @@ void GpioMcuRemoveInterrupt( Gpio_t *obj );
  * \param [IN] obj   Pointer to the GPIO object
  * \param [IN] value New GPIO output value
  */
-void GpioMcuWrite( Gpio_t *obj, PinStates value );
+void GpioMcuWrite( Gpio_t *obj, uint32_t value );
 
 /*!
  * \brief Toggle the value to the GPIO output
@@ -93,10 +93,6 @@ void GpioMcuToggle( Gpio_t *obj );
  * \retval value   Current GPIO input value
  */
 uint32_t GpioMcuRead( Gpio_t *obj );
-
-void EXT_DIO_IRQHandler( void );
-
-void EXT_RST_IRQHandler( void );
 
 #ifdef __cplusplus
 }

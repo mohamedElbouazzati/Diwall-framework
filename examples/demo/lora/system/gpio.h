@@ -1,29 +1,29 @@
 /*!
- * \file      gpio.h
- *
- * \brief     GPIO driver implementation
- *
- * \remark: Relies on the specific board GPIO implementation as well as on
- *          IO expander driver implementation if one is available on the target
- *          board.
- *
- * \copyright Revised BSD License, see section \ref LICENSE.
- *
- * \code
- *                ______                              _
- *               / _____)             _              | |
- *              ( (____  _____ ____ _| |_ _____  ____| |__
- *               \____ \| ___ |    (_   _) ___ |/ ___)  _ \
- *               _____) ) ____| | | || |_| ____( (___| | | |
- *              (______/|_____)_|_|_| \__)_____)\____)_| |_|
- *              (C)2013-2017 Semtech
- *
- * \endcode
- *
- * \author    Miguel Luis ( Semtech )
- *
- * \author    Gregory Cristian ( Semtech )
- */
+* \file      gpio.h
+*
+* \brief     GPIO driver implementation
+*
+* \remark: Relies on the specific board GPIO implementation as well as on
+*          IO expander driver implementation if one is available on the target
+*          board.
+*
+* \copyright Revised BSD License, see section \ref LICENSE.
+*
+* \code
+*                ______                              _
+*               / _____)             _              | |
+*              ( (____  _____ ____ _| |_ _____  ____| |__
+*               \____ \| ___ |    (_   _) ___ |/ ___)  _ \
+*               _____) ) ____| | | || |_| ____( (___| | | |
+*              (______/|_____)_|_|_| \__)_____)\____)_| |_|
+*              (C)2013-2017 Semtech
+*
+* \endcode
+*
+* \author    Miguel Luis ( Semtech )
+*
+* \author    Gregory Cristian ( Semtech )
+*/
 #ifndef __GPIO_H__
 #define __GPIO_H__
 
@@ -34,15 +34,18 @@ extern "C"
 
 #include <stdint.h>
 #include "../boards/pinName-board.h"
-
+//#include "lora/boards/pinName-ioe.h"
 
 /*!
  * Board GPIO pin names
  */
 typedef enum
 {
-    DIO_NAME,
-    RST_NAME
+    MCU_PINS,
+    IOE_PINS,
+
+    // Not connected
+    NC = (int)0xFFFFFFFF
 }PinNames;
 
 /*!
@@ -52,6 +55,8 @@ typedef enum
 {
     PIN_INPUT = 0,
     PIN_OUTPUT,
+    PIN_ALTERNATE_FCT,
+    PIN_ANALOGIC
 }PinModes;
 
 /*!
@@ -59,10 +64,10 @@ typedef enum
  */
 typedef enum
 {
-    PIN_PULL_DOWN=0,    //OUTPUT STATE
-    PIN_PULL_UP=1,      //OUTPUT STATE
-    PIN_NO_PULL = 2     //INPUT STATE
-}PinStates;
+    PIN_NO_PULL = 0,
+    PIN_PULL_UP,
+    PIN_PULL_DOWN
+}PinTypes;
 
 /*!
  * Define the GPIO as Push-pull type or Open Drain
@@ -96,12 +101,6 @@ typedef enum
     IRQ_VERY_HIGH_PRIORITY
 }IrqPriorities;
 
-typedef enum
-{
-    DIO_PIN,
-    RST_PIN
-
-}PinNumber;
 /*!
  * GPIO IRQ handler function prototype
  */
@@ -112,13 +111,13 @@ typedef void( GpioIrqHandler )( void* context );
  */
 typedef struct
 {
-    PinModes mode;
     PinNames  pin;
-    PinNumber number;
-    PinStates state;
+    uint16_t pinIndex;
+    void *port;
+    uint16_t portIndex;
+    PinTypes pull;
     void* Context;
     GpioIrqHandler* IrqHandler;
-    
 }Gpio_t;
 
 /*!
@@ -132,7 +131,7 @@ typedef struct
  * \param [IN] type   Pin type [PIN_NO_PULL, PIN_PULL_UP, PIN_PULL_DOWN]
  * \param [IN] value  Default output value at initialization
  */
-void GpioInit( Gpio_t *obj, PinNames pin, PinModes mode, PinStates value );
+void GpioInit( Gpio_t *obj, PinNames pin, PinModes mode, PinConfigs config, PinTypes type, uint32_t value );
 
 /*!
  * \brief Sets a user defined object pointer

@@ -70,8 +70,6 @@ unsigned int strBHD2int(char * chaine)
             if(chaine[i+2]=='0'||chaine[i+2]=='1')
             a.number/=2;
         }
-        //print_bin(res);
-        printf("res=%d\n\r",res);
         return res;
     }
     else if (chaine[0]=='0'&&(chaine[1]=='x'||chaine[1]=='X'))
@@ -92,17 +90,14 @@ unsigned int strBHD2int(char * chaine)
                 weight *= 16;
             }
         }
-        //print_bin(res);
-        printf("res=%d\n\r",res);
         return res;
     }
     
     else
     {
-        printf("Decimal detected ! \r\n");
         unsigned int res = (unsigned int)atoi(chaine);
-        //print_bin(res);
-        printf("res=%d\n\r",res);
+        if(res)printf("Decimal detected ! \r\n");
+        //else printf("Bad format\r\n");
         return res;
     }
 }

@@ -31,45 +31,7 @@ extern "C"
 #include <stddef.h>
 #include <stdbool.h>
 #include <stdint.h>
-// MCU Wake Up Time
-#define MIN_ALARM_DELAY                             3 // in ticks
 
-// sub-second number of bits
-#define N_PREDIV_S                                  10
-
-// Synchronous prediv
-#define PREDIV_S                                    ( ( 1 << N_PREDIV_S ) - 1 )
-
-// Asynchronous prediv
-#define PREDIV_A                                    ( 1 << ( 15 - N_PREDIV_S ) ) - 1
-
-// Sub-second mask definition
-#define ALARM_SUBSECOND_MASK                        ( N_PREDIV_S << RTC_ALRMASSR_MASKSS_Pos )
-
-// RTC Time base in us
-#define USEC_NUMBER                                 1000000
-#define MSEC_NUMBER                                 ( USEC_NUMBER / 1000 )
-
-#define COMMON_FACTOR                               3
-#define CONV_NUMER                                  ( MSEC_NUMBER >> COMMON_FACTOR )
-#define CONV_DENOM                                  ( 1 << ( N_PREDIV_S - COMMON_FACTOR ) )
-
-/*!
- * \brief Days, Hours, Minutes and seconds
- */
-#define DAYS_IN_LEAP_YEAR                           ( ( uint32_t )  366U )
-#define DAYS_IN_YEAR                                ( ( uint32_t )  365U )
-#define SECONDS_IN_1DAY                             ( ( uint32_t )86400U )
-#define SECONDS_IN_1HOUR                            ( ( uint32_t ) 3600U )
-#define SECONDS_IN_1MINUTE                          ( ( uint32_t )   60U )
-#define MINUTES_IN_1HOUR                            ( ( uint32_t )   60U )
-#define HOURS_IN_1DAY                               ( ( uint32_t )   24U )
-
-/*!
- * \brief Correction factors
- */
-//#define  DAYS_IN_MONTH_CORRECTION_NORM              ( ( uint32_t )0x99AAA0 )
-//#define  DAYS_IN_MONTH_CORRECTION_LEAP              ( ( uint32_t )0x445550 )
 /*!
  * \brief Timer object description
  */
@@ -91,17 +53,7 @@ typedef struct TimerEvent_s
 typedef uint32_t TimerTime_t;
 #define TIMERTIME_T_MAX                             ( ( uint32_t )~0 )
 #endif
-TimerTime_t TimerGetMinimumTimeout(void);
-uint32_t TimerGetTimerValue(TimerEvent_t *obj);
-uint32_t TimerTick2Ms( uint32_t tick );
-uint32_t RtcGetCalendarTime( uint16_t *milliseconds );
-/*!
- * \brief converts time in ms to time in ticks
- *
- * \param[IN] milliseconds Time in milliseconds
- * \retval returns time in timer ticks
- */
-uint32_t TimerMs2Tick( uint32_t milliseconds );
+
 /*!
  * \brief Initializes the timer object
  *
@@ -119,8 +71,8 @@ void TimerInit( TimerEvent_t *obj, void ( *callback )( void *context ) );
  * \param [IN] context User defined data object pointer to pass back
  *                     on IRQ handler callback
  */
-uint32_t TimerSetContext( TimerEvent_t *obj, void* context );
-uint32_t TimerGetContext( TimerEvent_t *obj);
+void TimerSetContext( TimerEvent_t *obj, void* context );
+
 /*!
  * Timer IRQ event handler
  */

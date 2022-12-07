@@ -60,8 +60,9 @@ char *get_token(char **str)
 /*----------------------------------------------*/
 // FONCTION POUR ENTRER DES VALEURS
 /*----------------------------------------------*/
-bool input(void (*function)(char *))
+char *input(void (*function)(char *))
 {
+					
             char *buff;
             char *token;
             buff = readstr();
@@ -71,10 +72,10 @@ bool input(void (*function)(char *))
                 if(token[0]!='\0' && token[0]!='\n')
                 {
                     function(token);
-                    return false;
+                    return token;
                 }
-                else return true;    
+                else return NULL;    
             }
-            else return true;
+            else return NULL;
             
 }

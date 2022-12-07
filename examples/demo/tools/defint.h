@@ -14,5 +14,7 @@ typedef long    int64_t;
 #endif
 
 #include <stdbool.h>
+#include <generated/csr.h>
+#include <irq.h>
 
 #endif

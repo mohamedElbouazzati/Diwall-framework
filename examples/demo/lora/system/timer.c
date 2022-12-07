@@ -20,9 +20,9 @@
  *
  * \author    Gregory Cristian ( Semtech )
  */
-#include "../boards/utilities.h"
-#include "../boards/board.h"
-
+#include "utilities.h"
+#include "board.h"
+#include "rtc-board.h"
 #include "timer.h"
 
 /*!
@@ -94,15 +94,9 @@ void TimerInit( TimerEvent_t *obj, void ( *callback )( void *context ) )
     obj->Next = NULL;
 }
 
-uint32_t TimerSetContext( TimerEvent_t *obj, void* context )
+void TimerSetContext( TimerEvent_t *obj, void* context )
 {
     obj->Context = context;
-    return obj->Timestamp;
-}
-
-uint32_t TimerGetContext( TimerEvent_t *obj)
-{
-    return obj->Timestamp;
 }
 
 void TimerStart( TimerEvent_t *obj )
@@ -123,13 +117,13 @@ void TimerStart( TimerEvent_t *obj )
 
     if( TimerListHead == NULL )
     {
-        TimerSetContext( obj,TimerListHead->Context );
+        RtcSetTimerContext( );
         // Inserts a timer at time now + obj->Timestamp
         TimerInsertNewHeadTimer( obj );
     }
     else
     {
-        elapsedTime = TimerGetElapsedTime(obj->Timestamp );
+        elapsedTime = RtcGetTimerElapsedTime( );
         obj->Timestamp += elapsedTime;
 
         if( obj->Timestamp < TimerListHead->Timestamp )
@@ -191,8 +185,8 @@ void TimerIrqHandler( void )
     TimerEvent_t* cur;
     TimerEvent_t* next;
 
-    uint32_t old =  TimerGetContext(TimerListHead);
-    uint32_t now =  TimerSetContext( TimerListHead,TimerListHead->Context );
+    uint32_t old =  RtcGetTimerContext( );
+    uint32_t now =  RtcSetTimerContext( );
     uint32_t deltaContext = now - old; // intentional wrap around
 
     // Update timeStamp based upon new Time Reference
@@ -223,7 +217,7 @@ void TimerIrqHandler( void )
     }
 
     // Remove all the expired object from the list
-    while( ( TimerListHead != NULL ) && ( TimerListHead->Timestamp < TimerGetElapsedTime(TimerListHead->Timestamp ) ) )
+    while( ( TimerListHead != NULL ) && ( TimerListHead->Timestamp < RtcGetTimerElapsedTime( ) ) )
     {
         cur = TimerListHead;
         TimerListHead = TimerListHead->Next;
@@ -266,7 +260,7 @@ void TimerStop( TimerEvent_t *obj )
             }
             else
             {
-                TimerStop( obj);
+                RtcStopAlarm( );
                 TimerListHead = NULL;
             }
         }
@@ -330,18 +324,15 @@ void TimerReset( TimerEvent_t *obj )
     TimerStop( obj );
     TimerStart( obj );
 }
-uint32_t TimerGetTimerValue(TimerEvent_t *obj)
-{
-    return obj->Timestamp;
-}
+
 void TimerSetValue( TimerEvent_t *obj, uint32_t value )
 {
     uint32_t minValue = 0;
-    uint32_t ticks = 0;//TimerMs2Tick( value );
+    uint32_t ticks = RtcMs2Tick( value );
 
     TimerStop( obj );
 
-    minValue = TimerGetMinimumTimeout();
+    minValue = RtcGetMinimumTimeout( );
 
     if( ticks < minValue )
     {
@@ -351,66 +342,45 @@ void TimerSetValue( TimerEvent_t *obj, uint32_t value )
     obj->Timestamp = ticks;
     obj->ReloadValue = ticks;
 }
-TimerTime_t TimerGetMinimumTimeout(void)
-{
-    TimerEvent_t *pt=NULL;
-    uint32_t minimum= 0xFFFFFFFF;
-    *pt =  *TimerListHead;
-    while(pt!=NULL)
-    {
-        if(pt->Timestamp<minimum)minimum=pt->Timestamp;
-        pt=pt->Next;
-    }
-    return minimum;
-}
+
 TimerTime_t TimerGetCurrentTime( void )
 {
-    uint32_t now = TimerGetMinimumTimeout();
-    return  now;//TimerTick2Ms( now );
+    uint32_t now = RtcGetTimerValue( );
+    return  RtcTick2Ms( now );
 }
-uint32_t TimerMs2Tick( uint32_t milliseconds )
-{
-    return ( uint32_t )( ( ( ( uint64_t )milliseconds ) * CONV_DENOM ) / CONV_NUMER );
-}
-uint32_t TimerTick2Ms( uint32_t tick )
-{
-    uint32_t seconds = tick >> N_PREDIV_S;
 
-    tick = tick & PREDIV_S;
-    return ( ( seconds * 1000 ) + ( ( tick * 1000 ) >> N_PREDIV_S ) );
-}
 TimerTime_t TimerGetElapsedTime( TimerTime_t past )
 {
     if ( past == 0 )
     {
         return 0;
     }
-    uint32_t nowInTicks = TimerGetMinimumTimeout( );
-    uint32_t pastInTicks = TimerMs2Tick( past );
+    uint32_t nowInTicks = RtcGetTimerValue( );
+    uint32_t pastInTicks = RtcMs2Tick( past );
 
     // Intentional wrap around. Works Ok if tick duration below 1ms
-    return TimerTick2Ms( nowInTicks - pastInTicks );
+    return RtcTick2Ms( nowInTicks - pastInTicks );
 }
 
 static void TimerSetTimeout( TimerEvent_t *obj )
 {
-    int32_t minTicks= TimerGetMinimumTimeout( );
+    int32_t minTicks= RtcGetMinimumTimeout( );
     obj->IsNext2Expire = true;
 
     // In case deadline too soon
-    if( obj->Timestamp  < ( TimerGetElapsedTime(TimerListHead->Timestamp ) + minTicks ) )
+    if( obj->Timestamp  < ( RtcGetTimerElapsedTime( ) + minTicks ) )
     {
-        obj->Timestamp = TimerGetElapsedTime( TimerListHead->Timestamp) + minTicks;
+        obj->Timestamp = RtcGetTimerElapsedTime( ) + minTicks;
     }
-    //TimerSetAlarm( obj->Timestamp );
+    RtcSetAlarm( obj->Timestamp );
 }
 
 TimerTime_t TimerTempCompensation( TimerTime_t period, float temperature )
 {
-    return TimerTempCompensation( period, temperature );
+    return RtcTempCompensation( period, temperature );
 }
 
 void TimerProcess( void )
 {
-   // TimerProcess( );
+    RtcProcess( );
 }

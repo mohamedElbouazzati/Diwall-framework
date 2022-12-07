@@ -24,7 +24,7 @@
  *
  * \author    Marten Lootsma(TWTG) on behalf of Microchip/Atmel (c)2017
  */
-#include <hal_delay.h>
+#include "../../tools/delai.h"
 #include "delay-board.h"
 
 void DelayMsMcu( uint32_t ms )

@@ -22,6 +22,7 @@
  */
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "utilities.h"
 
 /*!
@@ -34,48 +35,51 @@
 
 static uint32_t next = 1;
 
-int32_t rand1( void )
+int32_t rand1( void ) //ok
 {
     return ( ( next = next * 1103515245L + 12345L ) % RAND_LOCAL_MAX );
 }
 
-void srand1( uint32_t seed )
+void srand1( uint32_t seed )    //ok
 {
     next = seed;
 }
 // Standard random functions redefinition end
 
-int32_t randr( int32_t min, int32_t max )
+int32_t randr( int32_t min, int32_t max )   //ok
 {
     return ( int32_t )rand1( ) % ( max - min + 1 ) + min;
 }
 
-void memcpy1( uint8_t *dst, const uint8_t *src, uint16_t size )
+void memcpy1( uint8_t *dst, const uint8_t *src, uint16_t size ) //ok
 {
-    while( size-- )
+    /*while( size-- )
     {
         *dst++ = *src++;
-    }
+    }*/
+    memcpyr(*dst, *src,  size);
 }
 
-void memcpyr( uint8_t *dst, const uint8_t *src, uint16_t size )
+void memcpyr( uint8_t *dst, const uint8_t *src, uint16_t size ) //ok
 {
-    dst = dst + ( size - 1 );
+    /*dst = dst + ( size - 1 );
     while( size-- )
     {
         *dst-- = *src++;
-    }
+    }*/
+    memcpy(*dst, *src,  size);
 }
 
-void memset1( uint8_t *dst, uint8_t value, uint16_t size )
+void memset1( uint8_t *dst, uint8_t value, uint16_t size )  //ok
 {
-    while( size-- )
+    /*while( size-- )
     {
         *dst++ = value;
-    }
+    }*/
+    memset(*dst, value, size);
 }
 
-int8_t Nibble2HexChar( uint8_t a )
+int8_t Nibble2HexChar( uint8_t a ) //ok
 {
     if( a < 10 )
     {
@@ -91,7 +95,7 @@ int8_t Nibble2HexChar( uint8_t a )
     }
 }
 
-uint32_t Crc32( uint8_t *buffer, uint16_t length )
+uint32_t Crc32( uint8_t *buffer, uint16_t length ) //ok
 {
     // The CRC calculation follows CCITT - 0x04C11DB7
     const uint32_t reversedPolynom = 0xEDB88320;
@@ -116,12 +120,12 @@ uint32_t Crc32( uint8_t *buffer, uint16_t length )
     return ~crc;
 }
 
-uint32_t Crc32Init( void )
+uint32_t Crc32Init( void ) //ok
 {
     return 0xFFFFFFFF;
 }
 
-uint32_t Crc32Update( uint32_t crcInit, uint8_t *buffer, uint16_t length )
+uint32_t Crc32Update( uint32_t crcInit, uint8_t *buffer, uint16_t length )//ok
 {
     // The CRC calculation follows CCITT - 0x04C11DB7
     const uint32_t reversedPolynom = 0xEDB88320;
