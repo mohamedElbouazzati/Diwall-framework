@@ -4,10 +4,13 @@ build
 examples/*/obj
 examples/*/*.d
 examples/*/*.o
+examples/*/*/*.d
+examples/*/*/*.o
 examples/*/*.elf
 examples/*/*.bin
 examples/*/*.elf.map
-
+examples/*/.vscode
+prog/
 # Python
 __pycache__
 

@@ -1,17 +1,72 @@
 // This file is Copyright (c) 2020 Florent Kermarrec <florent@enjoy-digital.fr>
 // License: BSD
-
+#include <generated/csr.h>
+#include <libbase/console.h>
+#include <irq.h>
+#include <libbase/uart.h>
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include "tools/console.h"
-#include <irq.h>
-
-#include <generated/csr.h>
+#include "LitexLib/libisr.h"
+#include "LitexLib/delai.h"
 
 /*-----------------------------------------------------------------------*/
 /* Uart                                                                  */
 /*-----------------------------------------------------------------------*/
+
+static char *readstr(void)
+{
+	char c[2];
+	static char s[64];
+	static int ptr = 0;
+
+	if(readchar_nonblock()) {
+		c[0] = getchar();
+		c[1] = 0;
+		switch(c[0]) {
+			case 0x7f:
+			case 0x08:
+				if(ptr > 0) {
+					ptr--;
+					fputs("\x08 \x08", stdout);
+				}
+				break;
+			case 0x07:
+				break;
+			case '\r':
+			case '\n':
+				s[ptr] = 0x00;
+				fputs("\n", stdout);
+				ptr = 0;
+				return s;
+			default:
+				if(ptr >= (sizeof(s) - 1))
+					break;
+				fputs(c, stdout);
+				s[ptr] = c[0];
+				ptr++;
+				break;
+		}
+	}
+
+	return NULL;
+}
+
+static char *get_token(char **str)
+{
+	char *c, *d;
+
+	c = (char *)strchr(*str, ' ');
+	if(c == NULL) {
+		d = *str;
+		*str = *str+strlen(*str);
+		return d;
+	}
+	*c = 0;
+	d = *str;
+	*str = c+1;
+	return d;
+}
 
 static void prompt(void)
 {
@@ -31,13 +86,6 @@ static void help(void)
 #ifdef CSR_LEDS_BASE
 	puts("led                - Led demo");
 #endif
-
-	puts("testspi            - Test du spi");
-#ifdef __RADIO_H__
-	puts("a                  - Programme d'essai Ramdom");
-#endif
-	puts("iotest             - Programme de test des gpios I/O");
-	puts("donut              - Spinning Donut demo");
 	puts("helloc             - Hello C");
 #ifdef WITH_CXX
 	puts("hellocpp           - Hello C++");
@@ -86,36 +134,10 @@ static void led_cmd(void)
 #endif
 
 #ifdef CSR_LORASPI_BASE
-extern void testspi(void);
-static void testspi_cmd(void)
-{
-	printf("lancement testspi ...\n");
-	testspi();
-}
+
 #endif
 
-extern void iotest(void);
-static void iotest_cmd(void)
-{
-	printf("Lancement du test de GPIO ...\n\r");
-	iotest();
-}
 
-#ifdef __RADIO_H__
-extern void a(void);
-static void a_cmd(void)
-{
-	printf("Ecrire un data spi 0bxxxx xxxx: ...\n");
-	a();
-}
-#endif
-
-extern void donut(void);
-static void donut_cmd(void)
-{
-	printf("Donut demo...\n");
-	donut();
-}
 
 extern void helloc(void);
 static void helloc_cmd(void)
@@ -123,6 +145,9 @@ static void helloc_cmd(void)
 	printf("Hello C demo...\n");
 	helloc();
 }
+
+
+
 
 #ifdef WITH_CXX
 extern void hellocpp(void);
@@ -158,19 +183,6 @@ static void console_service(void)
 		led_cmd();
 #endif
 
-	else if(strcmp(token, "testspi") == 0)
-		testspi_cmd();
-
-	else if(strcmp(token, "iotest") == 0)
-			iotest_cmd();
-
-#ifdef __RADIO_H__
-	else if(strcmp(token, "a") == 0)
-			a_cmd();
-#endif
-
-	else if(strcmp(token, "donut") == 0)
-		donut_cmd();
 
 	else if(strcmp(token, "helloc") == 0)
 		helloc_cmd();
@@ -182,14 +194,17 @@ static void console_service(void)
 	prompt();
 }
 
+
 int main(void)
 {
-#ifdef CONFIG_CPU_HAS_INTERRUPT
-	irq_setmask(0);
-	irq_setie(1);
-#endif
+	
+	#ifdef CONFIG_CPU_HAS_INTERRUPT
+		irq_setmask(0);
+		irq_setie(1);
+	#endif
+	time0_init();
+	time1_init();
 	uart_init();
-
 	help();
 	prompt();
 
@@ -199,3 +214,4 @@ int main(void)
 
 	return 0;
 }
+
