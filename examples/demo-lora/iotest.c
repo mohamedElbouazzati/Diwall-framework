@@ -8,6 +8,7 @@
 #include <irq.h>
 #include "tools/isr.h"
 #include "tools/libisr.h"
+#include "tools/libtimer.h"
 
 /**
  * @brief POUR TESTER IOTEST:
@@ -24,19 +25,7 @@ void iotest(void);
 
 void iotest(void)
 {   
-    printf("pending read started:\n");
-
-    while (1)
-    {
-        printf("                      \r");
-        uint32_t val=dio3_in_read()<<3|dio2_in_read()<<2|dio1_in_read()<<1|dio0_in_read()<<0;//dio_ev_pending_read();//dio_in_read();dio_in_read();
-        print_bin(val);
-        if(val)
-        {
-            delay_ms(500);
-            //dio_ev_pending_write(0b1111);
-        }
-    }	
+   HwTimerInit();//RunTimerWithConfig(COUNTER_TIMER,true,true,true,true,TIMER1);
 }
 
 

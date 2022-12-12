@@ -29,6 +29,7 @@
 #include "sx1276-board.h"
 #include "../../tools/libisr.h" 
 #include <generated/csr.h>
+#include "sx1276-board.h"
 /*!
  * \brief Gets the board PA selection configuration
  *

@@ -1,7 +1,7 @@
 /*! -----------------------------------------------------------------------------------------------------
  * \file      libtimer.h libtimer.c
  *
- * \brief     SPI implementation for Litex (loraspi)
+ * \brief     RTC TIMER implementation for Litex 
  *
  * \code                                                                                                                                                                          
  *          ___  _ __   ___ _ __                  
@@ -17,31 +17,161 @@
  * \author    TERRINE Christophe ( www.ct-sylv.com )
  * \author    Mohamed El Bouazzati ()  
  *-------------------------------------------------------------------------------------------------------*/
+#ifndef LIBTIMER_H
+#define LIBTIMER_H
 
+#include "defint.h"
+#define NBTIMER 2
 
+#define FREQ 1000 //1ms
+#define COUNTER_TIMER CONFIG_CLOCK_FREQUENCY/FREQ
 
 typedef struct DateTime DateTime;
-struct DateTime
-{
-    unsigned short ticks=0; // to ms
-    unsigned char hours;
-    unsigned char minutes;
-    unsigned char secondes;
+typedef struct DateTimeSecond DateTimeSecond;
+typedef struct TIMERs_control TIMERs_control;
+typedef enum TimerSelect TimerSelect;
+typedef struct Alarm Alarm;
+typedef enum AlarmStates AlarmStates;
 
-    unsigned char day;
-    unsigned char month;
-    unsigned short year;
+/*********************************************************************
+TIMER HARDWARE FUNCTION
+**********************************************************************/  
+/**
+ * @brief Control structure of the TIMERS 
+ * 
+ */
+struct TIMERs_control
+{
+    uint32_t (*load_read)(void);        //ONE SHOT
+    void (*load_write)(uint32_t v);
+
+    uint32_t (*reload_read)(void);      //RELOAD
+    void (*reload_write)(uint32_t v);
+
+    uint32_t (*en_read)(void);          // ENABLE TIMER
+    void (*en_write)(uint32_t v);
+
+    uint32_t (*update_value_read)(void);    // ENABLE UPDATE VALUE TIMER
+    void (*update_value_write)(uint32_t v);
+
+    uint32_t (*value_read)(void);           //TIMER VALUE
+
+    uint32_t (*ev_status_read)(void);           // FLAG STATYS
+
+    uint32_t (*ev_pending_read)(void);          // PENDING FLAG TIMER FINISH
+    void (*ev_pending_write)(uint32_t v);       // <-- ERASE FLAG
+
+    uint32_t (*ev_enable_read)(void);           // ENABLE INTERRUPTION
+    void (*ev_enable_write)(uint32_t v);
+
+}
+;
+
+/**
+ * @brief Selection structure of TIMERS 
+ * 
+ */
+
+enum TimerSelect 
+{
+    TIMER0 = 0,
+    TIMER1 = 1,
+    TIMER2 = 2,
 };
 
-void config_timer();
+
+void time0_init(void);
+void time1_init(void);
+void timer1_isr(void);   
+void timer0_isr(void);   
+void RunTimerWithConfig(
+ uint32_t loadReloadValue,bool enableReaload,
+ bool enableTimer, bool enableUptadate,
+ bool enableInterrupt, TimerSelect timerSelect);
+
+/*********************************************************************
+TIMER SOFTWARE FUNCTION
+**********************************************************************/  
+/*!
+ * \brief Days, Hours, Minutes and seconds
+ */
+#define DAYS_IN_LEAP_YEAR                           ( ( uint32_t )  366U )
+#define DAYS_IN_YEAR                                ( ( uint32_t )  365U )
+#define SECONDS_IN_1DAY                             ( ( uint32_t )86400U )
+#define SECONDS_IN_1HOUR                            ( ( uint32_t ) 3600U )
+#define SECONDS_IN_1MINUTE                          ( ( uint32_t )   60U )
+#define MINUTES_IN_1HOUR                            ( ( uint32_t )   60U )
+#define HOURS_IN_1DAY                               ( ( uint32_t )   24U )
+#define MONTH_IN_YEARS                              12U
+
+/*!
+ * Number of days in each month on a normal year
+ */
+static const uint8_t DaysInMonth[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+/*!
+ * Number of days in each month on a leap year
+ */
+static const uint8_t DaysInMonthLeapYear[] = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+
+
+
+struct DateTime
+{
+    uint16_t millisecond; // to ms
+    uint8_t hours;
+    uint8_t minutes;
+    uint8_t seconds;
+
+    uint8_t day;
+    uint8_t month;
+    uint16_t year;
+};
+
+
+struct DateTimeSecond
+{
+    uint16_t millisecond;
+    uint64_t seconds;
+};
+
+
+enum AlarmStates
+{
+    ALARM_STOPPED  = 0,
+    ALARM_RUNNING  = 1,
+    ALARM_IN_PHASE = 2,
+    ALARM_OVERFLOW = 3,
+};
+
+struct Alarm
+{
+    bool enableAlarm;
+    DateTimeSecond setValueRingSeconds;
+    DateTime setValueRingDate;
+    void (*RtcAlarmIrq)( void ); //alarm INTERRUPT
+    void (*RtcOverflowIrq)( void ); // débortement INTERRUPT
+};
+
+void HwTimerInit(void);
+void RtcProcess( void );
+
+void HwTimerInit(void);
+
+uint64_t HwTimerGetTime(void) ;
+void HwTimerAlarmSetCallback(void (*RtcAlarmIrq)( void ));
+void updateSoftTimerInterrupt(void);
+void HwTimerOverflowSetCallback(void (*RtcOverflowIrq)( void ));
+bool HwTimerLoadAbsoluteTicks(uint32_t ticks);
 
 void setDateTime(DateTime configDateTime);
 
 void setDate(unsigned char day,unsigned char mouth,unsigned short year);
 
-void setTime(unsigned char hours, unsigned char minutes, unsigned char secondes);
+void setTime(unsigned char hours, unsigned char minutes, unsigned char seconds);
 
-void setTimestamp(unsigned long secondes);
+void setTimestamp(unsigned long seconds);
 
 unsigned char getHours(void);
 
@@ -49,8 +179,11 @@ unsigned char getMinutes(void);
 
 unsigned char getSeconds(void);
 
-unsigned char getTicks(void);
+unsigned char getMs(void);
+
+
 /*void getDateTime(void);*/
 
 
 
+#endif

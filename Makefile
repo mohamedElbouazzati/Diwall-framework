@@ -5,10 +5,10 @@ THIS_DIR := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 TARGET:=digilent_arty_cv32e41p
 
 gateware:
-	python3 -m boards.targets.$(TARGET) --integrated-main-ram-size=0x20000 --build
+	python3 -m boards.targets.$(TARGET) --variant="a7-100" --build
 
 load_bitstream:
-	python3 -m boards.targets.$(TARGET) --load  
+	python3 -m boards.targets.$(TARGET) --variant="a7-100" --load
 
 docs:                         
 	python3 -m boards.targets.$(TARGET) --doc

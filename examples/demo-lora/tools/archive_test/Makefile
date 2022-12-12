@@ -8,21 +8,21 @@ include $(SOC_DIRECTORY)/software/common.mak
 BASE_DIR = .
 OBJ_DIR = $(BASE_DIR)/obj
 TOOLS_DIR = $(BASE_DIR)/tools
-LORA_DIR = $(BASE_DIR)/lora
-BOARDS_DIR = $(LORA_DIR)/boards
-RADIO_DIR = $(LORA_DIR)/radio
-SYSTEM_DIR = $(LORA_DIR)/system
+#LORA_DIR = $(BASE_DIR)/lora
+#BOARDS_DIR = $(LORA_DIR)/boards
+#RADIO_DIR = $(LORA_DIR)/radio
+#SYSTEM_DIR = $(LORA_DIR)/system
 THIRD_PARTY = $(BASE_DIR)/third_party
 LD_DIR = $(BASE_DIR)/ld
 
 
-CSOURCES   :=  $(wildcard $(TOOLS_DIR)/*.c) $(wildcard $(BASE_DIR)/*.c) $(wildcard $(SYSTEM_DIR)/*.c)  $(wildcard $(RADIO_DIR)/*.c)  $(wildcard $(BOARDS_DIR)/*.c)
+CSOURCES   :=  $(wildcard $(TOOLS_DIR)/*.c) $(wildcard $(BASE_DIR)/*.c) #$(wildcard $(BASE_DIR)/*.c) $(wildcard $(SYSTEM_DIR)/*.c)  $(wildcard $(RADIO_DIR)/*.c)  $(wildcard $(BOARDS_DIR)/*.c)
 ASOURCES   :=  $(wildcard $(CPU_DIRECTORY)/crt0.S)
 COBJS      := $(addprefix $(OBJ_DIR)/, $(notdir $(CSOURCES:.c=.o)))
 AOBJS      := $(addprefix $(OBJ_DIR)/, $(notdir $(ASOURCES:.S=.o)))
 
-LOCAL_INCLUDE = -I$(TOOLS_DIR) -I$(BOARDS_DIR)  -I$(RADIO_DIR)  -I$(SYSTEM_DIR) 
-L_INCLUDE = -L$(TOOLS_DIR)  -L$(BOARDS_DIR)  -L$(RADIO_DIR)  -L$(SYSTEM_DIR) 
+LOCAL_INCLUDE = -I$(TOOLS_DIR) -I$(BASE_DIR) #-I$(BOARDS_DIR)  -I$(RADIO_DIR)  -I$(SYSTEM_DIR) 
+L_INCLUDE = -L$(TOOLS_DIR)  -I$(BASE_DIR)#-L$(BOARDS_DIR)  -L$(RADIO_DIR)  -L$(SYSTEM_DIR) 
 
 c_flags = $(LOCAL_INCLUDE) $(CFLAGS)
 l_flags = $(L_INCLUDE) $(LOCAL_INCLUDE) $(LDFLAGS)
@@ -33,7 +33,7 @@ endef
 
 
 OBJECTS = $(COBJS) $(AOBJS)
-OTHER_OBJECTS   = donut.o helloc.o crt0.o testspi.o iotest.o main.o test1.o
+OTHER_OBJECTS   = donut.o helloc.o crt0.o testspi.o iotest.o main.o #test1.o
 
 all: demo.bin
 
@@ -69,31 +69,23 @@ $(OBJ_DIR)/crt0.o: $(CPU_DIRECTORY)/crt0.S
 
 $(OBJ_DIR)/%.o: $(TOOLS_DIR)/%.c 
 	$(compile)
-$(OBJ_DIR)/%.o: $(SYSTEM_DIR)/%.c 
-	$(compile)
-$(OBJ_DIR)/%.o: $(RADIO_DIR)/%.c 
-	$(compile)
-$(OBJ_DIR)/%.o: $(BOARDS_DIR)/%.c 
-	$(compile)
+#$(OBJ_DIR)/%.o: $(SYSTEM_DIR)/%.c 
+#	$(compile)
+#$(OBJ_DIR)/%.o: $(RADIO_DIR)/%.c 
+#	$(compile)
+#$(OBJ_DIR)/%.o: $(BOARDS_DIR)/%.c 
+#	$(compile)
 %.o: %.cpp
 	$(compilexx)
 
 %.o: %.S
 	$(assemble)
-#prog:demo.bin
-#	sudo chmod -R 777 /dev/ttyUSB*
-#	litex_term --kernel=demo.bin /dev/ttyUSB*
+prog:demo.bin
+	sudo chmod -R 777 /dev/ttyUSB*
+	litex_term --kernel=demo.bin /dev/ttyUSB*
 
 clean:
 	$(RM) $(OBJECTS) $(OBJECTS:.o=.d) demo.elf demo.bin .*~ *~
 	$(RM) -r $(OBJ_DIR)
 
 .PHONY: all $(OBJ_DIR)/main.o clean screen
-
-
-#DERNIER TTYUSB
-LAST_TTYUSB := $(shell ls /dev/ttyUSB*| sort -n | tail -n 1)
-load:
-	
-	litex_term $(LAST_TTYUSB) --kernel=demo.bin
-

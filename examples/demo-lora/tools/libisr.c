@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include "libspi.h"
 #include <generated/csr.h>
-
+#include "isr.h"
+#include <irq.h>
 /*********************************************************************
 LOCAL VARIABLES
 **********************************************************************/  
@@ -83,41 +84,6 @@ GPIOs_control DIOs[NBDIO]=
 
 };
 
-TIMERs_control TIMERs[NBTIMER]=
-{
-    {
-        timer0_load_read,
-        timer0_load_write,
-        timer0_reload_read,
-        timer0_reload_write,
-        timer0_en_read,
-        timer0_en_write,
-        timer0_update_value_read,
-        timer0_update_value_write,
-        timer0_value_read,
-        timer0_ev_status_zero_read,
-        timer0_ev_pending_zero_read,
-        timer0_ev_pending_zero_write,
-        timer0_ev_enable_zero_read,
-        timer0_ev_enable_zero_write,
-    },
-    {
-        timer1_load_read,
-        timer1_load_write,
-        timer1_reload_read,
-        timer1_reload_write,
-        timer1_en_read,
-        timer1_en_write,
-        timer1_update_value_read,
-        timer1_update_value_write,
-        timer1_value_read,
-        timer1_ev_status_zero_read,
-        timer1_ev_pending_zero_read,
-        timer1_ev_pending_zero_write,
-        timer1_ev_enable_zero_read,
-        timer1_ev_enable_zero_write,
-    },
-};
 
 /*********************************************************************
 DIO FUNCTION
@@ -162,8 +128,8 @@ void dio_init(void)
     irq_setmask(irq_getmask()|1<<DIO2_INTERRUPT);
     DIOs[2].enable_write(1);
 
-    irq_setmask(irq_getmask()|1<<DIO3_INTERRUPT);
-    DIOs[3].enable_write(1);
+    //irq_setmask(irq_getmask()|1<<DIO3_INTERRUPT);
+    //DIOs[3].enable_write(1);
 }
 
 void SetInterrupt(IrqModes irqMode, IrqPriorities irqPriority, GpioIrqHandler *irqHandler, uint8_t num )
@@ -174,16 +140,16 @@ void SetInterrupt(IrqModes irqMode, IrqPriorities irqPriority, GpioIrqHandler *i
         case IRQ_RISING_EDGE:
             DIOs[num].mode_write(0);
             DIOs[num].edge_write(0);
-            printf("DIO %d done with mode %d and edge %d ", num,DIOs[num].mode_read(),DIOs[num].edge_read() );
+            //printf("DIO %d done with mode %d and edge %d ", num,DIOs[num].mode_read(),DIOs[num].edge_read() );
             break;
         case IRQ_FALLING_EDGE:
             DIOs[num].mode_write(0);
             DIOs[num].edge_write(1);
-            printf("DIO %d done with mode %d and edge %d ", num,DIOs[num].mode_read(),DIOs[num].edge_read() );
+            //printf("DIO %d done with mode %d and edge %d ", num,DIOs[num].mode_read(),DIOs[num].edge_read() );
             break;
         case IRQ_RISING_FALLING_EDGE:
             DIOs[num].mode_write(1);
-            printf("DIO %d done with mode %d and edge %d ", num,DIOs[num].mode_read(),DIOs[num].edge_read() );
+            //printf("DIO %d done with mode %d and edge %d ", num,DIOs[num].mode_read(),DIOs[num].edge_read() );
             break;    
         default:
             break;
@@ -200,7 +166,7 @@ uint32_t Read(uint8_t pinNumber )
 {
   return DIOs[pinNumber].in_read();  
 }
-uint32_t Write(uint8_t pinNumber,uint32_t value )
+void Write(uint8_t pinNumber,uint32_t value )
 {  
     // chip select SPI :
     // Reset Lora Module :       
@@ -218,57 +184,7 @@ uint32_t Write(uint8_t pinNumber,uint32_t value )
         }
     }
 }
-/*********************************************************************
-TIMER FUNCTION
-**********************************************************************/  
-void time0_init(void)
-{
-	int t;
-	t = 2 * CONFIG_CLOCK_FREQUENCY;
 
-	/** Initialising timer0, for system functions **/
-	timer0_en_write(0);
-	timer0_reload_write(t);
-	timer0_load_write(t);
-	timer0_en_write(1);	
-}
-
-void time1_init(void){
-	int t;
-	t = CONFIG_CLOCK_FREQUENCY;
-
-	/** Initialising timer1, for timing functions
-	 *  It is initialised in periodic mode in order to 
-	 * 	time longer than usual things
-	 *  **/
-	timer1_en_write(0);
-	timer1_load_write(0);
-	timer1_reload_write(t);
-	timer1_en_write(1);
-	
-	// Enabling the interrupt
-	timer1_ev_pending_write(timer1_ev_pending_read());
-	timer1_ev_enable_write(1);
-	irq_setmask(irq_getmask() | (1 << TIMER1_INTERRUPT));
-}
-
-void configInitTimer(
- uint32_t loadReloadValue,bool enableReaload,
- bool enableTimer, bool enableUptadate,
- bool enableInterrupt, TimerSelect timerSelect)
-{
-    enableReaload?
-    TIMERs[TimerSelect].reload_write(loadReloadValue):
-    TIMERs[timerSelect].load_write(loadReloadValue);
-
-    enableReaload?TIMERs[timerSelect].
-}
-
-void timer1_isr(void){
-	timer1_ev_pending_write(1);
-	//printf("Timer has elapsed!\n");
-	timer1_ev_enable_write(1);
-}
 
 
 

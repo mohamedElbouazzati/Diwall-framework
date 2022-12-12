@@ -103,6 +103,7 @@ static void help(void)
 	puts("iotest             - Programme de test des gpios I/O");
 	puts("donut              - Spinning Donut demo");
 	puts("helloc             - Hello C");
+	puts("test1              - Test reception");
 #ifdef WITH_CXX
 	puts("hellocpp           - Hello C++");
 #endif
@@ -197,7 +198,7 @@ extern void test1(void);
 static void test1_cmd(void)
 {
 	printf("test1 C demo...\n");
-     test1();
+    test1();
 }
 
 
@@ -274,7 +275,7 @@ int main(void)
 		irq_setie(1);
 	#endif
 	time0_init();
-	time1_init();
+	//time1_init();
 	uart_init();
 	
     //rst_init();

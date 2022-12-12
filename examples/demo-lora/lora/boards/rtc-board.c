@@ -26,10 +26,10 @@
 //#include <hw_timer.h>
 #include "board-config.h"
 #include "board.h"
-#include "../system/timer.h"
-#include "../system/systime.h"
+#include "timer.h"
+#include "systime.h"
 #include "gpio.h"
-
+#include "libtimer.h"
 #include "rtc-board.h"
 
 #define RTC_DEBUG_ENABLE                            1
@@ -47,11 +47,7 @@ static bool RtcInitialized = false;
 static volatile bool RtcTimeoutPendingInterrupt = false;
 static volatile bool RtcTimeoutPendingPolling = false;
 
-typedef enum AlarmStates_e
-{
-    ALARM_STOPPED = 0,
-    ALARM_RUNNING = !ALARM_STOPPED
-} AlarmStates_t;
+typedef enum AlarmState AlarmStates_t;
 
 /*!
  * RTC timer context 
@@ -81,7 +77,6 @@ Gpio_t DbgRtcPin1;
  * WARNING: Temporary fix fix. Should use MCU NVM internal
  *          registers
  */
-
 uint32_t RtcBkupRegisters[] = { 0, 0 };
 
 /*!
@@ -94,10 +89,6 @@ static void RtcAlarmIrq( void );
  */
 static void RtcOverflowIrq( void );
 
-/**
- * @brief RTCININ init RtcTimerContext
- * 
- */
 void RtcInit( void )
 {
     if( RtcInitialized == false )
@@ -107,8 +98,8 @@ void RtcInit( void )
         GpioInit( &DbgRtcPin1, RTC_DBG_PIN_1, PIN_OUTPUT, PIN_PUSH_PULL, PIN_NO_PULL, 0 );
 #endif
         // RTC timer
-        //HwTimerInit( );// initilisation d'un timer materiel
-        HwTimerAlarmSetCallback( RtcAlarmIrq );// Set la fonction de call pour l'interruption du timer
+        HwTimerInit( );
+        HwTimerAlarmSetCallback( RtcAlarmIrq );
         HwTimerOverflowSetCallback( RtcOverflowIrq );
 
         RtcTimerContext.AlarmState = ALARM_STOPPED;
@@ -154,10 +145,7 @@ void RtcDelayMs( TimerTime_t milliseconds )
     delayTicks = RtcMs2Tick( milliseconds );
 
     // Wait delay ms
-    while( ( ( RtcGetTimerValue( ) - refTicks ) ) < delayTicks )
-    {
-        __NOP( );
-    }
+    while( ( ( RtcGetTimerValue( ) - refTicks ) ) < delayTicks );
 }
 
 void RtcSetAlarm( uint32_t timeout )

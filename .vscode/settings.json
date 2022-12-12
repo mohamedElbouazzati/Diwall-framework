@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "board-config.h": "c",
+        "libtimer.h": "c",
+        "libisr.h": "c",
+        "csr.h": "c",
+        "soc.h": "c",
+        "defint.h": "c",
+        "isr.h": "c",
+        "sx1276-board.h": "c",
+        "rtc-board.h": "c"
+    }
+}

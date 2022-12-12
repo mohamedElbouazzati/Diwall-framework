@@ -70,7 +70,7 @@ void SpiInit(void);
  *
  * \param [IN] obj SPI object
  */
-//void SpiDeInit( Spi_t *obj );
+void SpiDeInit( Spi_t *obj );
 
 /*!
  * \brief Configures the SPI peripheral
@@ -83,7 +83,7 @@ void SpiInit(void);
  * \param [IN] cpha  Clock phase
  * \param [IN] slave When set the peripheral acts in slave mode
  */
-//void SpiFormat( Spi_t *obj, int8_t bits, int8_t cpol, int8_t cpha, int8_t slave );
+void SpiFormat( Spi_t *obj, int8_t bits, int8_t cpol, int8_t cpha, int8_t slave );
 
 /*!
  * \brief Sets the SPI speed

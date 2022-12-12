@@ -39,12 +39,12 @@ void SpiInit(void)
 {
     InitSPI();
 }
-/*
-void SpiDeInit(void )
+
+void SpiDeInit(Spi_t *obj ) 
 {
- SpiInit();
+    SpiInit(); //unique SPI
 }
-*/
+
 uint16_t SpiInOut(uint16_t outData )
 {   
     loraspi_mosi_write(outData);

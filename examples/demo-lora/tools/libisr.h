@@ -53,7 +53,7 @@ extern "C" {
 #include "../lora/radio/sx1276.h"
 
 #define NBDIO 4
-#define NBTIMER 2
+
 
 /*dio_edge_read, dio_edge_write, dio_mode_read, dio_mode_write, dio_in_read, dio_out_read, out_write,*/ //<-- INUTILE DANS LA STRUCTURE NON INDEPENDANT
 
@@ -87,46 +87,6 @@ typedef struct
     uint8_t pinNumber;
 }GPIOs_control;
 
-/**
- * @brief Control structure of the TIMERS 
- * 
- */
-typedef struct 
-{
-    uint32_t (*load_read)(void);        //ONE SHOT
-    void (*load_write)(uint32_t v);
-
-    uint32_t (*reload_read)(void);      //RELOAD
-    void (*reload_write)(uint32_t v);
-
-    uint32_t (*en_read)(void);          // ENABLE TIMER
-    void (*en_write)(uint32_t v);
-
-    uint32_t (*update_value_read)(void);    // ENABLE UPDATE VALUE TIMER
-    void (*update_value_write)(uint32_t v);
-
-    uint32_t (*value_read)(void);           //TIMER VALUE
-
-    uint32_t (*ev_status_read)(void);           // FLAG STATYS
-
-    uint32_t (*ev_pending_read)(void);          // PENDING FLAG TIMER FINISH
-    void (*ev_pending_write)(uint32_t v);       // <-- ERASE FLAG
-
-    uint32_t (*ev_enable_read)(void);           // ENABLE INTERRUPTION
-    void (*ev_enable_write)(uint32_t v);
-}
-TIMERs_control;
-
-/**
- * @brief Selection structure of TIMERS 
- * 
- */
-typedef enum TimerSelect
-{
-    TIMER0 = 0,
-    TIMER1 = 1,
-    TIMER2 = 2,
-};
 
 typedef unsigned char uint8_t;
 /*********************************************************************
@@ -137,12 +97,6 @@ void dio1_isr(void);
 void dio2_isr(void);
 void dio3_isr(void);
 void dio_init(void);
-/*********************************************************************
-TIMER0 and TIMER1 FUNCTION
-**********************************************************************/
-void time0_init(void);
-void time1_init(void);
-void timer1_isr(void);    
 
 /*********************************************************************
 CONTROL FUNCTION
@@ -162,7 +116,8 @@ void SetInterrupt(IrqModes irqMode, IrqPriorities irqPriority, GpioIrqHandler *i
 void RemoveInterrupt(uint8_t pinNumber );
 
 uint32_t Read(uint8_t pinNumber );
-uint32_t Write(uint8_t pinNumber,uint32_t value );
+void Write(uint8_t pinNumber,uint32_t value );
+
 #ifdef __cplusplus
 }
 #endif    
