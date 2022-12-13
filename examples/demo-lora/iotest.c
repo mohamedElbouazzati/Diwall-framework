@@ -57,7 +57,7 @@ void iotest(void)
 {   
     HwTimerInit();//RunTimerWithConfig(COUNTER_TIMER,true,true,true,true,TIMER1);
     TimerInit( &Led1Timer, OnLed1TimerEvent );
-    #define VAL 1
+    #define VAL 1000
     TimerSetValue( &Led1Timer, VAL );
     TimerInit( &Led2Timer, OnLed2TimerEvent );
     TimerSetValue( &Led2Timer, VAL );

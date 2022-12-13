@@ -138,7 +138,7 @@ void updateSoftTimerInterrupt(void)
     {
         timer.milliseconds=0;
         timer.seconds+=1;
-        printf("\rtimer: %lld s -         ",timer.seconds);
+        //printf("\rtimer: %lld s -         ",timer.seconds);
     }
     if(timer.TimerAlarmCallback==NULL)// RTC SANS FONCTION INTERRUPTION
     {

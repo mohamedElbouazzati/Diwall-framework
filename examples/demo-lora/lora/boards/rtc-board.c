@@ -115,14 +115,14 @@ void RtcInit( void )//ok
 
 uint32_t RtcSetTimerContext( void )//ok
 {
-    printf("RtcSetTimerContext()\n");
+    //printf("RtcSetTimerContext()\n");
     RtcTimerContext.Time = ( uint32_t )HwTimerGetTime( );
     return ( uint32_t )RtcTimerContext.Time;
 }
 
 uint32_t RtcGetTimerContext( void )//ok
 {
-    printf("RtcGetTimerContext()\n");
+    //printf("RtcGetTimerContext()\n");
     return RtcTimerContext.Time;
 }
 
@@ -212,14 +212,15 @@ void RtcStartAlarm( uint32_t timeout )//ok
 
 uint32_t RtcGetTimerValue( void ) //ok
 {
-    printf("RtcGetTimerValue()\n");
+    //printf("RtcGetTimerValue()\n");
     return ( uint32_t )HwTimerGetTime( );
 }
 
 uint32_t RtcGetTimerElapsedTime( void ) //ok
 {
-    printf("RtcGetTimerElapsedTime()\n");
-    return ( uint32_t)( HwTimerGetTime( ) - RtcTimerContext.Time );
+    uint32_t val =( uint32_t)(HwTimerGetTime( ) - RtcTimerContext.Time);
+    //printf("RtcGetTimerElapsedTime() = %d - %d =  %ld\n",HwTimerGetTime(),RtcTimerContext.Time,val);
+    return val;
 }
 
 uint32_t RtcGetCalendarTime( uint16_t *milliseconds ) //ok
@@ -257,11 +258,14 @@ void RtcBkupRead( uint32_t* data0, uint32_t* data1 ) //ok
 void RtcProcess( void ) //ok
 {
     CRITICAL_SECTION_BEGIN( );
-
-    if( (  RtcTimerContext.AlarmState == ALARM_RUNNING ) && ( RtcTimeoutPendingPolling == true ) )
+    //printf("Rtc0\n");
+    if( (  RtcTimerContext.AlarmState == ALARM_RUNNING ) )//&& ( RtcTimeoutPendingPolling == true ) )
     {
+        //printf("Rtc1\n");
+        //printf("RtcGetTimerElapsedTime = %d   RtcTimerContext.Delay=%d\n",RtcGetTimerElapsedTime( ),RtcTimerContext.Delay);
         if( RtcGetTimerElapsedTime( ) >= RtcTimerContext.Delay )
         {
+            printf("ALARM RINGING BULUBULU\n");
             RtcTimerContext.AlarmState = ALARM_STOPPED;
 
             // Because of one shot the task will be removed after the callback
