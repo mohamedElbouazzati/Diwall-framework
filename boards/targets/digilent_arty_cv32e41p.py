@@ -34,7 +34,6 @@ from litex.soc.cores.gpio import *
 from litedram.modules import MT41K128M16
 from litedram.phy import s7ddrphy
 
-from liteeth.phy.mii import LiteEthPHYMII
 
 # CRG ----------------------------------------------------------------------------------------------
 
@@ -132,16 +131,6 @@ class BaseSoC(SoCCore):
             self.submodules.timer1 = Timer()
             self.add_interrupt("timer1")
             self.add_csr("timer1")
-
-        # Ethernet / Etherbone ---------------------------------------------------------------------
-        if with_ethernet or with_etherbone:
-            self.submodules.ethphy = LiteEthPHYMII(
-                clock_pads = self.platform.request("eth_clocks"),
-                pads       = self.platform.request("eth"))
-            if with_ethernet:
-                self.add_ethernet(phy=self.ethphy, dynamic_ip=eth_dynamic_ip)
-            if with_etherbone:
-                self.add_etherbone(phy=self.ethphy, ip_address=eth_ip)
 
         # Jtagbone ---------------------------------------------------------------------------------
         if with_jtagbone:
