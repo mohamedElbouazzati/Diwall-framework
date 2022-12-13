@@ -11,10 +11,28 @@ git submodule update
 Setup env:
 
 ```
+make pyenv
 source venv/pyenv/bin/activate
 pip3 install -r requirements.txt
+```
+
+Fix picolibc missing data:
+```
+cd third_party/pythondata-software-picolibc
+git submodule init
+git submodule update
+```
+
+Install toolchain:
+
+```
 cd third_party/litex
 ./litex_setup.py --gcc=riscv
+```
+
+Install openocd:
+
+```
 sudo apt-get install openocd
 ```
 
@@ -36,7 +54,7 @@ Load bitstream:
 make load_bitstream CPU_TYPE=(cv32e41p/vexriscv) VARIANT=(standard/HIDS_SYNTH)
 ```
 
-Comile application:
+Compile application:
 ```
 make compile_app APPLICATION=(demo/demo-lora/demo-loramacnode)
 ```
