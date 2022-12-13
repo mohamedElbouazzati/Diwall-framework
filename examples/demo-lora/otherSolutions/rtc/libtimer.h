@@ -26,9 +26,12 @@
 #define FREQ 1000 //1ms
 #define COUNTER_TIMER CONFIG_CLOCK_FREQUENCY/FREQ
 
+typedef struct DateTimeSecond DateTimeSecond;
 typedef struct TIMERs_control TIMERs_control;
 typedef enum TimerSelect TimerSelect;
-typedef struct Time Time;
+typedef struct Alarm Alarm;
+typedef enum AlarmStates AlarmStates;
+
 /*********************************************************************
 TIMER HARDWARE FUNCTION
 **********************************************************************/  
@@ -87,26 +90,45 @@ void RunTimerWithConfig(
 /*********************************************************************
 TIMER SOFTWARE FUNCTION
 **********************************************************************/  
-struct Time
+
+struct DateTimeSecond
 {
-    uint16_t milliseconds;
+    uint16_t millisecond;
     uint64_t seconds;
 };
 
 
+enum AlarmStates
+{
+    ALARM_STOPPED  = 0,
+    ALARM_RUNNING  = 1,
+    ALARM_IN_PHASE = 2,
+    ALARM_OVERFLOW = 3,
+};
+
+struct Alarm
+{
+    bool enableAlarm; // set alarm or not
+    DateTimeSecond setValueRing; // alarm value
+    void (*RtcAlarmIrq)( void ); //alarm INTERRUPT
+    void (*RtcOverflowIrq)( void ); // débortement INTERRUPT
+};
+
 void updateSoftTimerInterrupt(void);
 
 void HwTimerInit(void);
+void HwTimerAlarmSetCallback(void (*RtcAlarmIrq)( void ));
+void HwTimerOverflowSetCallback(void (*RtcOverflowIrq)( void ));
 
-void HwTimerAlarmSetCallback(void (*f)(void));
-
-void HwTimerOverflowSetCallback(void (* f)(void) );
+bool HwTimerLoadAbsoluteTicks(uint32_t ticks);
 
 uint64_t HwTimerGetTime(void);
-/**
-* \brief Loads the timeout in terms of ticks into the hardware
-* \ticks Time value in terms of timer ticks
-*/
-bool HwTimerLoadAbsoluteTicks(uint32_t ticks);
+uint64_t HwTimerGetAlarm(void);
+
+AlarmStates HwTimerGetStatesAlarm(void);
+void HwTimerSetStatesAlarm(AlarmStates alarmN);
+//void setTimestamp(unsigned long seconds);
+
+/*void getDateTime(void);*/
 
 #endif

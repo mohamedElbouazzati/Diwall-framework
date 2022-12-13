@@ -7,6 +7,8 @@
 LOCAL DEFINITION
 **********************************************************************/  
 uint32_t TIMER_INT[NBTIMER]={TIMER0_INTERRUPT,TIMER1_INTERRUPT};
+DateTimeSecond dateTimeSecond;
+Alarm alarm={.enableAlarm=false};
 TIMERs_control TIMERs[NBTIMER]=
 {
     {
@@ -43,9 +45,7 @@ TIMERs_control TIMERs[NBTIMER]=
     }
 };
 
-Time timer={0,0};
-void (*TimerAlarmCallback)(void);
-void (*RtcOverflowIrq)(void);
+
 
 /*********************************************************************
 TIMER HARDWARE FUNCTION
@@ -131,59 +131,101 @@ Human Readable Time	Seconds
 1 Month (30.44 days)	2629743     Seconds
 1 Year (365.24 days)	31556926    Seconds
 ----------------------------------------------------------------------*/
-#define COMPARE_COUNT_MAX_VALUE ( uint32_t )( -1 )
-
 void updateSoftTimerInterrupt(void)
 {
-    timer.milliseconds+=1;
-    if(timer.milliseconds>=1000)
+    dateTimeSecond.millisecond+=1;
+    if(dateTimeSecond.millisecond>=1000)
     {
-        timer.milliseconds=0;
-        timer.seconds+=1;
-        printf("\rtimer: %lld s -         ",timer.seconds);
+        dateTimeSecond.millisecond=0;
+        dateTimeSecond.seconds+=1;
+        printf("\rdateTimeSecond: %lld s -         ",dateTimeSecond.seconds);
     }
-    TimerAlarmCallback();
-
+    //RtcProcess();//alarme (option 1) avec verification intégré plus lent
+    if(HwTimerGetStatesAlarm()>=2)  
+    {
+        // l'alarme est à la seconde ou ?
+        alarm.RtcAlarmIrq();// alarme (option 2)
+    }
 }
+
+AlarmStates HwTimerGetStatesAlarm(void)
+{
+    if(!alarm.enableAlarm)return ALARM_STOPPED;
+    else
+    {
+        if((dateTimeSecond.seconds>alarm.setValueRing.seconds)||
+        (dateTimeSecond.seconds==alarm.setValueRing.seconds&&dateTimeSecond.millisecond>alarm.setValueRing.millisecond))
+        return ALARM_OVERFLOW;
+       
+
+        else if((dateTimeSecond.seconds==alarm.setValueRing.seconds
+        &&dateTimeSecond.millisecond>=alarm.setValueRing.millisecond))
+        return ALARM_IN_PHASE;
+
+        else
+        return ALARM_RUNNING;
+    }
+}
+
 
 
 void HwTimerInit(void)
 {
-    timer.seconds=0;
-    timer.milliseconds=0;
+    dateTimeSecond.millisecond=0;
+    dateTimeSecond.seconds=1670538510;
+
     RunTimerWithConfig(COUNTER_TIMER,true,true,true,true,TIMER1);
 }
 
-void HwTimerAlarmSetCallback(void (*f)(void))
+
+/*return value in ms*/
+uint64_t HwTimerGetTime(void) 
 {
-    TimerAlarmCallback=f;
+    return dateTimeSecond.millisecond+dateTimeSecond.seconds*1000;
 }
 
-void HwTimerOverflowSetCallback(void (* f)(void) )
+void HwTimerAlarmSetCallback(void (*RtcAlarmIrq)( void ))
 {
-    RtcOverflowIrq=f;
+    alarm.RtcAlarmIrq=RtcAlarmIrq;
 }
 
-uint64_t HwTimerGetTime(void)
+void HwTimerOverflowSetCallback(void (*RtcOverflowIrq)( void ))
 {
-    return timer.seconds*1000+timer.milliseconds;
+    alarm.RtcOverflowIrq=RtcOverflowIrq;
 }
 
-/**
-* \brief Loads the timeout in terms of ticks into the hardware
-* \ticks Time value in terms of timer ticks
-*/
-bool HwTimerLoadAbsoluteTicks(uint32_t ticks)
+/* Le minimum du timer a set en value*/
+#define MINIMUM_DELAY_MS 5U
+bool HwTimerLoadAbsoluteTicks(uint32_t ticks) //?
 {
-    uint64_t current = HwTimerGetTime() ;
-    if((ticks - current- 1) >= (COMPARE_COUNT_MAX_VALUE >> 1)) {
-        // if difference is more than half of max assume timer has passed
-        return false;
-    }
-
-    if((ticks - current) < 10) {
-        // if too close the matching interrupt does not trigger, so handle same as passed
-        return false;
-    }
+    if((ticks > MINIMUM_DELAY_MS))
     return true;
+    else false;
 }
+
+void HwTimerSetStatesAlarm(AlarmStates alarmN)
+{
+    switch (alarmN)
+    {
+        case ALARM_RUNNING:     alarm.enableAlarm=true;     break;
+        
+        default:                alarm.enableAlarm=false;     break;
+    }
+}
+
+uint64_t HwTimerGetAlarm(void) 
+{
+    return alarm.setValueRing.millisecond+alarm.setValueRing.seconds*1000;
+}
+
+/*
+void setTimestamp(unsigned long seconds)
+{
+    dateTime.hours=(unsigned char)(seconds/3600)%24;
+    dateTime.minutes=(unsigned char)(seconds/60)%60;
+    dateTime.seconds=(unsigned char)seconds%60;
+ 
+    dateTime.day=(unsigned char)((seconds/86400)%32);
+    dateTime.month=(unsigned char)((seconds/2629743)%13);
+    dateTime.year=(unsigned short)(seconds/31556926);
+}*/
