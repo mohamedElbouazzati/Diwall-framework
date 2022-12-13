@@ -7,7 +7,7 @@
 #include <generated/csr.h>
 #include <irq.h>
 #include "tools/isr.h"
-#include "tools/libisr.h"
+#include "tools/libdio.h"
 #include "tools/libtimer.h"
 
 #include "timer.h"
@@ -49,13 +49,11 @@ void iotest(void);
 //void MODE_GPIO(uint32_t num, uint8_t mode);
 //uint32_t READ_GPIO(uint32_t num);
 //void WRITE_GPIO(uint32_t num, bool value);
-
-
 //void IRQTEST (void) __attribute__ ((interrupt ("machine")));
 
 void iotest(void)
 {   
-    HwTimerInit();//RunTimerWithConfig(COUNTER_TIMER,true,true,true,true,TIMER1);
+    HwTimerInit();
     TimerInit( &Led1Timer, OnLed1TimerEvent );
     #define VAL 1000
     TimerSetValue( &Led1Timer, VAL );
@@ -74,9 +72,9 @@ void iotest(void)
             Led1TimerEvent = false;
 
             // Switch LED 1 OFF
-             printf("led 1 off \n ");
+            printf("led 1 off \n ");
             // Switch LED 2 ON
-             printf("led 2 on \n ");
+            printf("led 2 on \n ");
             TimerStart( &Led2Timer );
         }
         
@@ -85,9 +83,9 @@ void iotest(void)
             Led2TimerEvent = false;
 
             // Switch LED 2 OFF
-          printf("led 2 off \n ");
+            printf("led 2 off \n ");
             // Switch LED 3 ON
-         printf("led 3 on \n ");
+            printf("led 3 on \n ");
             TimerStart( &Led3Timer );
         }
 
@@ -102,7 +100,6 @@ void iotest(void)
             TimerStart( &Led1Timer );
         }
     }
-
 }
 
 

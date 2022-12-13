@@ -27,7 +27,7 @@
 #include "../system/delay.h"
 #include "../radio/radio.h"
 #include "sx1276-board.h"
-#include "../../tools/libisr.h" 
+#include "../../tools/libdio.h" 
 #include <generated/csr.h>
 #include "sx1276-board.h"
 /*!

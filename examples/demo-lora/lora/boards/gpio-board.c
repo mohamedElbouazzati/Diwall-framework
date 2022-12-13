@@ -22,7 +22,7 @@
  */
 
 #include "utilities.h"
-#include "../../tools/libisr.h"
+#include "../../tools/libdio.h"
 #include "board-config.h"
 #include "rtc-board.h"
 #include "gpio-board.h"

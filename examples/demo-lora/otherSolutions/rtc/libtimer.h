@@ -82,7 +82,7 @@ void time0_init(void);
 void time1_init(void);
 void timer1_isr(void);   
 void timer0_isr(void);   
-void RunTimerWithConfig(
+void InitTimer(
  uint32_t loadReloadValue,bool enableReaload,
  bool enableTimer, bool enableUptadate,
  bool enableInterrupt, TimerSelect timerSelect);

@@ -29,7 +29,6 @@
 #include "timer.h"
 #include "systime.h"
 #include "gpio.h"
-
 #include "rtc-board.h"
 
 #define RTC_DEBUG_ENABLE                            1
@@ -47,6 +46,10 @@ static bool RtcInitialized = false;
 static volatile bool RtcTimeoutPendingInterrupt = false;
 static volatile bool RtcTimeoutPendingPolling = false;
 
+/**
+ * @brief definition state of alarm.
+ * 
+ */
 typedef enum AlarmStates_e
 {
     ALARM_STOPPED = 0,
@@ -54,7 +57,7 @@ typedef enum AlarmStates_e
 } AlarmStates_t;
 
 /*!
- * RTC timer context 
+ * RTC timer context
  */
 typedef struct
 {
@@ -93,9 +96,8 @@ static void RtcAlarmIrq( void );
  */
 static void RtcOverflowIrq( void );
 
-void RtcInit( void )//ok
+void RtcInit( void )
 {   
-    printf("RtcInit()\n");
     if( RtcInitialized == false )
     {
 #if( RTC_DEBUG_GPIO_STATE == RTC_DEBUG_ENABLE )
@@ -113,30 +115,28 @@ void RtcInit( void )//ok
     }
 }
 
-uint32_t RtcSetTimerContext( void )//ok
+uint32_t RtcSetTimerContext( void )
 {
-    //printf("RtcSetTimerContext()\n");
     RtcTimerContext.Time = ( uint32_t )HwTimerGetTime( );
     return ( uint32_t )RtcTimerContext.Time;
 }
 
-uint32_t RtcGetTimerContext( void )//ok
+uint32_t RtcGetTimerContext( void )
 {
-    //printf("RtcGetTimerContext()\n");
     return RtcTimerContext.Time;
 }
 
-uint32_t RtcGetMinimumTimeout( void )//ok
+uint32_t RtcGetMinimumTimeout( void )
 {
     return( MIN_ALARM_DELAY );
 }
 
-uint32_t RtcMs2Tick( TimerTime_t milliseconds )//ok
+uint32_t RtcMs2Tick( TimerTime_t milliseconds )
 {
     return ( uint32_t )( ( ( ( uint64_t )milliseconds ) << 10 ) / 1000 );
 }
 
-TimerTime_t RtcTick2Ms( uint32_t tick )//ok
+TimerTime_t RtcTick2Ms( uint32_t tick )
 {
     uint32_t seconds = tick >> 10;
 
@@ -144,56 +144,44 @@ TimerTime_t RtcTick2Ms( uint32_t tick )//ok
     return ( ( seconds * 1000 ) + ( ( tick * 1000 ) >> 10 ) );
 }
 
-void RtcDelayMs( TimerTime_t milliseconds )//ok
+void RtcDelayMs( TimerTime_t milliseconds )
 {   
-    printf("RtcDelayMs()\n");
     uint32_t delayTicks = 0;
     uint32_t refTicks = RtcGetTimerValue( );
 
     delayTicks = RtcMs2Tick( milliseconds );
 
-    // Wait delay ms
     while( ( ( RtcGetTimerValue( ) - refTicks ) ) < delayTicks );
-    /*
-    {
-        __NOP( );
-    }*/
 }
 
-void RtcSetAlarm( uint32_t timeout )//ok
+void RtcSetAlarm( uint32_t timeout )
 {
-    printf("RtcSetAlarm()\n");
     RtcStartAlarm( timeout );
 }
 
-void RtcStopAlarm( void )//ok
+void RtcStopAlarm( void )
 {
-    printf("RtcStopAlarm()\n");
     RtcTimerContext.AlarmState = ALARM_STOPPED;
 }
 
-void RtcStartAlarm( uint32_t timeout )//ok
+void RtcStartAlarm( uint32_t timeout )
 {
     CRITICAL_SECTION_BEGIN( );
-    printf("RtcStartAlarm()\n");
     RtcStopAlarm( );
-
-    RtcTimerContext.Delay = timeout;//timeout*1000;
-    printf("RtcTimerContext.Delay = %d\n",RtcTimerContext.Delay);
-
-#if( RTC_DEBUG_PRINTF_STATE == RTC_DEBUG_ENABLE )
-    printf( "TIMEOUT \t%010ld\t%010ld\n", RtcTimerContext.Time, RtcTimerContext.Delay );
-#endif
-#if( RTC_DEBUG_GPIO_STATE == RTC_DEBUG_ENABLE )
-    GpioWrite( &DbgRtcPin0, 0 );
-    GpioWrite( &DbgRtcPin1, 0 );
-#endif
+    RtcTimerContext.Delay = timeout;
+    #if( RTC_DEBUG_PRINTF_STATE == RTC_DEBUG_ENABLE )
+        printf( "TIMEOUT \t%010ld\t%010ld\n", RtcTimerContext.Time, RtcTimerContext.Delay );
+    #endif
+    #if( RTC_DEBUG_GPIO_STATE == RTC_DEBUG_ENABLE )
+        GpioWrite( &DbgRtcPin0, 0 );
+        GpioWrite( &DbgRtcPin1, 0 );
+    #endif
 
     RtcTimeoutPendingInterrupt = true;
     RtcTimeoutPendingPolling = false;
 
     RtcTimerContext.AlarmState = ALARM_RUNNING;
-    printf("ALARM RUNNING\n");
+
     if( HwTimerLoadAbsoluteTicks( RtcTimerContext.Time + RtcTimerContext.Delay ) == false )
     {
         // If timer already passed
@@ -210,36 +198,27 @@ void RtcStartAlarm( uint32_t timeout )//ok
     CRITICAL_SECTION_END( );
 }
 
-uint32_t RtcGetTimerValue( void ) //ok
+uint32_t RtcGetTimerValue( void )
 {
-    //printf("RtcGetTimerValue()\n");
     return ( uint32_t )HwTimerGetTime( );
 }
 
-uint32_t RtcGetTimerElapsedTime( void ) //ok
+uint32_t RtcGetTimerElapsedTime( void )
 {
-    uint32_t val =( uint32_t)(HwTimerGetTime( ) - RtcTimerContext.Time);
-    //printf("RtcGetTimerElapsedTime() = %d - %d =  %ld\n",HwTimerGetTime(),RtcTimerContext.Time,val);
-    return val;
+    return ( uint32_t)(HwTimerGetTime( ) - RtcTimerContext.Time);
 }
 
-uint32_t RtcGetCalendarTime( uint16_t *milliseconds ) //ok
+uint32_t RtcGetCalendarTime( uint16_t *milliseconds )
 {
-    printf("RtcGetCalendarTime()\n");
     uint32_t ticks = 0;
-
     uint32_t calendarValue = HwTimerGetTime( );
-
     uint32_t seconds = ( uint32_t )calendarValue >> 10;
-
     ticks =  ( uint32_t )calendarValue & 0x3FF;
-
     *milliseconds = RtcTick2Ms( ticks );
-
     return seconds;
 }
 
-void RtcBkupWrite( uint32_t data0, uint32_t data1 )//ok
+void RtcBkupWrite( uint32_t data0, uint32_t data1 )
 {
     CRITICAL_SECTION_BEGIN( );
     RtcBkupRegisters[0] = data0;
@@ -247,7 +226,7 @@ void RtcBkupWrite( uint32_t data0, uint32_t data1 )//ok
     CRITICAL_SECTION_END( );
 }
 
-void RtcBkupRead( uint32_t* data0, uint32_t* data1 ) //ok
+void RtcBkupRead( uint32_t* data0, uint32_t* data1 )
 {
     CRITICAL_SECTION_BEGIN( );
     *data0 = RtcBkupRegisters[0];
@@ -255,25 +234,21 @@ void RtcBkupRead( uint32_t* data0, uint32_t* data1 ) //ok
     CRITICAL_SECTION_END( );
 }
 
-void RtcProcess( void ) //ok
+void RtcProcess( void )
 {
     CRITICAL_SECTION_BEGIN( );
-    //printf("Rtc0\n");
     if( (  RtcTimerContext.AlarmState == ALARM_RUNNING ) )//&& ( RtcTimeoutPendingPolling == true ) )
     {
-        //printf("Rtc1\n");
-        //printf("RtcGetTimerElapsedTime = %d   RtcTimerContext.Delay=%d\n",RtcGetTimerElapsedTime( ),RtcTimerContext.Delay);
         if( RtcGetTimerElapsedTime( ) >= RtcTimerContext.Delay )
         {
-            printf("ALARM RINGING BULUBULU\n");
             RtcTimerContext.AlarmState = ALARM_STOPPED;
 
             // Because of one shot the task will be removed after the callback
             RtcTimeoutPendingPolling = false;
-#if( RTC_DEBUG_GPIO_STATE == RTC_DEBUG_ENABLE )
-            GpioWrite( &DbgRtcPin0, 0 );
-            GpioWrite( &DbgRtcPin1, 1 );
-#endif
+            #if( RTC_DEBUG_GPIO_STATE == RTC_DEBUG_ENABLE )
+                        GpioWrite( &DbgRtcPin0, 0 );
+                        GpioWrite( &DbgRtcPin1, 1 );
+            #endif
             // NOTE: The handler should take less then 1 ms otherwise the clock shifts
             TimerIrqHandler( );
 #if( RTC_DEBUG_GPIO_STATE == RTC_DEBUG_ENABLE )
@@ -289,24 +264,25 @@ TimerTime_t RtcTempCompensation( TimerTime_t period, float temperature )//ok
     return period;
 }
 
-static void RtcAlarmIrq( void )//ok
+static void RtcAlarmIrq( void )
 {
     RtcProcess();
     /*
     RtcTimerContext.AlarmState = ALARM_STOPPED;
     // Because of one shot the task will be removed after the callback
     RtcTimeoutPendingInterrupt = false;
-#if( RTC_DEBUG_GPIO_STATE == RTC_DEBUG_ENABLE )
-    GpioWrite( &DbgRtcPin1, 1 );
-#endif
+    #if( RTC_DEBUG_GPIO_STATE == RTC_DEBUG_ENABLE )
+        GpioWrite( &DbgRtcPin1, 1 );
+    #endif
     // NOTE: The handler should take less then 1 ms otherwise the clock shifts
     TimerIrqHandler( );
-#if( RTC_DEBUG_GPIO_STATE == RTC_DEBUG_ENABLE )
-    GpioWrite( &DbgRtcPin1, 0 );
-#endif*/
+    #if( RTC_DEBUG_GPIO_STATE == RTC_DEBUG_ENABLE )
+        GpioWrite( &DbgRtcPin1, 0 );
+    #endif
+    */
 }
 
-static void RtcOverflowIrq( void )//ok
+static void RtcOverflowIrq( void )
 {
     //RtcTimerContext.Time += ( uint64_t )( 1 << 32 );
 }

@@ -49,47 +49,41 @@ Time timer={0,0,.RtcProcess=RtcProcess};
 /*********************************************************************
 TIMER HARDWARE FUNCTION
 **********************************************************************/  
-void time0_init(void)
-{
-	int t;
-	t = 2 * CONFIG_CLOCK_FREQUENCY;
-    TimerSelect timer=TIMER0;
 
-	/** Initialising timer0, for system functions **/
-	TIMERs[timer].en_write(0);//timer0_en_write(0);
-	TIMERs[timer].reload_write(t);
-	TIMERs[timer].load_write(t);
-	TIMERs[timer].en_write(1);	
-}
-
-void time1_init(void){
-	int t;
-	t = CONFIG_CLOCK_FREQUENCY;
-    TimerSelect timer=TIMER1;
-	/** Initialising timer1, for timing functions
-	 *  It is initialised in periodic mode in order to 
-	 * 	time longer than usual things
-	 *  **/
-	TIMERs[timer].en_write(0);//timer1_en_write(0);
-	TIMERs[timer].load_write(0);//timer1_load_write(0);
-	TIMERs[timer].reload_write(t);//timer1_reload_write(t);
-	TIMERs[timer].en_write(1);//timer1_en_write(1);
-	
-	// Enabling the interrupt
-	irq_setmask(irq_getmask() | (1 << TIMER1_INTERRUPT));
-	TIMERs[timer].ev_pending_write(1);//timer1_ev_pending_write(timer1_ev_pending_read());
-	TIMERs[timer].ev_enable_write(1);//time r1_ev_enable_write(1);
-}
-
-void RunTimerWithConfig(
+/**
+ * @brief This function is used to Config your TIMER.
+ * 
+ * @param loadReloadValue Value of counter in Load or Reload mode.
+ * @param enableReaload   Active Reaload or Load. 
+ *                        false : Load is set.
+ *                        true  : Reload is set.
+ * 
+ * @param enableTimer     Active timer.
+ *                        false : Timer off.
+ *                        true  : Timer on.
+ * 
+ * @param enableUptadate  Active update of timer.
+ *                        false : Timer update off.
+ *                        true  : Timer update on.
+ * 
+ * @param enableInterrupt Active interrupt of timer.
+ *                        false : Timer interrupt off.
+ *                        true  : Timer interrupt on.
+ * 
+ * @param timerSelect     Select timer to configure. 
+ *                        (TIMER|//<--TODO >|)
+ */
+void InitTimer(
  uint32_t loadReloadValue,bool enableReaload,
  bool enableTimer, bool enableUptadate,
  bool enableInterrupt, TimerSelect timerSelect)
 {
     // set value
-    enableReaload?
-    TIMERs[timerSelect].reload_write(loadReloadValue):
-    TIMERs[timerSelect].load_write(loadReloadValue);
+    enableReaload   ?
+    (TIMERs[timerSelect].load_write(0),
+    TIMERs[timerSelect].reload_write(loadReloadValue)):
+    (TIMERs[timerSelect].load_write(loadReloadValue),
+    TIMERs[timerSelect].reload_write(0));
 
     //update
     if(enableUptadate)TIMERs[timerSelect].update_value_write(1);
@@ -119,18 +113,13 @@ void timer0_isr(void){
 /*********************************************************************
 TIMER SOFTWARE FUNCTION
 **********************************************************************/  
-/*--------------------------------------------------------------------
-Human Readable Time	Seconds
-----------------------------------------------------------------------
-1 Minute                60          Seconds
-1 Hour	                3600        Seconds
-1 Day	                86400       Seconds
-1 Week	                604800      Seconds
-1 Month (30.44 days)	2629743     Seconds
-1 Year (365.24 days)	31556926    Seconds
-----------------------------------------------------------------------*/
+
 #define COMPARE_COUNT_MAX_VALUE ( uint32_t )( -1 )
 
+/**
+ * @brief this function is used to update the time register, 
+ *        every milisecond. 
+ */
 void updateSoftTimerInterrupt(void)
 {
     timer.milliseconds+=1;
@@ -138,8 +127,8 @@ void updateSoftTimerInterrupt(void)
     {
         timer.milliseconds=0;
         timer.seconds+=1;
-        //printf("\rtimer: %lld s -         ",timer.seconds);
     }
+
     if(timer.TimerAlarmCallback==NULL)// RTC SANS FONCTION INTERRUPTION
     {
         timer.RtcProcess();
@@ -150,33 +139,51 @@ void updateSoftTimerInterrupt(void)
     }
 }
 
-
+/**
+ * @brief This function is used to initialise the TIMER1.
+ */
 void HwTimerInit(void)
 {
     timer.seconds=0;
     timer.milliseconds=0;
-    RunTimerWithConfig(COUNTER_TIMER,true,true,true,true,TIMER1);
+    InitTimer(COUNTER_TIMER,true,true,true,true,TIMER1);
 }
-
+/**
+ * @brief This function is used to set Alarm call back function.
+ * 
+ * @param f function handler alarm.
+ */
 void HwTimerAlarmSetCallback(void (*f)(void))
 {
     timer.TimerAlarmCallback=f;
 }
 
+/**
+ * @brief This function is used to set Overflow call back function.
+ * 
+ * @param f Function handler overflow.
+ */
 void HwTimerOverflowSetCallback(void (* f)(void) )
 {
     timer.RtcOverflowIrq=f;
 }
 
+/**
+ * @brief This function is used to retrieve value of timer since first start.
+ * 
+ * @return uint64_t : Value of timer since first start.
+ */
 uint64_t HwTimerGetTime(void)
 {
     return timer.seconds*1000+timer.milliseconds;
 }
 
 /**
-* \brief Loads the timeout in terms of ticks into the hardware
-* \ticks Time value in terms of timer ticks
-*/
+ * @brief Loads the timeout in terms of ticks into the hardware
+ * 
+ * @param ticks Time value in terms of timer ticks
+ * @return true : value set is right for hardware.
+ */
 bool HwTimerLoadAbsoluteTicks(uint32_t ticks)
 {
     uint64_t current = HwTimerGetTime() ;

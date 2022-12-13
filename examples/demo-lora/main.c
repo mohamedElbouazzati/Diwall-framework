@@ -7,7 +7,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "tools/libisr.h"
+#include "tools/libdio.h"
 #include "lora/system/gpio.h"
 #include "lora/radio/sx1276.h"
 #include "lora/boards/sx1276-board.h"
@@ -274,8 +274,7 @@ int main(void)
 		irq_setmask(0);
 		irq_setie(1);
 	#endif
-	time0_init();
-	//time1_init();
+
 	uart_init();
 	
     //rst_init();

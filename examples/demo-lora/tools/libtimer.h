@@ -22,11 +22,20 @@
 
 #include "defint.h"
 #include "../lora/boards/rtc-board.h"
-#define NBTIMER 2
 
-#define FREQ 1000 //1ms
+// Number of Timer available in hardward.
+#define NBTIMER 2 //<--TODO HERE
+
+// Set frequency you want
+#define FREQ 1000 //<--TODO HERE
+
+// Value to set in register counter of your timer.
 #define COUNTER_TIMER CONFIG_CLOCK_FREQUENCY/FREQ
 
+/**
+ * @brief Control structure of the TIMERs 
+ * 
+ */
 typedef struct TIMERs_control TIMERs_control;
 struct TIMERs_control
 {
@@ -51,7 +60,6 @@ struct TIMERs_control
 
     uint32_t (*ev_enable_read)(void);           // ENABLE INTERRUPTION
     void (*ev_enable_write)(uint32_t v);
-
 };
 
 /**
@@ -64,6 +72,7 @@ enum TimerSelect
     TIMER0 = 0,
     TIMER1 = 1,
     TIMER2 = 2,
+        //<--TODO HERE
 };
 
 typedef struct Time Time;
@@ -87,7 +96,7 @@ void time0_init(void);
 void time1_init(void);
 void timer1_isr(void);   
 void timer0_isr(void);   
-void RunTimerWithConfig(
+void InitTimer(
  uint32_t loadReloadValue,bool enableReaload,
  bool enableTimer, bool enableUptadate,
  bool enableInterrupt, TimerSelect timerSelect);
