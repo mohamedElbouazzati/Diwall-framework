@@ -21,21 +21,13 @@
 #define LIBTIMER_H
 
 #include "defint.h"
+#include "../lora/boards/rtc-board.h"
 #define NBTIMER 2
 
 #define FREQ 1000 //1ms
 #define COUNTER_TIMER CONFIG_CLOCK_FREQUENCY/FREQ
 
 typedef struct TIMERs_control TIMERs_control;
-typedef enum TimerSelect TimerSelect;
-typedef struct Time Time;
-/*********************************************************************
-TIMER HARDWARE FUNCTION
-**********************************************************************/  
-/**
- * @brief Control structure of the TIMERS 
- * 
- */
 struct TIMERs_control
 {
     uint32_t (*load_read)(void);        //ONE SHOT
@@ -66,7 +58,7 @@ struct TIMERs_control
  * @brief Selection structure of TIMERS 
  * 
  */
-
+typedef enum TimerSelect TimerSelect;
 enum TimerSelect 
 {
     TIMER0 = 0,
@@ -74,7 +66,23 @@ enum TimerSelect
     TIMER2 = 2,
 };
 
+typedef struct Time Time;
+struct Time
+{
+    uint16_t milliseconds;
+    uint64_t seconds;
+    void (*TimerAlarmCallback)(void);
+    void (*RtcOverflowIrq)(void);
+    void (* RtcProcess)( void )
+};
 
+/*********************************************************************
+TIMER HARDWARE FUNCTION
+**********************************************************************/  
+/**
+ * @brief Control structure of the TIMERS 
+ * 
+ */
 void time0_init(void);
 void time1_init(void);
 void timer1_isr(void);   
@@ -87,13 +95,6 @@ void RunTimerWithConfig(
 /*********************************************************************
 TIMER SOFTWARE FUNCTION
 **********************************************************************/  
-struct Time
-{
-    uint16_t milliseconds;
-    uint64_t seconds;
-};
-
-
 void updateSoftTimerInterrupt(void);
 
 void HwTimerInit(void);

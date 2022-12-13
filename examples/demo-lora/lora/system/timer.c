@@ -364,6 +364,7 @@ TimerTime_t TimerGetElapsedTime( TimerTime_t past )
 
 static void TimerSetTimeout( TimerEvent_t *obj )
 {
+    printf("TimerSetTimeout()\n");
     int32_t minTicks= RtcGetMinimumTimeout( );
     obj->IsNext2Expire = true;
 

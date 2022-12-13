@@ -162,6 +162,7 @@ void RtcDelayMs( TimerTime_t milliseconds )//ok
 
 void RtcSetAlarm( uint32_t timeout )//ok
 {
+    printf("RtcSetAlarm()\n");
     RtcStartAlarm( timeout );
 }
 
@@ -177,7 +178,8 @@ void RtcStartAlarm( uint32_t timeout )//ok
     printf("RtcStartAlarm()\n");
     RtcStopAlarm( );
 
-    RtcTimerContext.Delay = timeout;
+    RtcTimerContext.Delay = timeout;//timeout*1000;
+    printf("RtcTimerContext.Delay = %d\n",RtcTimerContext.Delay);
 
 #if( RTC_DEBUG_PRINTF_STATE == RTC_DEBUG_ENABLE )
     printf( "TIMEOUT \t%010ld\t%010ld\n", RtcTimerContext.Time, RtcTimerContext.Delay );

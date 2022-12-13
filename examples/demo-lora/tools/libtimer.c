@@ -43,9 +43,8 @@ TIMERs_control TIMERs[NBTIMER]=
     }
 };
 
-Time timer={0,0};
-void (*TimerAlarmCallback)(void);
-void (*RtcOverflowIrq)(void);
+Time timer={0,0,.RtcProcess=RtcProcess};
+
 
 /*********************************************************************
 TIMER HARDWARE FUNCTION
@@ -102,7 +101,6 @@ void RunTimerWithConfig(
         irq_setmask(irq_getmask() | (1 << TIMER_INT[timerSelect]));
         TIMERs[timerSelect].ev_enable_write(1);
     }
-    printf("\n");
 }
 
 void timer1_isr(void){
@@ -142,8 +140,14 @@ void updateSoftTimerInterrupt(void)
         timer.seconds+=1;
         printf("\rtimer: %lld s -         ",timer.seconds);
     }
-    TimerAlarmCallback();
-
+    if(timer.TimerAlarmCallback==NULL)// RTC SANS FONCTION INTERRUPTION
+    {
+        timer.RtcProcess();
+    }
+    else                            // RTC AVEC FONCTION INTERRUPTION
+    {
+        timer.TimerAlarmCallback();
+    }
 }
 
 
@@ -156,12 +160,12 @@ void HwTimerInit(void)
 
 void HwTimerAlarmSetCallback(void (*f)(void))
 {
-    TimerAlarmCallback=f;
+    timer.TimerAlarmCallback=f;
 }
 
 void HwTimerOverflowSetCallback(void (* f)(void) )
 {
-    RtcOverflowIrq=f;
+    timer.RtcOverflowIrq=f;
 }
 
 uint64_t HwTimerGetTime(void)

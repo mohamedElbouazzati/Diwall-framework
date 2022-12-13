@@ -67,9 +67,7 @@ Allocation des symboles communs
 Symbole commun      taille            fichier
 
 b                   0x6e0             ./obj/donut.o
-RtcOverflowIrq      0x4               ./obj/libtimer.o
 z                   0x6e0             ./obj/donut.o
-TimerAlarmCallback  0x4               ./obj/libtimer.o
 Buf                 0x4               ./obj/test1.o
 TxTimeoutTimer      0x18              ./obj/sx1276.o
 Buffer              0x4               ./obj/test1.o
@@ -221,6 +219,8 @@ Sections d'entrée éliminées
  .group         0x0000000000000000        0xc ./obj/isr.o
  .group         0x0000000000000000        0xc ./obj/isr.o
  .group         0x0000000000000000        0xc ./obj/isr.o
+ .group         0x0000000000000000        0xc ./obj/isr.o
+ .group         0x0000000000000000        0xc ./obj/isr.o
  .data          0x0000000000000000        0x0 ./obj/isr.o
  .bss           0x0000000000000000        0x0 ./obj/isr.o
  .debug_macro   0x0000000000000000      0x75a ./obj/isr.o
@@ -250,6 +250,7 @@ Sections d'entrée éliminées
  .debug_macro   0x0000000000000000       0x20 ./obj/isr.o
  .debug_macro   0x0000000000000000       0xeb ./obj/isr.o
  .debug_macro   0x0000000000000000       0x22 ./obj/isr.o
+ .debug_macro   0x0000000000000000       0x86 ./obj/isr.o
  .eh_frame      0x0000000000000000       0x40 ./obj/isr.o
  .group         0x0000000000000000        0xc ./obj/libisr.o
  .group         0x0000000000000000        0xc ./obj/libisr.o
@@ -373,6 +374,8 @@ Sections d'entrée éliminées
  .group         0x0000000000000000        0xc ./obj/libtimer.o
  .group         0x0000000000000000        0xc ./obj/libtimer.o
  .group         0x0000000000000000        0xc ./obj/libtimer.o
+ .group         0x0000000000000000        0xc ./obj/libtimer.o
+ .bss           0x0000000000000000        0x0 ./obj/libtimer.o
  .debug_macro   0x0000000000000000      0x75a ./obj/libtimer.o
  .debug_macro   0x0000000000000000       0x94 ./obj/libtimer.o
  .debug_macro   0x0000000000000000      0x4f7 ./obj/libtimer.o
@@ -386,20 +389,20 @@ Sections d'entrée éliminées
  .debug_macro   0x0000000000000000       0x30 ./obj/libtimer.o
  .debug_macro   0x0000000000000000      0x53e ./obj/libtimer.o
  .debug_macro   0x0000000000000000       0x22 ./obj/libtimer.o
+ .debug_macro   0x0000000000000000       0x1c ./obj/libtimer.o
+ .debug_macro   0x0000000000000000       0x16 ./obj/libtimer.o
  .debug_macro   0x0000000000000000       0x27 ./obj/libtimer.o
  .debug_macro   0x0000000000000000      0x183 ./obj/libtimer.o
  .debug_macro   0x0000000000000000       0x3b ./obj/libtimer.o
  .debug_macro   0x0000000000000000       0x34 ./obj/libtimer.o
- .debug_macro   0x0000000000000000       0x82 ./obj/libtimer.o
+ .debug_macro   0x0000000000000000       0x35 ./obj/libtimer.o
  .debug_macro   0x0000000000000000      0x4cc ./obj/libtimer.o
  .debug_macro   0x0000000000000000       0x58 ./obj/libtimer.o
  .debug_macro   0x0000000000000000       0x16 ./obj/libtimer.o
- .debug_macro   0x0000000000000000       0x97 ./obj/libtimer.o
  .debug_macro   0x0000000000000000       0x35 ./obj/libtimer.o
  .debug_macro   0x0000000000000000       0x10 ./obj/libtimer.o
- .debug_macro   0x0000000000000000       0x20 ./obj/libtimer.o
  .debug_macro   0x0000000000000000       0xeb ./obj/libtimer.o
- .eh_frame      0x0000000000000000      0x390 ./obj/libtimer.o
+ .eh_frame      0x0000000000000000      0x3a8 ./obj/libtimer.o
  .group         0x0000000000000000        0xc ./obj/donut.o
  .group         0x0000000000000000        0xc ./obj/donut.o
  .group         0x0000000000000000        0xc ./obj/donut.o
@@ -538,6 +541,7 @@ Sections d'entrée éliminées
  .group         0x0000000000000000        0xc ./obj/iotest.o
  .group         0x0000000000000000        0xc ./obj/iotest.o
  .group         0x0000000000000000        0xc ./obj/iotest.o
+ .group         0x0000000000000000        0xc ./obj/iotest.o
  .data          0x0000000000000000        0x0 ./obj/iotest.o
  .debug_macro   0x0000000000000000      0x75a ./obj/iotest.o
  .debug_macro   0x0000000000000000      0x4f7 ./obj/iotest.o
@@ -572,8 +576,9 @@ Sections d'entrée éliminées
  .debug_macro   0x0000000000000000     0x14bd ./obj/iotest.o
  .debug_macro   0x0000000000000000      0x7a0 ./obj/iotest.o
  .debug_macro   0x0000000000000000       0x16 ./obj/iotest.o
- .debug_macro   0x0000000000000000       0x1c ./obj/iotest.o
  .debug_macro   0x0000000000000000       0x86 ./obj/iotest.o
+ .debug_macro   0x0000000000000000       0x1c ./obj/iotest.o
+ .debug_macro   0x0000000000000000       0x16 ./obj/iotest.o
  .eh_frame      0x0000000000000000       0x88 ./obj/iotest.o
  .group         0x0000000000000000        0xc ./obj/main.o
  .group         0x0000000000000000        0xc ./obj/main.o
@@ -633,9 +638,11 @@ Sections d'entrée éliminées
  .debug_macro   0x0000000000000000      0x183 ./obj/main.o
  .debug_macro   0x0000000000000000       0x3b ./obj/main.o
  .debug_macro   0x0000000000000000       0x34 ./obj/main.o
+ .debug_macro   0x0000000000000000      0x16d ./obj/main.o
  .debug_macro   0x0000000000000000      0x37a ./obj/main.o
  .debug_macro   0x0000000000000000       0x35 ./obj/main.o
  .debug_macro   0x0000000000000000       0x16 ./obj/main.o
+ .debug_macro   0x0000000000000000       0x43 ./obj/main.o
  .debug_macro   0x0000000000000000       0x35 ./obj/main.o
  .debug_macro   0x0000000000000000      0x4cc ./obj/main.o
  .debug_macro   0x0000000000000000       0x58 ./obj/main.o
@@ -1455,7 +1462,7 @@ Sections d'entrée éliminées
  .debug_macro   0x0000000000000000       0x10 ./obj/rtc-board.o
  .debug_macro   0x0000000000000000       0x35 ./obj/rtc-board.o
  .debug_macro   0x0000000000000000       0xa6 ./obj/rtc-board.o
- .eh_frame      0x0000000000000000      0x248 ./obj/rtc-board.o
+ .eh_frame      0x0000000000000000      0x258 ./obj/rtc-board.o
  .group         0x0000000000000000        0xc ./obj/spi-board.o
  .group         0x0000000000000000        0xc ./obj/spi-board.o
  .group         0x0000000000000000        0xc ./obj/spi-board.o
@@ -2909,7 +2916,7 @@ LOAD /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../
 LOAD /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/liblitesata/liblitesata.a
                 0x0000000000000000                __DYNAMIC = 0x0
 
-.text           0x0000000040000000     0x6e7c
+.text           0x0000000040000000     0x6ee4
                 0x0000000040000000                _ftext = .
  *crt0*(.text)
  .text          0x0000000040000000      0x128 ./obj/crt0.o
@@ -2955,572 +2962,570 @@ LOAD /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../
                 0x0000000040000ca8                Write_SPI
                 0x0000000040000cf8                Read_SPI
                 0x0000000040000d4c                WriteRead_SPI
- .text          0x0000000040000d74      0x51c ./obj/libtimer.o
+ .text          0x0000000040000d74      0x538 ./obj/libtimer.o
                 0x0000000040000f1c                time0_init
                 0x0000000040000f78                time1_init
                 0x0000000040000ff0                RunTimerWithConfig
-                0x00000000400010e8                timer0_isr
-                0x00000000400010fc                updateSoftTimerInterrupt
-                0x0000000040001174                timer1_isr
-                0x00000000400011ac                HwTimerInit
-                0x00000000400011e8                HwTimerAlarmSetCallback
-                0x00000000400011f4                HwTimerOverflowSetCallback
-                0x0000000040001200                HwTimerGetTime
-                0x0000000040001238                HwTimerLoadAbsoluteTicks
- .text          0x0000000040001290      0x3a4 ./obj/donut.o
-                0x0000000040001290                donut
- .text          0x0000000040001634        0xc ./obj/helloc.o
-                0x0000000040001634                helloc
- .text          0x0000000040001640      0x1b0 ./obj/iotest.o
-                0x0000000040001640                OnLed2TimerEvent
-                0x0000000040001650                OnLed3TimerEvent
-                0x0000000040001660                OnLed1TimerEvent
-                0x000000004000168c                iotest
- .text          0x00000000400017f0      0x200 ./obj/main.o
-                0x0000000040001890                testgpio
-                0x00000000400018f4                _spi
- .text.startup  0x00000000400019f0      0x3b0 ./obj/main.o
-                0x00000000400019f0                main
- .text          0x0000000040001da0       0x74 ./obj/simple.o
-                0x0000000040001da0                simple_test
- .text          0x0000000040001e14      0x2bc ./obj/test1.o
-                0x0000000040001e14                OnRadioTxTimeout
-                0x0000000040001e34                OnTxDone
-                0x0000000040001e60                OnRxDone
-                0x0000000040001f08                test1
- .text          0x00000000400020d0      0x158 ./obj/testspi.o
-                0x00000000400020d0                test0
-                0x00000000400020d4                f
-                0x000000004000216c                testspi
-                0x0000000040002170                print_all_reg
- .text          0x0000000040002228       0x28 ./obj/delay.o
-                0x0000000040002228                Delay
-                0x000000004000224c                DelayMs
- .text          0x0000000040002250       0x1c ./obj/gpio.o
-                0x0000000040002250                GpioInit
-                0x0000000040002254                GpioSetContext
-                0x0000000040002258                GpioSetInterrupt
-                0x000000004000225c                GpioRemoveInterrupt
-                0x0000000040002260                GpioWrite
-                0x0000000040002264                GpioToggle
-                0x0000000040002268                GpioRead
- .text          0x000000004000226c      0x3d4 ./obj/timer.o
-                0x00000000400022e8                TimerInit
-                0x0000000040002304                TimerSetContext
-                0x000000004000230c                TimerStart
-                0x00000000400023dc                TimerIsStarted
-                0x00000000400023e4                TimerIrqHandler
-                0x00000000400024c0                TimerStop
-                0x0000000040002560                TimerReset
-                0x0000000040002588                TimerSetValue
-                0x00000000400025dc                TimerGetCurrentTime
-                0x00000000400025f4                TimerGetElapsedTime
-                0x0000000040002638                TimerTempCompensation
-                0x000000004000263c                TimerProcess
- .text          0x0000000040002640     0x1fe4 ./obj/sx1276.o
-                0x00000000400026a8                SX1276GetStatus
-                0x00000000400026b4                SX1276GetTimeOnAir
-                0x00000000400027f8                SX1276WriteBuffer
-                0x0000000040002874                SX1276Write
-                0x0000000040002898                SX1276SetChannel
-                0x0000000040002910                SX1276ReadBuffer
-                0x0000000040002988                SX1276Read
-                0x0000000040002cd8                SX1276SetSleep
-                0x0000000040002cfc                SX1276SetStby
-                0x0000000040002d44                SX1276Send
-                0x0000000040002f88                SX1276SetRx
-                0x00000000400032a4                SX1276StartCad
-                0x0000000040003310                SX1276ReadRssi
-                0x0000000040003384                SX1276SetModem
-                0x0000000040003444                SX1276Init
-                0x00000000400034fc                SX1276IsChannelFree
-                0x00000000400035bc                SX1276Random
-                0x000000004000363c                SX1276SetRxConfig
-                0x0000000040003a68                SX1276SetTxConfig
-                0x0000000040003e10                SX1276SetTxContinuousWave
-                0x000000004000442c                SX1276SetMaxPayloadLength
-                0x000000004000448c                SX1276SetPublicNetwork
-                0x0000000040004608                SX1276GetWakeupTime
- .text          0x0000000040004624       0xcc ./obj/board.o
-                0x0000000040004624                BoardCriticalSectionBegin
-                0x0000000040004628                BoardCriticalSectionEnd
-                0x000000004000462c                BoardInitPeriph
-                0x0000000040004630                BoardInitMcu
-                0x0000000040004648                BoardResetMcu
-                0x000000004000464c                BoardDeInitMcu
-                0x0000000040004654                BoardGetRandomSeed
-                0x000000004000465c                BoardGetUniqueId
-                0x0000000040004660                BoardGetBatteryLevel
-                0x0000000040004668                GetBoardPowerSource
-                0x0000000040004670                BoardLowPowerHandler
-                0x0000000040004674                _write
-                0x00000000400046a0                _read
- .text          0x00000000400046f0        0x4 ./obj/delay-board.o
-                0x00000000400046f0                DelayMsMcu
- .text          0x00000000400046f4       0xa0 ./obj/gpio-board.o
-                0x00000000400046f4                GpioMcuInit
-                0x00000000400046fc                GpioMcuSetContext
-                0x0000000040004704                GpioMcuSetInterrupt
-                0x0000000040004748                GpioMcuRemoveInterrupt
-                0x0000000040004774                GpioMcuToggle
-                0x0000000040004784                GpioMcuRead
-                0x000000004000478c                GpioMcuWrite
- .text          0x0000000040004794      0x3f8 ./obj/rtc-board.o
-                0x0000000040004798                RtcSetTimerContext
-                0x00000000400047c4                RtcInit
-                0x0000000040004828                RtcGetTimerContext
-                0x0000000040004850                RtcGetMinimumTimeout
-                0x0000000040004858                RtcMs2Tick
-                0x0000000040004884                RtcTick2Ms
-                0x00000000400048a4                RtcStopAlarm
-                0x00000000400048cc                RtcStartAlarm
-                0x000000004000497c                RtcSetAlarm
-                0x0000000040004980                RtcGetTimerValue
-                0x00000000400049a0                RtcDelayMs
-                0x0000000040004a00                RtcGetTimerElapsedTime
-                0x0000000040004a30                RtcGetCalendarTime
-                0x0000000040004a7c                RtcBkupWrite
-                0x0000000040004ac4                RtcBkupRead
-                0x0000000040004b14                RtcProcess
-                0x0000000040004b88                RtcTempCompensation
- .text          0x0000000040004b8c       0x48 ./obj/spi-board.o
-                0x0000000040004b8c                SpiInit
-                0x0000000040004b90                SpiDeInit
-                0x0000000040004b94                SpiInOut
- .text          0x0000000040004bd4      0x2c0 ./obj/sx1276-board.o
-                0x0000000040004bd4                SX1276CheckRfFrequency
-                0x0000000040004bdc                SX1276IoInit
-                0x0000000040004c8c                SX1276IoIrqInit
-                0x0000000040004d08                SX1276IoDeInit
-                0x0000000040004d0c                SX1276IoDbgInit
-                0x0000000040004d10                SX1276IoTcxoInit
-                0x0000000040004d14                SX1276SetBoardTcxo
-                0x0000000040004d18                SX1276GetBoardTcxoWakeupTime
-                0x0000000040004d20                SX1276Reset
-                0x0000000040004d64                SX1276SetRfTxPower
-                0x0000000040004e68                SX1276SetAntSwLowPower
-                0x0000000040004e7c                SX1276AntSwInit
-                0x0000000040004e80                SX1276AntSwDeInit
-                0x0000000040004e84                SX1276SetAntSw
-                0x0000000040004e88                SX1276GetDio1PinState
- .text          0x0000000040004e94      0x1ac ./obj/utilities.o
-                0x0000000040004e94                rand1
-                0x0000000040004ec8                srand1
-                0x0000000040004ed4                randr
-                0x0000000040004f10                memcpyr
-                0x0000000040004f1c                memcpy1
-                0x0000000040004f28                memset1
-                0x0000000040004f30                Nibble2HexChar
-                0x0000000040004f60                Crc32
-                0x0000000040004fcc                Crc32Init
-                0x0000000040004fd4                Crc32Update
-                0x0000000040005038                Crc32Finalize
- .text.atoi     0x0000000040005040        0xc /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
-                0x0000000040005040                atoi
+                0x00000000400010fc                timer0_isr
+                0x0000000040001110                updateSoftTimerInterrupt
+                0x0000000040001190                timer1_isr
+                0x00000000400011c8                HwTimerInit
+                0x0000000040001204                HwTimerAlarmSetCallback
+                0x0000000040001210                HwTimerOverflowSetCallback
+                0x000000004000121c                HwTimerGetTime
+                0x0000000040001254                HwTimerLoadAbsoluteTicks
+ .text          0x00000000400012ac      0x3a4 ./obj/donut.o
+                0x00000000400012ac                donut
+ .text          0x0000000040001650        0xc ./obj/helloc.o
+                0x0000000040001650                helloc
+ .text          0x000000004000165c      0x1b4 ./obj/iotest.o
+                0x000000004000165c                OnLed2TimerEvent
+                0x000000004000166c                OnLed3TimerEvent
+                0x000000004000167c                OnLed1TimerEvent
+                0x00000000400016a8                iotest
+ .text          0x0000000040001810      0x200 ./obj/main.o
+                0x00000000400018b0                testgpio
+                0x0000000040001914                _spi
+ .text.startup  0x0000000040001a10      0x3b0 ./obj/main.o
+                0x0000000040001a10                main
+ .text          0x0000000040001dc0       0x74 ./obj/simple.o
+                0x0000000040001dc0                simple_test
+ .text          0x0000000040001e34      0x2bc ./obj/test1.o
+                0x0000000040001e34                OnRadioTxTimeout
+                0x0000000040001e54                OnTxDone
+                0x0000000040001e80                OnRxDone
+                0x0000000040001f28                test1
+ .text          0x00000000400020f0      0x158 ./obj/testspi.o
+                0x00000000400020f0                test0
+                0x00000000400020f4                f
+                0x000000004000218c                testspi
+                0x0000000040002190                print_all_reg
+ .text          0x0000000040002248       0x28 ./obj/delay.o
+                0x0000000040002248                Delay
+                0x000000004000226c                DelayMs
+ .text          0x0000000040002270       0x1c ./obj/gpio.o
+                0x0000000040002270                GpioInit
+                0x0000000040002274                GpioSetContext
+                0x0000000040002278                GpioSetInterrupt
+                0x000000004000227c                GpioRemoveInterrupt
+                0x0000000040002280                GpioWrite
+                0x0000000040002284                GpioToggle
+                0x0000000040002288                GpioRead
+ .text          0x000000004000228c      0x3e0 ./obj/timer.o
+                0x0000000040002314                TimerInit
+                0x0000000040002330                TimerSetContext
+                0x0000000040002338                TimerStart
+                0x0000000040002408                TimerIsStarted
+                0x0000000040002410                TimerIrqHandler
+                0x00000000400024ec                TimerStop
+                0x000000004000258c                TimerReset
+                0x00000000400025b4                TimerSetValue
+                0x0000000040002608                TimerGetCurrentTime
+                0x0000000040002620                TimerGetElapsedTime
+                0x0000000040002664                TimerTempCompensation
+                0x0000000040002668                TimerProcess
+ .text          0x000000004000266c     0x1fe4 ./obj/sx1276.o
+                0x00000000400026d4                SX1276GetStatus
+                0x00000000400026e0                SX1276GetTimeOnAir
+                0x0000000040002824                SX1276WriteBuffer
+                0x00000000400028a0                SX1276Write
+                0x00000000400028c4                SX1276SetChannel
+                0x000000004000293c                SX1276ReadBuffer
+                0x00000000400029b4                SX1276Read
+                0x0000000040002d04                SX1276SetSleep
+                0x0000000040002d28                SX1276SetStby
+                0x0000000040002d70                SX1276Send
+                0x0000000040002fb4                SX1276SetRx
+                0x00000000400032d0                SX1276StartCad
+                0x000000004000333c                SX1276ReadRssi
+                0x00000000400033b0                SX1276SetModem
+                0x0000000040003470                SX1276Init
+                0x0000000040003528                SX1276IsChannelFree
+                0x00000000400035e8                SX1276Random
+                0x0000000040003668                SX1276SetRxConfig
+                0x0000000040003a94                SX1276SetTxConfig
+                0x0000000040003e3c                SX1276SetTxContinuousWave
+                0x0000000040004458                SX1276SetMaxPayloadLength
+                0x00000000400044b8                SX1276SetPublicNetwork
+                0x0000000040004634                SX1276GetWakeupTime
+ .text          0x0000000040004650       0xcc ./obj/board.o
+                0x0000000040004650                BoardCriticalSectionBegin
+                0x0000000040004654                BoardCriticalSectionEnd
+                0x0000000040004658                BoardInitPeriph
+                0x000000004000465c                BoardInitMcu
+                0x0000000040004674                BoardResetMcu
+                0x0000000040004678                BoardDeInitMcu
+                0x0000000040004680                BoardGetRandomSeed
+                0x0000000040004688                BoardGetUniqueId
+                0x000000004000468c                BoardGetBatteryLevel
+                0x0000000040004694                GetBoardPowerSource
+                0x000000004000469c                BoardLowPowerHandler
+                0x00000000400046a0                _write
+                0x00000000400046cc                _read
+ .text          0x000000004000471c        0x4 ./obj/delay-board.o
+                0x000000004000471c                DelayMsMcu
+ .text          0x0000000040004720       0xa0 ./obj/gpio-board.o
+                0x0000000040004720                GpioMcuInit
+                0x0000000040004728                GpioMcuSetContext
+                0x0000000040004730                GpioMcuSetInterrupt
+                0x0000000040004774                GpioMcuRemoveInterrupt
+                0x00000000400047a0                GpioMcuToggle
+                0x00000000400047b0                GpioMcuRead
+                0x00000000400047b8                GpioMcuWrite
+ .text          0x00000000400047c0      0x434 ./obj/rtc-board.o
+                0x00000000400047c4                RtcSetTimerContext
+                0x00000000400047f0                RtcInit
+                0x0000000040004854                RtcGetTimerContext
+                0x000000004000487c                RtcGetMinimumTimeout
+                0x0000000040004884                RtcMs2Tick
+                0x00000000400048b0                RtcTick2Ms
+                0x00000000400048d0                RtcStopAlarm
+                0x00000000400048f8                RtcStartAlarm
+                0x00000000400049b8                RtcSetAlarm
+                0x00000000400049e8                RtcGetTimerValue
+                0x0000000040004a08                RtcDelayMs
+                0x0000000040004a68                RtcGetTimerElapsedTime
+                0x0000000040004a98                RtcGetCalendarTime
+                0x0000000040004ae4                RtcBkupWrite
+                0x0000000040004b2c                RtcBkupRead
+                0x0000000040004b7c                RtcProcess
+                0x0000000040004bf0                RtcTempCompensation
+ .text          0x0000000040004bf4       0x48 ./obj/spi-board.o
+                0x0000000040004bf4                SpiInit
+                0x0000000040004bf8                SpiDeInit
+                0x0000000040004bfc                SpiInOut
+ .text          0x0000000040004c3c      0x2c0 ./obj/sx1276-board.o
+                0x0000000040004c3c                SX1276CheckRfFrequency
+                0x0000000040004c44                SX1276IoInit
+                0x0000000040004cf4                SX1276IoIrqInit
+                0x0000000040004d70                SX1276IoDeInit
+                0x0000000040004d74                SX1276IoDbgInit
+                0x0000000040004d78                SX1276IoTcxoInit
+                0x0000000040004d7c                SX1276SetBoardTcxo
+                0x0000000040004d80                SX1276GetBoardTcxoWakeupTime
+                0x0000000040004d88                SX1276Reset
+                0x0000000040004dcc                SX1276SetRfTxPower
+                0x0000000040004ed0                SX1276SetAntSwLowPower
+                0x0000000040004ee4                SX1276AntSwInit
+                0x0000000040004ee8                SX1276AntSwDeInit
+                0x0000000040004eec                SX1276SetAntSw
+                0x0000000040004ef0                SX1276GetDio1PinState
+ .text          0x0000000040004efc      0x1ac ./obj/utilities.o
+                0x0000000040004efc                rand1
+                0x0000000040004f30                srand1
+                0x0000000040004f3c                randr
+                0x0000000040004f78                memcpyr
+                0x0000000040004f84                memcpy1
+                0x0000000040004f90                memset1
+                0x0000000040004f98                Nibble2HexChar
+                0x0000000040004fc8                Crc32
+                0x0000000040005034                Crc32Init
+                0x000000004000503c                Crc32Update
+                0x00000000400050a0                Crc32Finalize
+ .text.atoi     0x00000000400050a8        0xc /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
+                0x00000000400050a8                atoi
  .text._strtol_l.isra.2
-                0x000000004000504c      0x1bc /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .text.strtol   0x0000000040005208        0x4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
-                0x0000000040005208                strtol
- .text.strchr   0x000000004000520c       0x28 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strchr.c.o)
-                0x000000004000520c                strchr
- .text.fgetc    0x0000000040005234       0x80 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fgetc.c.o)
-                0x0000000040005234                getc
-                0x0000000040005234                fgetc
- .text.fputc    0x00000000400052b4       0x44 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputc.c.o)
-                0x00000000400052b4                putc
-                0x00000000400052b4                fputc
- .text.fputs    0x00000000400052f8       0x70 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputs.c.o)
-                0x00000000400052f8                fputs
- .text.printf   0x0000000040005368       0x48 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_printf.c.o)
-                0x0000000040005368                printf
- .text.puts     0x00000000400053b0       0x80 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_puts.c.o)
-                0x00000000400053b0                puts
- .text.scanf    0x0000000040005430       0x48 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_scanf.c.o)
-                0x0000000040005430                scanf
+                0x00000000400050b4      0x1bc /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .text.strtol   0x0000000040005270        0x4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+                0x0000000040005270                strtol
+ .text.strchr   0x0000000040005274       0x28 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strchr.c.o)
+                0x0000000040005274                strchr
+ .text.fgetc    0x000000004000529c       0x80 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fgetc.c.o)
+                0x000000004000529c                getc
+                0x000000004000529c                fgetc
+ .text.fputc    0x000000004000531c       0x44 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputc.c.o)
+                0x000000004000531c                putc
+                0x000000004000531c                fputc
+ .text.fputs    0x0000000040005360       0x70 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputs.c.o)
+                0x0000000040005360                fputs
+ .text.printf   0x00000000400053d0       0x48 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_printf.c.o)
+                0x00000000400053d0                printf
+ .text.puts     0x0000000040005418       0x80 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_puts.c.o)
+                0x0000000040005418                puts
+ .text.scanf    0x0000000040005498       0x48 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_scanf.c.o)
+                0x0000000040005498                scanf
  .text.__ultoa_invert
-                0x0000000040005478       0xe0 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
+                0x00000000400054e0       0xe0 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
  .text.vfprintf
-                0x0000000040005558      0x6e8 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
-                0x0000000040005558                __i_vfprintf
-                0x0000000040005558                vfprintf
+                0x00000000400055c0      0x6e8 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
+                0x00000000400055c0                __i_vfprintf
+                0x00000000400055c0                vfprintf
  .text.scanf_getc
-                0x0000000040005c40       0x30 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
+                0x0000000040005ca8       0x30 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
  .text.scanf_ungetc
-                0x0000000040005c70       0x30 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
- .text.putval   0x0000000040005ca0       0x4c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
+                0x0000000040005cd8       0x30 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
+ .text.putval   0x0000000040005d08       0x4c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
  .text.skip_spaces
-                0x0000000040005cec       0x78 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
- .text.vfscanf  0x0000000040005d64      0x6b4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
-                0x0000000040005d64                __i_vfscanf
-                0x0000000040005d64                vfscanf
- .text.memcpy   0x0000000040006418       0x24 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(memcpy-asm.S.o)
-                0x0000000040006418                memcpy
- .text.memset   0x000000004000643c       0x1c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(memset.S.o)
-                0x000000004000643c                memset
- .text.strcmp   0x0000000040006458       0x20 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strcmp.S.o)
-                0x0000000040006458                strcmp
- .text.strlen   0x0000000040006478       0x1c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strlen.c.o)
-                0x0000000040006478                strlen
- .text          0x0000000040006494       0x5c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(_libc.a)
- .text.strnlen  0x00000000400064f0       0x24 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strnlen.c.o)
-                0x00000000400064f0                strnlen
- .text.ungetc   0x0000000040006514       0x34 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_ungetc.c.o)
-                0x0000000040006514                ungetc
- .text          0x0000000040006548      0x20c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
-                0x0000000040006548                __mulsf3
- .text          0x0000000040006754      0x2f0 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivmoddi4.o)
-                0x0000000040006754                __udivmoddi4
- .text          0x0000000040006a44       0x6c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(fixunssfsi.o)
-                0x0000000040006a44                __fixunssfsi
- .text          0x0000000040006ab0       0x98 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(clzsi2.o)
-                0x0000000040006ab0                __clzsi2
- .text          0x0000000040006b48       0x78 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(ctzsi2.o)
-                0x0000000040006b48                __ctzsi2
- .text          0x0000000040006bc0        0x8 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivdi3.o)
-                0x0000000040006bc0                __udivdi3
- .text          0x0000000040006bc8       0x24 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(umoddi3.o)
-                0x0000000040006bc8                __umoddi3
- .text          0x0000000040006bec        0x4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(console.o)
-                0x0000000040006bec                readchar_nonblock
- .text          0x0000000040006bf0       0x80 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(system.o)
-                0x0000000040006bf0                flush_l2_cache
-                0x0000000040006bf4                busy_wait
-                0x0000000040006c34                busy_wait_us
- .text          0x0000000040006c70      0x20c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(uart.o)
-                0x0000000040006c70                uart_isr
-                0x0000000040006d38                uart_read
-                0x0000000040006d8c                uart_read_nonblock
-                0x0000000040006da8                uart_write
-                0x0000000040006e20                uart_init
-                0x0000000040006e64                uart_sync
-                0x0000000040006e7c                _etext = .
+                0x0000000040005d54       0x78 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
+ .text.vfscanf  0x0000000040005dcc      0x6b4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
+                0x0000000040005dcc                __i_vfscanf
+                0x0000000040005dcc                vfscanf
+ .text.memcpy   0x0000000040006480       0x24 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(memcpy-asm.S.o)
+                0x0000000040006480                memcpy
+ .text.memset   0x00000000400064a4       0x1c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(memset.S.o)
+                0x00000000400064a4                memset
+ .text.strcmp   0x00000000400064c0       0x20 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strcmp.S.o)
+                0x00000000400064c0                strcmp
+ .text.strlen   0x00000000400064e0       0x1c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strlen.c.o)
+                0x00000000400064e0                strlen
+ .text          0x00000000400064fc       0x5c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(_libc.a)
+ .text.strnlen  0x0000000040006558       0x24 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strnlen.c.o)
+                0x0000000040006558                strnlen
+ .text.ungetc   0x000000004000657c       0x34 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_ungetc.c.o)
+                0x000000004000657c                ungetc
+ .text          0x00000000400065b0      0x20c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
+                0x00000000400065b0                __mulsf3
+ .text          0x00000000400067bc      0x2f0 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivmoddi4.o)
+                0x00000000400067bc                __udivmoddi4
+ .text          0x0000000040006aac       0x6c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(fixunssfsi.o)
+                0x0000000040006aac                __fixunssfsi
+ .text          0x0000000040006b18       0x98 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(clzsi2.o)
+                0x0000000040006b18                __clzsi2
+ .text          0x0000000040006bb0       0x78 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(ctzsi2.o)
+                0x0000000040006bb0                __ctzsi2
+ .text          0x0000000040006c28        0x8 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivdi3.o)
+                0x0000000040006c28                __udivdi3
+ .text          0x0000000040006c30       0x24 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(umoddi3.o)
+                0x0000000040006c30                __umoddi3
+ .text          0x0000000040006c54        0x4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(console.o)
+                0x0000000040006c54                readchar_nonblock
+ .text          0x0000000040006c58       0x80 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(system.o)
+                0x0000000040006c58                flush_l2_cache
+                0x0000000040006c5c                busy_wait
+                0x0000000040006c9c                busy_wait_us
+ .text          0x0000000040006cd8      0x20c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(uart.o)
+                0x0000000040006cd8                uart_isr
+                0x0000000040006da0                uart_read
+                0x0000000040006df4                uart_read_nonblock
+                0x0000000040006e10                uart_write
+                0x0000000040006e88                uart_init
+                0x0000000040006ecc                uart_sync
+                0x0000000040006ee4                _etext = .
 
-.rodata         0x0000000040006e7c      0xb04
-                0x0000000040006e80                . = ALIGN (0x8)
- *fill*         0x0000000040006e7c        0x4 
-                0x0000000040006e80                _frodata = .
+.rodata         0x0000000040006ee4      0xb44
+                0x0000000040006ee8                . = ALIGN (0x8)
+ *fill*         0x0000000040006ee4        0x4 
+                0x0000000040006ee8                _frodata = .
  *(.rodata .rodata.* .gnu.linkonce.r.*)
- .rodata        0x0000000040006e80       0x37 ./obj/binary.o
- *fill*         0x0000000040006eb7        0x1 
+ .rodata        0x0000000040006ee8       0x37 ./obj/binary.o
+ *fill*         0x0000000040006f1f        0x1 
  .rodata.str1.4
-                0x0000000040006eb8       0x53 ./obj/binary.o
+                0x0000000040006f20       0x53 ./obj/binary.o
                                          0x57 (taille avant relaxe)
- *fill*         0x0000000040006f0b        0x1 
+ *fill*         0x0000000040006f73        0x1 
  .rodata.str1.4
-                0x0000000040006f0c        0x4 ./obj/console.o
+                0x0000000040006f74        0x4 ./obj/console.o
                                           0x6 (taille avant relaxe)
  .rodata.str1.4
-                0x0000000040006f10       0x4f ./obj/libisr.o
- *fill*         0x0000000040006f5f        0x1 
+                0x0000000040006f78       0x4f ./obj/libisr.o
+ *fill*         0x0000000040006fc7        0x1 
  .rodata.str1.4
-                0x0000000040006f60       0x1a ./obj/libtimer.o
-                                         0x1e (taille avant relaxe)
- *fill*         0x0000000040006f7a        0x2 
+                0x0000000040006fc8       0x1a ./obj/libtimer.o
+ *fill*         0x0000000040006fe2        0x2 
  .rodata.str1.4
-                0x0000000040006f7c       0x15 ./obj/donut.o
- *fill*         0x0000000040006f91        0x3 
+                0x0000000040006fe4       0x15 ./obj/donut.o
+ *fill*         0x0000000040006ff9        0x3 
  .rodata.str1.4
-                0x0000000040006f94       0x12 ./obj/helloc.o
- *fill*         0x0000000040006fa6        0x2 
+                0x0000000040006ffc       0x12 ./obj/helloc.o
+ *fill*         0x000000004000700e        0x2 
  .rodata.str1.4
-                0x0000000040006fa8       0x75 ./obj/iotest.o
- *fill*         0x000000004000701d        0x3 
+                0x0000000040007010       0x75 ./obj/iotest.o
+ *fill*         0x0000000040007085        0x3 
  .rodata.str1.4
-                0x0000000040007020      0x431 ./obj/main.o
+                0x0000000040007088      0x431 ./obj/main.o
                                         0x439 (taille avant relaxe)
- *fill*         0x0000000040007451        0x3 
+ *fill*         0x00000000400074b9        0x3 
  .rodata.str1.4
-                0x0000000040007454       0x40 ./obj/simple.o
+                0x00000000400074bc       0x40 ./obj/simple.o
  .rodata.str1.4
-                0x0000000040007494       0x96 ./obj/test1.o
- *fill*         0x000000004000752a        0x2 
+                0x00000000400074fc       0x96 ./obj/test1.o
+ *fill*         0x0000000040007592        0x2 
  .rodata.str1.4
-                0x000000004000752c       0x54 ./obj/testspi.o
+                0x0000000040007594       0x54 ./obj/testspi.o
                                          0x58 (taille avant relaxe)
- .rodata        0x0000000040007580      0x160 ./obj/sx1276.o
-                0x00000000400075a4                FskBandwidths
-                0x0000000040007660                RadioRegsInit
  .rodata.str1.4
-                0x00000000400076e0        0x3 ./obj/board.o
- *fill*         0x00000000400076e3        0x1 
+                0x00000000400075e8       0x13 ./obj/timer.o
+ *fill*         0x00000000400075fb        0x1 
+ .rodata        0x00000000400075fc      0x160 ./obj/sx1276.o
+                0x0000000040007620                FskBandwidths
+                0x00000000400076dc                RadioRegsInit
  .rodata.str1.4
-                0x00000000400076e4       0xc6 ./obj/rtc-board.o
- *fill*         0x00000000400077aa        0x2 
- .rodata        0x00000000400077ac       0x6c ./obj/sx1276-board.o
-                0x00000000400077ac                Radio
- .rodata        0x0000000040007818       0x44 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
+                0x000000004000775c        0x3 ./obj/board.o
+ *fill*         0x000000004000775f        0x1 
  .rodata.str1.4
-                0x000000004000785c       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
+                0x0000000040007760       0xf2 ./obj/rtc-board.o
+ *fill*         0x0000000040007852        0x2 
+ .rodata        0x0000000040007854       0x6c ./obj/sx1276-board.o
+                0x0000000040007854                Radio
+ .rodata        0x00000000400078c0       0x44 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
  .rodata.str1.4
-                0x000000004000786c        0xc /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
- .rodata        0x0000000040007878      0x101 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_ctype_ctype_.c.o)
-                0x0000000040007878                _ctype_
+                0x0000000040007904       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
+ .rodata.str1.4
+                0x0000000040007914        0xc /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
+ .rodata        0x0000000040007920      0x101 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_ctype_ctype_.c.o)
+                0x0000000040007920                _ctype_
  *(.rodata1)
-                0x0000000040007980                . = ALIGN (0x8)
- *fill*         0x0000000040007979        0x7 
-                0x0000000040007980                _erodata = .
+                0x0000000040007a28                . = ALIGN (0x8)
+ *fill*         0x0000000040007a21        0x7 
+                0x0000000040007a28                _erodata = .
 
-.srodata.cst4   0x0000000040007980        0x8
- .srodata.cst4  0x0000000040007980        0x4 ./obj/delay.o
- .srodata.cst4  0x0000000040007984        0x4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
+.srodata.cst4   0x0000000040007a28        0x8
+ .srodata.cst4  0x0000000040007a28        0x4 ./obj/delay.o
+ .srodata.cst4  0x0000000040007a2c        0x4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
 
-.srodata        0x0000000040007988        0xc
- .srodata       0x0000000040007988        0xc /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(_libc.a)
-                0x0000000040007988                stdin
-                0x000000004000798c                stderr
-                0x0000000040007990                stdout
+.srodata        0x0000000040007a30        0xc
+ .srodata       0x0000000040007a30        0xc /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(_libc.a)
+                0x0000000040007a30                stdin
+                0x0000000040007a34                stderr
+                0x0000000040007a38                stdout
 
-.rela.dyn       0x0000000040007994        0x0
- .rela.text     0x0000000040007994        0x0 ./obj/binary.o
+.rela.dyn       0x0000000040007a3c        0x0
+ .rela.text     0x0000000040007a3c        0x0 ./obj/binary.o
  .rela.text.scanf
-                0x0000000040007994        0x0 ./obj/binary.o
+                0x0000000040007a3c        0x0 ./obj/binary.o
 
-.data           0x0000000010000000      0x188 address de chargement 0x0000000040007994
+.data           0x0000000010000000      0x1a8 address de chargement 0x0000000040007a3c
                 0x0000000010000000                . = ALIGN (0x8)
                 0x0000000010000000                _fdata = .
  *(.data .data.* .gnu.linkonce.d.*)
  .data          0x0000000010000000       0xe0 ./obj/libisr.o
                 0x0000000010000000                DIOs
- .data          0x00000000100000e0       0x70 ./obj/libtimer.o
+ .data          0x00000000100000e0       0x90 ./obj/libtimer.o
                 0x00000000100000e0                TIMERs
- .data          0x0000000010000150       0x18 ./obj/sx1276.o
-                0x0000000010000150                DioIrq
- .data          0x0000000010000168       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(_libc.a)
+                0x0000000010000150                timer
+ .data          0x0000000010000170       0x18 ./obj/sx1276.o
+                0x0000000010000170                DioIrq
+ .data          0x0000000010000188       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(_libc.a)
  *(.data1)
-                0x0000000010000180                _gp = ALIGN (0x10)
+                0x00000000100001a0                _gp = ALIGN (0x10)
  *(.sdata .sdata.* .gnu.linkonce.s.*)
- .sdata         0x0000000010000178        0x8 ./obj/libtimer.o
-                0x0000000010000178                TIMER_INT
- .sdata         0x0000000010000180        0x2 ./obj/test1.o
-                0x0000000010000180                BufferSize
- *fill*         0x0000000010000182        0x2 
- .sdata         0x0000000010000184        0x4 ./obj/utilities.o
-                0x0000000010000188                . = ALIGN (0x8)
-                0x0000000010000188                _edata = .
+ .sdata         0x0000000010000198        0x8 ./obj/libtimer.o
+                0x0000000010000198                TIMER_INT
+ .sdata         0x00000000100001a0        0x2 ./obj/test1.o
+                0x00000000100001a0                BufferSize
+ *fill*         0x00000000100001a2        0x2 
+ .sdata         0x00000000100001a4        0x4 ./obj/utilities.o
+                0x00000000100001a8                . = ALIGN (0x8)
+                0x00000000100001a8                _edata = .
 
-.bss            0x0000000010000188     0x12f8 address de chargement 0x0000000040007b1c
-                0x0000000010000188                . = ALIGN (0x8)
-                0x0000000010000188                _fbss = .
+.bss            0x00000000100001a8     0x12e0 address de chargement 0x0000000040007be4
+                0x00000000100001a8                . = ALIGN (0x8)
+                0x00000000100001a8                _fbss = .
  *(.dynsbss)
  *(.sbss .sbss.* .gnu.linkonce.sb.*)
- .sbss          0x0000000010000188        0x4 ./obj/console.o
- .sbss          0x000000001000018c        0x3 ./obj/iotest.o
-                0x000000001000018c                Led3TimerEvent
-                0x000000001000018d                Led2TimerEvent
-                0x000000001000018e                Led1TimerEvent
- *fill*         0x000000001000018f        0x1 
- .sbss          0x0000000010000190        0x4 ./obj/main.o
- .sbss          0x0000000010000194        0x2 ./obj/test1.o
-                0x0000000010000194                SnrValue
-                0x0000000010000195                RssiValue
- *fill*         0x0000000010000196        0x2 
- .sbss          0x0000000010000198        0x4 ./obj/timer.o
- .sbss          0x000000001000019c        0x4 ./obj/sx1276.o
- .sbss          0x00000000100001a0        0xb ./obj/rtc-board.o
-                0x00000000100001a0                RtcBkupRegisters
- .sbss          0x00000000100001ab        0x1 ./obj/sx1276-board.o
- .sbss          0x00000000100001ac        0x4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_errno_errno.c.o)
-                0x00000000100001ac                errno
- .sbss          0x00000000100001b0       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(uart.o)
+ .sbss          0x00000000100001a8        0x4 ./obj/console.o
+ .sbss          0x00000000100001ac        0x3 ./obj/iotest.o
+                0x00000000100001ac                Led3TimerEvent
+                0x00000000100001ad                Led2TimerEvent
+                0x00000000100001ae                Led1TimerEvent
+ *fill*         0x00000000100001af        0x1 
+ .sbss          0x00000000100001b0        0x4 ./obj/main.o
+ .sbss          0x00000000100001b4        0x2 ./obj/test1.o
+                0x00000000100001b4                SnrValue
+                0x00000000100001b5                RssiValue
+ *fill*         0x00000000100001b6        0x2 
+ .sbss          0x00000000100001b8        0x4 ./obj/timer.o
+ .sbss          0x00000000100001bc        0x4 ./obj/sx1276.o
+ .sbss          0x00000000100001c0        0xb ./obj/rtc-board.o
+                0x00000000100001c0                RtcBkupRegisters
+ .sbss          0x00000000100001cb        0x1 ./obj/sx1276-board.o
+ .sbss          0x00000000100001cc        0x4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_errno_errno.c.o)
+                0x00000000100001cc                errno
+ .sbss          0x00000000100001d0       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(uart.o)
  *(.scommon)
  *(.dynbss)
  *(.bss .bss.* .gnu.linkonce.b.*)
- .bss           0x00000000100001c0       0x40 ./obj/console.o
- .bss           0x0000000010000200       0x10 ./obj/libtimer.o
-                0x0000000010000200                timer
- .bss           0x0000000010000210       0x48 ./obj/iotest.o
- .bss           0x0000000010000258       0x40 ./obj/main.o
- .bss           0x0000000010000298       0x24 ./obj/test1.o
- .bss           0x00000000100002bc      0x100 ./obj/sx1276.o
- .bss           0x00000000100003bc        0xc ./obj/rtc-board.o
- .bss           0x00000000100003c8      0x100 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(uart.o)
+ .bss           0x00000000100001e0       0x40 ./obj/console.o
+ .bss           0x0000000010000220       0x48 ./obj/iotest.o
+ .bss           0x0000000010000268       0x40 ./obj/main.o
+ .bss           0x00000000100002a8       0x24 ./obj/test1.o
+ .bss           0x00000000100002cc      0x100 ./obj/sx1276.o
+ .bss           0x00000000100003cc        0xc ./obj/rtc-board.o
+ .bss           0x00000000100003d8      0x100 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(uart.o)
  *(COMMON)
- COMMON         0x00000000100004c8        0x8 ./obj/libtimer.o
-                0x00000000100004c8                RtcOverflowIrq
-                0x00000000100004cc                TimerAlarmCallback
- COMMON         0x00000000100004d0      0xdc0 ./obj/donut.o
-                0x00000000100004d0                b
-                0x0000000010000bb0                z
- COMMON         0x0000000010001290        0x8 ./obj/test1.o
-                0x0000000010001290                Buf
-                0x0000000010001294                Buffer
- COMMON         0x0000000010001298      0x1e8 ./obj/sx1276.o
-                0x0000000010001298                TxTimeoutTimer
-                0x00000000100012b0                RxTimeoutSyncWord
-                0x00000000100012c8                SX1276
-                0x0000000010001468                RxTimeoutTimer
-                0x0000000010001480                . = ALIGN (0x8)
-                0x0000000010001480                _ebss = .
-                0x0000000010001480                _end = .
+ COMMON         0x00000000100004d8      0xdc0 ./obj/donut.o
+                0x00000000100004d8                b
+                0x0000000010000bb8                z
+ COMMON         0x0000000010001298        0x8 ./obj/test1.o
+                0x0000000010001298                Buf
+                0x000000001000129c                Buffer
+ COMMON         0x00000000100012a0      0x1e8 ./obj/sx1276.o
+                0x00000000100012a0                TxTimeoutTimer
+                0x00000000100012b8                RxTimeoutSyncWord
+                0x00000000100012d0                SX1276
+                0x0000000010001470                RxTimeoutTimer
+                0x0000000010001488                . = ALIGN (0x8)
+                0x0000000010001488                _ebss = .
+                0x0000000010001488                _end = .
                 0x0000000010002000                PROVIDE (_fstack = (ORIGIN (sram) + LENGTH (sram)))
-                0x0000000040007994                PROVIDE (_fdata_rom = LOADADDR (.data))
+                0x0000000040007a3c                PROVIDE (_fdata_rom = LOADADDR (.data))
                 [!provide]                        PROVIDE (_edata_rom = (LOADADDR (.data) + SIZEOF (.data)))
 OUTPUT(demo.elf elf32-littleriscv)
 
-.debug_info     0x0000000000000000    0x174b7
+.debug_info     0x0000000000000000    0x175b9
  .debug_info    0x0000000000000000      0x4cd ./obj/binary.o
  .debug_info    0x00000000000004cd      0x3ea ./obj/console.o
  .debug_info    0x00000000000008b7      0x61e ./obj/delai.o
  .debug_info    0x0000000000000ed5      0x7d6 ./obj/isr.o
  .debug_info    0x00000000000016ab     0x1616 ./obj/libisr.o
  .debug_info    0x0000000000002cc1      0xd9c ./obj/libspi.o
- .debug_info    0x0000000000003a5d     0x1691 ./obj/libtimer.o
- .debug_info    0x00000000000050ee      0x467 ./obj/donut.o
- .debug_info    0x0000000000005555      0x1bd ./obj/helloc.o
- .debug_info    0x0000000000005712      0xa2b ./obj/iotest.o
- .debug_info    0x000000000000613d     0x1ca7 ./obj/main.o
- .debug_info    0x0000000000007de4      0x2e3 ./obj/simple.o
- .debug_info    0x00000000000080c7     0x10e8 ./obj/test1.o
- .debug_info    0x00000000000091af      0x5ed ./obj/testspi.o
- .debug_info    0x000000000000979c      0x12a ./obj/delay.o
- .debug_info    0x00000000000098c6      0x51b ./obj/gpio.o
- .debug_info    0x0000000000009de1      0x7af ./obj/timer.o
- .debug_info    0x000000000000a590     0x3554 ./obj/sx1276.o
- .debug_info    0x000000000000dae4      0xe33 ./obj/board.o
- .debug_info    0x000000000000e917       0xcb ./obj/delay-board.o
- .debug_info    0x000000000000e9e2      0x9b0 ./obj/gpio-board.o
- .debug_info    0x000000000000f392      0x93d ./obj/rtc-board.o
- .debug_info    0x000000000000fccf      0x512 ./obj/spi-board.o
- .debug_info    0x00000000000101e1     0x109b ./obj/sx1276-board.o
- .debug_info    0x000000000001127c      0x50b ./obj/utilities.o
- .debug_info    0x0000000000011787       0x26 ./obj/crt0.o
- .debug_info    0x00000000000117ad       0xd9 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
- .debug_info    0x0000000000011886      0xab2 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .debug_info    0x0000000000012338       0xec /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strchr.c.o)
- .debug_info    0x0000000000012424      0x2d5 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fgetc.c.o)
- .debug_info    0x00000000000126f9      0x21f /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputc.c.o)
- .debug_info    0x0000000000012918      0x23a /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputs.c.o)
- .debug_info    0x0000000000012b52      0x219 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_printf.c.o)
- .debug_info    0x0000000000012d6b      0x22f /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_puts.c.o)
- .debug_info    0x0000000000012f9a      0x219 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_scanf.c.o)
- .debug_info    0x00000000000131b3      0xbb5 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
- .debug_info    0x0000000000013d68      0xb45 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
- .debug_info    0x00000000000148ad       0x26 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(memcpy-asm.S.o)
- .debug_info    0x00000000000148d3       0x26 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(memset.S.o)
- .debug_info    0x00000000000148f9       0x26 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strcmp.S.o)
- .debug_info    0x000000000001491f       0xd0 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strlen.c.o)
- .debug_info    0x00000000000149ef      0x284 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(_libc.a)
- .debug_info    0x0000000000014c73      0x7a3 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_ctype_ctype_.c.o)
- .debug_info    0x0000000000015416       0x82 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_errno_errno.c.o)
- .debug_info    0x0000000000015498       0xde /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strnlen.c.o)
- .debug_info    0x0000000000015576      0x274 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_ungetc.c.o)
- .debug_info    0x00000000000157ea      0x860 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
- .debug_info    0x000000000001604a      0x1de /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivmoddi4.o)
- .debug_info    0x0000000000016228      0x22c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(fixunssfsi.o)
- .debug_info    0x0000000000016454      0x101 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(clzsi2.o)
- .debug_info    0x0000000000016555      0x101 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(ctzsi2.o)
- .debug_info    0x0000000000016656      0x114 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivdi3.o)
- .debug_info    0x000000000001676a      0x122 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(umoddi3.o)
- .debug_info    0x000000000001688c       0xa0 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(console.o)
- .debug_info    0x000000000001692c      0x4fa /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(system.o)
- .debug_info    0x0000000000016e26      0x691 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(uart.o)
+ .debug_info    0x0000000000003a5d     0x16ff ./obj/libtimer.o
+ .debug_info    0x000000000000515c      0x467 ./obj/donut.o
+ .debug_info    0x00000000000055c3      0x1bd ./obj/helloc.o
+ .debug_info    0x0000000000005780      0xa40 ./obj/iotest.o
+ .debug_info    0x00000000000061c0     0x1ca7 ./obj/main.o
+ .debug_info    0x0000000000007e67      0x2e3 ./obj/simple.o
+ .debug_info    0x000000000000814a     0x10e8 ./obj/test1.o
+ .debug_info    0x0000000000009232      0x5ed ./obj/testspi.o
+ .debug_info    0x000000000000981f      0x12a ./obj/delay.o
+ .debug_info    0x0000000000009949      0x51b ./obj/gpio.o
+ .debug_info    0x0000000000009e64      0x7e6 ./obj/timer.o
+ .debug_info    0x000000000000a64a     0x3554 ./obj/sx1276.o
+ .debug_info    0x000000000000db9e      0xe33 ./obj/board.o
+ .debug_info    0x000000000000e9d1       0xcb ./obj/delay-board.o
+ .debug_info    0x000000000000ea9c      0x9b0 ./obj/gpio-board.o
+ .debug_info    0x000000000000f44c      0x985 ./obj/rtc-board.o
+ .debug_info    0x000000000000fdd1      0x512 ./obj/spi-board.o
+ .debug_info    0x00000000000102e3     0x109b ./obj/sx1276-board.o
+ .debug_info    0x000000000001137e      0x50b ./obj/utilities.o
+ .debug_info    0x0000000000011889       0x26 ./obj/crt0.o
+ .debug_info    0x00000000000118af       0xd9 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
+ .debug_info    0x0000000000011988      0xab2 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .debug_info    0x000000000001243a       0xec /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strchr.c.o)
+ .debug_info    0x0000000000012526      0x2d5 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fgetc.c.o)
+ .debug_info    0x00000000000127fb      0x21f /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputc.c.o)
+ .debug_info    0x0000000000012a1a      0x23a /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputs.c.o)
+ .debug_info    0x0000000000012c54      0x219 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_printf.c.o)
+ .debug_info    0x0000000000012e6d      0x22f /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_puts.c.o)
+ .debug_info    0x000000000001309c      0x219 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_scanf.c.o)
+ .debug_info    0x00000000000132b5      0xbb5 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
+ .debug_info    0x0000000000013e6a      0xb45 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
+ .debug_info    0x00000000000149af       0x26 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(memcpy-asm.S.o)
+ .debug_info    0x00000000000149d5       0x26 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(memset.S.o)
+ .debug_info    0x00000000000149fb       0x26 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strcmp.S.o)
+ .debug_info    0x0000000000014a21       0xd0 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strlen.c.o)
+ .debug_info    0x0000000000014af1      0x284 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(_libc.a)
+ .debug_info    0x0000000000014d75      0x7a3 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_ctype_ctype_.c.o)
+ .debug_info    0x0000000000015518       0x82 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_errno_errno.c.o)
+ .debug_info    0x000000000001559a       0xde /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strnlen.c.o)
+ .debug_info    0x0000000000015678      0x274 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_ungetc.c.o)
+ .debug_info    0x00000000000158ec      0x860 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
+ .debug_info    0x000000000001614c      0x1de /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivmoddi4.o)
+ .debug_info    0x000000000001632a      0x22c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(fixunssfsi.o)
+ .debug_info    0x0000000000016556      0x101 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(clzsi2.o)
+ .debug_info    0x0000000000016657      0x101 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(ctzsi2.o)
+ .debug_info    0x0000000000016758      0x114 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivdi3.o)
+ .debug_info    0x000000000001686c      0x122 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(umoddi3.o)
+ .debug_info    0x000000000001698e       0xa0 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(console.o)
+ .debug_info    0x0000000000016a2e      0x4fa /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(system.o)
+ .debug_info    0x0000000000016f28      0x691 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(uart.o)
 
-.debug_abbrev   0x0000000000000000     0x5f18
+.debug_abbrev   0x0000000000000000     0x5f9a
  .debug_abbrev  0x0000000000000000      0x27d ./obj/binary.o
  .debug_abbrev  0x000000000000027d      0x240 ./obj/console.o
  .debug_abbrev  0x00000000000004bd      0x1a9 ./obj/delai.o
  .debug_abbrev  0x0000000000000666      0x1c2 ./obj/isr.o
  .debug_abbrev  0x0000000000000828      0x37b ./obj/libisr.o
  .debug_abbrev  0x0000000000000ba3      0x2c2 ./obj/libspi.o
- .debug_abbrev  0x0000000000000e65      0x426 ./obj/libtimer.o
- .debug_abbrev  0x000000000000128b      0x1e0 ./obj/donut.o
- .debug_abbrev  0x000000000000146b      0x10d ./obj/helloc.o
- .debug_abbrev  0x0000000000001578      0x1c2 ./obj/iotest.o
- .debug_abbrev  0x000000000000173a      0x40b ./obj/main.o
- .debug_abbrev  0x0000000000001b45      0x157 ./obj/simple.o
- .debug_abbrev  0x0000000000001c9c      0x351 ./obj/test1.o
- .debug_abbrev  0x0000000000001fed      0x263 ./obj/testspi.o
- .debug_abbrev  0x0000000000002250       0xf4 ./obj/delay.o
- .debug_abbrev  0x0000000000002344      0x13b ./obj/gpio.o
- .debug_abbrev  0x000000000000247f      0x303 ./obj/timer.o
- .debug_abbrev  0x0000000000002782      0x463 ./obj/sx1276.o
- .debug_abbrev  0x0000000000002be5      0x33e ./obj/board.o
- .debug_abbrev  0x0000000000002f23       0x96 ./obj/delay-board.o
- .debug_abbrev  0x0000000000002fb9      0x20a ./obj/gpio-board.o
- .debug_abbrev  0x00000000000031c3      0x2b0 ./obj/rtc-board.o
- .debug_abbrev  0x0000000000003473      0x2a6 ./obj/spi-board.o
- .debug_abbrev  0x0000000000003719      0x3be ./obj/sx1276-board.o
- .debug_abbrev  0x0000000000003ad7      0x1c6 ./obj/utilities.o
- .debug_abbrev  0x0000000000003c9d       0x14 ./obj/crt0.o
- .debug_abbrev  0x0000000000003cb1       0x99 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
- .debug_abbrev  0x0000000000003d4a      0x266 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .debug_abbrev  0x0000000000003fb0       0x8e /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strchr.c.o)
- .debug_abbrev  0x000000000000403e      0x1de /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fgetc.c.o)
- .debug_abbrev  0x000000000000421c      0x141 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputc.c.o)
- .debug_abbrev  0x000000000000435d      0x154 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputs.c.o)
- .debug_abbrev  0x00000000000044b1      0x13c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_printf.c.o)
- .debug_abbrev  0x00000000000045ed      0x143 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_puts.c.o)
- .debug_abbrev  0x0000000000004730      0x13c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_scanf.c.o)
- .debug_abbrev  0x000000000000486c      0x2a3 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
- .debug_abbrev  0x0000000000004b0f      0x3da /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
- .debug_abbrev  0x0000000000004ee9       0x14 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(memcpy-asm.S.o)
- .debug_abbrev  0x0000000000004efd       0x14 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(memset.S.o)
- .debug_abbrev  0x0000000000004f11       0x14 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strcmp.S.o)
- .debug_abbrev  0x0000000000004f25       0x8c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strlen.c.o)
- .debug_abbrev  0x0000000000004fb1      0x164 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(_libc.a)
- .debug_abbrev  0x0000000000005115      0x157 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_ctype_ctype_.c.o)
- .debug_abbrev  0x000000000000526c       0x69 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_errno_errno.c.o)
- .debug_abbrev  0x00000000000052d5       0x8c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strnlen.c.o)
- .debug_abbrev  0x0000000000005361      0x16c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_ungetc.c.o)
- .debug_abbrev  0x00000000000054cd      0x1b9 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
- .debug_abbrev  0x0000000000005686      0x113 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivmoddi4.o)
- .debug_abbrev  0x0000000000005799      0x140 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(fixunssfsi.o)
- .debug_abbrev  0x00000000000058d9       0x7a /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(clzsi2.o)
- .debug_abbrev  0x0000000000005953       0x7a /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(ctzsi2.o)
- .debug_abbrev  0x00000000000059cd       0x98 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivdi3.o)
- .debug_abbrev  0x0000000000005a65       0xa6 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(umoddi3.o)
- .debug_abbrev  0x0000000000005b0b       0x6c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(console.o)
- .debug_abbrev  0x0000000000005b77      0x158 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(system.o)
- .debug_abbrev  0x0000000000005ccf      0x249 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(uart.o)
+ .debug_abbrev  0x0000000000000e65      0x454 ./obj/libtimer.o
+ .debug_abbrev  0x00000000000012b9      0x1e0 ./obj/donut.o
+ .debug_abbrev  0x0000000000001499      0x10d ./obj/helloc.o
+ .debug_abbrev  0x00000000000015a6      0x1cd ./obj/iotest.o
+ .debug_abbrev  0x0000000000001773      0x40b ./obj/main.o
+ .debug_abbrev  0x0000000000001b7e      0x157 ./obj/simple.o
+ .debug_abbrev  0x0000000000001cd5      0x351 ./obj/test1.o
+ .debug_abbrev  0x0000000000002026      0x263 ./obj/testspi.o
+ .debug_abbrev  0x0000000000002289       0xf4 ./obj/delay.o
+ .debug_abbrev  0x000000000000237d      0x13b ./obj/gpio.o
+ .debug_abbrev  0x00000000000024b8      0x330 ./obj/timer.o
+ .debug_abbrev  0x00000000000027e8      0x463 ./obj/sx1276.o
+ .debug_abbrev  0x0000000000002c4b      0x33e ./obj/board.o
+ .debug_abbrev  0x0000000000002f89       0x96 ./obj/delay-board.o
+ .debug_abbrev  0x000000000000301f      0x20a ./obj/gpio-board.o
+ .debug_abbrev  0x0000000000003229      0x2cc ./obj/rtc-board.o
+ .debug_abbrev  0x00000000000034f5      0x2a6 ./obj/spi-board.o
+ .debug_abbrev  0x000000000000379b      0x3be ./obj/sx1276-board.o
+ .debug_abbrev  0x0000000000003b59      0x1c6 ./obj/utilities.o
+ .debug_abbrev  0x0000000000003d1f       0x14 ./obj/crt0.o
+ .debug_abbrev  0x0000000000003d33       0x99 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
+ .debug_abbrev  0x0000000000003dcc      0x266 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .debug_abbrev  0x0000000000004032       0x8e /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strchr.c.o)
+ .debug_abbrev  0x00000000000040c0      0x1de /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fgetc.c.o)
+ .debug_abbrev  0x000000000000429e      0x141 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputc.c.o)
+ .debug_abbrev  0x00000000000043df      0x154 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputs.c.o)
+ .debug_abbrev  0x0000000000004533      0x13c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_printf.c.o)
+ .debug_abbrev  0x000000000000466f      0x143 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_puts.c.o)
+ .debug_abbrev  0x00000000000047b2      0x13c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_scanf.c.o)
+ .debug_abbrev  0x00000000000048ee      0x2a3 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
+ .debug_abbrev  0x0000000000004b91      0x3da /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
+ .debug_abbrev  0x0000000000004f6b       0x14 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(memcpy-asm.S.o)
+ .debug_abbrev  0x0000000000004f7f       0x14 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(memset.S.o)
+ .debug_abbrev  0x0000000000004f93       0x14 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strcmp.S.o)
+ .debug_abbrev  0x0000000000004fa7       0x8c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strlen.c.o)
+ .debug_abbrev  0x0000000000005033      0x164 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(_libc.a)
+ .debug_abbrev  0x0000000000005197      0x157 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_ctype_ctype_.c.o)
+ .debug_abbrev  0x00000000000052ee       0x69 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_errno_errno.c.o)
+ .debug_abbrev  0x0000000000005357       0x8c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strnlen.c.o)
+ .debug_abbrev  0x00000000000053e3      0x16c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_ungetc.c.o)
+ .debug_abbrev  0x000000000000554f      0x1b9 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
+ .debug_abbrev  0x0000000000005708      0x113 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivmoddi4.o)
+ .debug_abbrev  0x000000000000581b      0x140 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(fixunssfsi.o)
+ .debug_abbrev  0x000000000000595b       0x7a /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(clzsi2.o)
+ .debug_abbrev  0x00000000000059d5       0x7a /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(ctzsi2.o)
+ .debug_abbrev  0x0000000000005a4f       0x98 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivdi3.o)
+ .debug_abbrev  0x0000000000005ae7       0xa6 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(umoddi3.o)
+ .debug_abbrev  0x0000000000005b8d       0x6c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(console.o)
+ .debug_abbrev  0x0000000000005bf9      0x158 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(system.o)
+ .debug_abbrev  0x0000000000005d51      0x249 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(uart.o)
 
-.debug_loc      0x0000000000000000     0x9021
+.debug_loc      0x0000000000000000     0x90ec
  .debug_loc     0x0000000000000000      0x328 ./obj/binary.o
  .debug_loc     0x0000000000000328       0xbf ./obj/console.o
  .debug_loc     0x00000000000003e7      0x33e ./obj/delai.o
  .debug_loc     0x0000000000000725       0x13 ./obj/isr.o
  .debug_loc     0x0000000000000738      0x6e3 ./obj/libisr.o
  .debug_loc     0x0000000000000e1b      0x543 ./obj/libspi.o
- .debug_loc     0x000000000000135e      0x838 ./obj/libtimer.o
- .debug_loc     0x0000000000001b96      0x863 ./obj/donut.o
- .debug_loc     0x00000000000023f9       0x21 ./obj/iotest.o
- .debug_loc     0x000000000000241a      0x4ce ./obj/main.o
- .debug_loc     0x00000000000028e8      0x180 ./obj/test1.o
- .debug_loc     0x0000000000002a68      0x104 ./obj/testspi.o
- .debug_loc     0x0000000000002b6c       0x7e ./obj/delay.o
- .debug_loc     0x0000000000002bea      0x231 ./obj/gpio.o
- .debug_loc     0x0000000000002e1b      0x477 ./obj/timer.o
- .debug_loc     0x0000000000003292     0x1c51 ./obj/sx1276.o
- .debug_loc     0x0000000000004ee3      0x105 ./obj/board.o
- .debug_loc     0x0000000000004fe8       0x21 ./obj/delay-board.o
- .debug_loc     0x0000000000005009      0x140 ./obj/gpio-board.o
- .debug_loc     0x0000000000005149      0x2cd ./obj/rtc-board.o
- .debug_loc     0x0000000000005416      0x121 ./obj/spi-board.o
- .debug_loc     0x0000000000005537      0x1fd ./obj/sx1276-board.o
- .debug_loc     0x0000000000005734      0x339 ./obj/utilities.o
- .debug_loc     0x0000000000005a6d       0x21 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
- .debug_loc     0x0000000000005a8e      0x49f /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .debug_loc     0x0000000000005f2d       0x55 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strchr.c.o)
- .debug_loc     0x0000000000005f82       0x94 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fgetc.c.o)
- .debug_loc     0x0000000000006016       0x4d /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputc.c.o)
- .debug_loc     0x0000000000006063       0xa8 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputs.c.o)
- .debug_loc     0x000000000000610b       0x2c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_printf.c.o)
- .debug_loc     0x0000000000006137       0x72 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_puts.c.o)
- .debug_loc     0x00000000000061a9       0x2c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_scanf.c.o)
- .debug_loc     0x00000000000061d5      0x965 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
- .debug_loc     0x0000000000006b3a      0xc4f /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
- .debug_loc     0x0000000000007789       0x3f /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strlen.c.o)
- .debug_loc     0x00000000000077c8       0x63 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(_libc.a)
- .debug_loc     0x000000000000782b       0xbf /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strnlen.c.o)
- .debug_loc     0x00000000000078ea       0x7a /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_ungetc.c.o)
- .debug_loc     0x0000000000007964      0x76c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
- .debug_loc     0x00000000000080d0      0x2c6 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivmoddi4.o)
- .debug_loc     0x0000000000008396       0x78 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(fixunssfsi.o)
- .debug_loc     0x000000000000840e      0x3a2 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(clzsi2.o)
- .debug_loc     0x00000000000087b0      0x2ee /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(ctzsi2.o)
- .debug_loc     0x0000000000008a9e       0x50 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivdi3.o)
- .debug_loc     0x0000000000008aee       0x50 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(umoddi3.o)
- .debug_loc     0x0000000000008b3e      0x280 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(system.o)
- .debug_loc     0x0000000000008dbe      0x263 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(uart.o)
+ .debug_loc     0x000000000000135e      0x8fd ./obj/libtimer.o
+ .debug_loc     0x0000000000001c5b      0x863 ./obj/donut.o
+ .debug_loc     0x00000000000024be       0x21 ./obj/iotest.o
+ .debug_loc     0x00000000000024df      0x4ce ./obj/main.o
+ .debug_loc     0x00000000000029ad      0x180 ./obj/test1.o
+ .debug_loc     0x0000000000002b2d      0x104 ./obj/testspi.o
+ .debug_loc     0x0000000000002c31       0x7e ./obj/delay.o
+ .debug_loc     0x0000000000002caf      0x231 ./obj/gpio.o
+ .debug_loc     0x0000000000002ee0      0x477 ./obj/timer.o
+ .debug_loc     0x0000000000003357     0x1c51 ./obj/sx1276.o
+ .debug_loc     0x0000000000004fa8      0x105 ./obj/board.o
+ .debug_loc     0x00000000000050ad       0x21 ./obj/delay-board.o
+ .debug_loc     0x00000000000050ce      0x140 ./obj/gpio-board.o
+ .debug_loc     0x000000000000520e      0x2d3 ./obj/rtc-board.o
+ .debug_loc     0x00000000000054e1      0x121 ./obj/spi-board.o
+ .debug_loc     0x0000000000005602      0x1fd ./obj/sx1276-board.o
+ .debug_loc     0x00000000000057ff      0x339 ./obj/utilities.o
+ .debug_loc     0x0000000000005b38       0x21 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
+ .debug_loc     0x0000000000005b59      0x49f /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .debug_loc     0x0000000000005ff8       0x55 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strchr.c.o)
+ .debug_loc     0x000000000000604d       0x94 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fgetc.c.o)
+ .debug_loc     0x00000000000060e1       0x4d /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputc.c.o)
+ .debug_loc     0x000000000000612e       0xa8 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputs.c.o)
+ .debug_loc     0x00000000000061d6       0x2c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_printf.c.o)
+ .debug_loc     0x0000000000006202       0x72 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_puts.c.o)
+ .debug_loc     0x0000000000006274       0x2c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_scanf.c.o)
+ .debug_loc     0x00000000000062a0      0x965 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
+ .debug_loc     0x0000000000006c05      0xc4f /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
+ .debug_loc     0x0000000000007854       0x3f /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strlen.c.o)
+ .debug_loc     0x0000000000007893       0x63 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(_libc.a)
+ .debug_loc     0x00000000000078f6       0xbf /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strnlen.c.o)
+ .debug_loc     0x00000000000079b5       0x7a /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_ungetc.c.o)
+ .debug_loc     0x0000000000007a2f      0x76c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
+ .debug_loc     0x000000000000819b      0x2c6 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivmoddi4.o)
+ .debug_loc     0x0000000000008461       0x78 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(fixunssfsi.o)
+ .debug_loc     0x00000000000084d9      0x3a2 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(clzsi2.o)
+ .debug_loc     0x000000000000887b      0x2ee /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(ctzsi2.o)
+ .debug_loc     0x0000000000008b69       0x50 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivdi3.o)
+ .debug_loc     0x0000000000008bb9       0x50 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(umoddi3.o)
+ .debug_loc     0x0000000000008c09      0x280 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(system.o)
+ .debug_loc     0x0000000000008e89      0x263 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(uart.o)
 
 .debug_aranges  0x0000000000000000      0x730
  .debug_aranges
@@ -3636,46 +3641,46 @@ OUTPUT(demo.elf elf32-littleriscv)
  .debug_aranges
                 0x0000000000000710       0x20 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(uart.o)
 
-.debug_ranges   0x0000000000000000     0x10b0
+.debug_ranges   0x0000000000000000     0x10d8
  .debug_ranges  0x0000000000000000       0x70 ./obj/binary.o
  .debug_ranges  0x0000000000000070       0x18 ./obj/console.o
  .debug_ranges  0x0000000000000088       0xc0 ./obj/delai.o
  .debug_ranges  0x0000000000000148       0x18 ./obj/isr.o
  .debug_ranges  0x0000000000000160       0x60 ./obj/libisr.o
  .debug_ranges  0x00000000000001c0      0x1b0 ./obj/libspi.o
- .debug_ranges  0x0000000000000370       0x60 ./obj/libtimer.o
- .debug_ranges  0x00000000000003d0      0x110 ./obj/donut.o
- .debug_ranges  0x00000000000004e0      0x2a0 ./obj/main.o
- .debug_ranges  0x0000000000000780       0x88 ./obj/test1.o
- .debug_ranges  0x0000000000000808       0x40 ./obj/testspi.o
- .debug_ranges  0x0000000000000848       0x18 ./obj/delay.o
- .debug_ranges  0x0000000000000860       0x18 ./obj/timer.o
- .debug_ranges  0x0000000000000878      0x158 ./obj/sx1276.o
- .debug_ranges  0x00000000000009d0       0x18 ./obj/rtc-board.o
- .debug_ranges  0x00000000000009e8       0x38 ./obj/spi-board.o
- .debug_ranges  0x0000000000000a20       0x30 ./obj/sx1276-board.o
- .debug_ranges  0x0000000000000a50       0x88 ./obj/utilities.o
- .debug_ranges  0x0000000000000ad8       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
- .debug_ranges  0x0000000000000ae8       0x70 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .debug_ranges  0x0000000000000b58       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strchr.c.o)
- .debug_ranges  0x0000000000000b68       0x30 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fgetc.c.o)
- .debug_ranges  0x0000000000000b98       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputc.c.o)
- .debug_ranges  0x0000000000000ba8       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputs.c.o)
- .debug_ranges  0x0000000000000bb8       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_printf.c.o)
- .debug_ranges  0x0000000000000bc8       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_puts.c.o)
- .debug_ranges  0x0000000000000bd8       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_scanf.c.o)
- .debug_ranges  0x0000000000000be8       0xa0 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
- .debug_ranges  0x0000000000000c88      0x140 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
- .debug_ranges  0x0000000000000dc8       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strlen.c.o)
- .debug_ranges  0x0000000000000dd8       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strnlen.c.o)
- .debug_ranges  0x0000000000000de8       0x28 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_ungetc.c.o)
- .debug_ranges  0x0000000000000e10      0x138 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
- .debug_ranges  0x0000000000000f48       0x18 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivmoddi4.o)
- .debug_ranges  0x0000000000000f60       0x18 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(fixunssfsi.o)
- .debug_ranges  0x0000000000000f78       0xc0 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(system.o)
- .debug_ranges  0x0000000000001038       0x78 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(uart.o)
+ .debug_ranges  0x0000000000000370       0x88 ./obj/libtimer.o
+ .debug_ranges  0x00000000000003f8      0x110 ./obj/donut.o
+ .debug_ranges  0x0000000000000508      0x2a0 ./obj/main.o
+ .debug_ranges  0x00000000000007a8       0x88 ./obj/test1.o
+ .debug_ranges  0x0000000000000830       0x40 ./obj/testspi.o
+ .debug_ranges  0x0000000000000870       0x18 ./obj/delay.o
+ .debug_ranges  0x0000000000000888       0x18 ./obj/timer.o
+ .debug_ranges  0x00000000000008a0      0x158 ./obj/sx1276.o
+ .debug_ranges  0x00000000000009f8       0x18 ./obj/rtc-board.o
+ .debug_ranges  0x0000000000000a10       0x38 ./obj/spi-board.o
+ .debug_ranges  0x0000000000000a48       0x30 ./obj/sx1276-board.o
+ .debug_ranges  0x0000000000000a78       0x88 ./obj/utilities.o
+ .debug_ranges  0x0000000000000b00       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
+ .debug_ranges  0x0000000000000b10       0x70 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .debug_ranges  0x0000000000000b80       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strchr.c.o)
+ .debug_ranges  0x0000000000000b90       0x30 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fgetc.c.o)
+ .debug_ranges  0x0000000000000bc0       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputc.c.o)
+ .debug_ranges  0x0000000000000bd0       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputs.c.o)
+ .debug_ranges  0x0000000000000be0       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_printf.c.o)
+ .debug_ranges  0x0000000000000bf0       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_puts.c.o)
+ .debug_ranges  0x0000000000000c00       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_scanf.c.o)
+ .debug_ranges  0x0000000000000c10       0xa0 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
+ .debug_ranges  0x0000000000000cb0      0x140 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
+ .debug_ranges  0x0000000000000df0       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strlen.c.o)
+ .debug_ranges  0x0000000000000e00       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strnlen.c.o)
+ .debug_ranges  0x0000000000000e10       0x28 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_ungetc.c.o)
+ .debug_ranges  0x0000000000000e38      0x138 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
+ .debug_ranges  0x0000000000000f70       0x18 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivmoddi4.o)
+ .debug_ranges  0x0000000000000f88       0x18 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(fixunssfsi.o)
+ .debug_ranges  0x0000000000000fa0       0xc0 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(system.o)
+ .debug_ranges  0x0000000000001060       0x78 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(uart.o)
 
-.debug_macro    0x0000000000000000     0xbb78
+.debug_macro    0x0000000000000000     0xbbe3
  .debug_macro   0x0000000000000000      0x156 ./obj/binary.o
  .debug_macro   0x0000000000000156      0x75a ./obj/binary.o
  .debug_macro   0x00000000000008b0      0x4f7 ./obj/binary.o
@@ -3717,179 +3722,179 @@ OUTPUT(demo.elf elf32-littleriscv)
  .debug_macro   0x0000000000002472       0x1c ./obj/delai.o
  .debug_macro   0x000000000000248e       0x30 ./obj/delai.o
  .debug_macro   0x00000000000024be      0x53e ./obj/delai.o
- .debug_macro   0x00000000000029fc      0x1f4 ./obj/isr.o
- .debug_macro   0x0000000000002bf0       0x10 ./obj/isr.o
- .debug_macro   0x0000000000002c00       0x16 ./obj/isr.o
- .debug_macro   0x0000000000002c16       0x3a ./obj/isr.o
- .debug_macro   0x0000000000002c50     0x14bd ./obj/isr.o
- .debug_macro   0x000000000000410d      0x7a0 ./obj/isr.o
- .debug_macro   0x00000000000048ad       0x16 ./obj/isr.o
- .debug_macro   0x00000000000048c3       0x1c ./obj/isr.o
- .debug_macro   0x00000000000048df      0x1ec ./obj/libisr.o
- .debug_macro   0x0000000000004acb       0xb5 ./obj/libspi.o
- .debug_macro   0x0000000000004b80      0x180 ./obj/libtimer.o
- .debug_macro   0x0000000000004d00       0x16 ./obj/libtimer.o
- .debug_macro   0x0000000000004d16      0x17c ./obj/donut.o
- .debug_macro   0x0000000000004e92       0x16 ./obj/donut.o
- .debug_macro   0x0000000000004ea8      0x100 ./obj/helloc.o
- .debug_macro   0x0000000000004fa8      0x21f ./obj/iotest.o
- .debug_macro   0x00000000000051c7      0x287 ./obj/main.o
- .debug_macro   0x000000000000544e      0x16d ./obj/main.o
- .debug_macro   0x00000000000055bb       0x10 ./obj/main.o
- .debug_macro   0x00000000000055cb       0x43 ./obj/main.o
- .debug_macro   0x000000000000560e       0x10 ./obj/main.o
- .debug_macro   0x000000000000561e      0x17f ./obj/simple.o
- .debug_macro   0x000000000000579d      0x27f ./obj/test1.o
- .debug_macro   0x0000000000005a1c       0x2a ./obj/test1.o
- .debug_macro   0x0000000000005a46      0x1f4 ./obj/testspi.o
- .debug_macro   0x0000000000005c3a       0x6d ./obj/delay.o
- .debug_macro   0x0000000000005ca7       0x76 ./obj/gpio.o
- .debug_macro   0x0000000000005d1d       0xb1 ./obj/timer.o
- .debug_macro   0x0000000000005dce      0x1ed ./obj/sx1276.o
- .debug_macro   0x0000000000005fbb       0xb9 ./obj/sx1276.o
- .debug_macro   0x0000000000006074      0x194 ./obj/sx1276.o
- .debug_macro   0x0000000000006208      0x1ad ./obj/board.o
- .debug_macro   0x00000000000063b5       0x6d ./obj/delay-board.o
- .debug_macro   0x0000000000006422      0x128 ./obj/gpio-board.o
- .debug_macro   0x000000000000654a      0x1e4 ./obj/rtc-board.o
- .debug_macro   0x000000000000672e       0x22 ./obj/rtc-board.o
- .debug_macro   0x0000000000006750       0xe0 ./obj/spi-board.o
- .debug_macro   0x0000000000006830      0x1ca ./obj/sx1276-board.o
- .debug_macro   0x00000000000069fa      0x17c ./obj/utilities.o
- .debug_macro   0x0000000000006b76       0xab /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
- .debug_macro   0x0000000000006c21      0x77e /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
- .debug_macro   0x000000000000739f       0x5c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
- .debug_macro   0x00000000000073fb      0x201 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
- .debug_macro   0x00000000000075fc       0x8d /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
- .debug_macro   0x0000000000007689      0x35e /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
- .debug_macro   0x00000000000079e7       0x28 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
- .debug_macro   0x0000000000007a0f      0x212 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .debug_macro   0x0000000000007c21       0xe6 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .debug_macro   0x0000000000007d07      0x174 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .debug_macro   0x0000000000007e7b       0x7c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .debug_macro   0x0000000000007ef7       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .debug_macro   0x0000000000007f07       0xf4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .debug_macro   0x0000000000007ffb      0x117 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .debug_macro   0x0000000000008112       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .debug_macro   0x0000000000008122      0x257 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .debug_macro   0x0000000000008379       0x19 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .debug_macro   0x0000000000008392       0x1c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .debug_macro   0x00000000000083ae       0x3c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .debug_macro   0x00000000000083ea       0x48 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .debug_macro   0x0000000000008432       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .debug_macro   0x0000000000008442       0x5e /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .debug_macro   0x00000000000084a0       0x29 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .debug_macro   0x00000000000084c9       0xe4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strchr.c.o)
- .debug_macro   0x00000000000085ad      0x133 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fgetc.c.o)
- .debug_macro   0x00000000000086e0       0x5e /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fgetc.c.o)
- .debug_macro   0x000000000000873e       0x49 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fgetc.c.o)
- .debug_macro   0x0000000000008787      0x133 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputc.c.o)
- .debug_macro   0x00000000000088ba      0x11b /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputs.c.o)
- .debug_macro   0x00000000000089d5       0xf2 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_printf.c.o)
- .debug_macro   0x0000000000008ac7      0x11b /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_puts.c.o)
- .debug_macro   0x0000000000008be2       0xf2 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_scanf.c.o)
- .debug_macro   0x0000000000008cd4      0x23d /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
- .debug_macro   0x0000000000008f11       0x86 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
- .debug_macro   0x0000000000008f97      0x194 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
- .debug_macro   0x000000000000912b       0x16 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
- .debug_macro   0x0000000000009141       0x16 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
- .debug_macro   0x0000000000009157      0x194 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
- .debug_macro   0x00000000000092eb       0x16 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
- .debug_macro   0x0000000000009301       0x60 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
- .debug_macro   0x0000000000009361       0x2b /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
- .debug_macro   0x000000000000938c       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
- .debug_macro   0x000000000000939c       0xc0 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
- .debug_macro   0x000000000000945c      0x211 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
- .debug_macro   0x000000000000966d       0x9b /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
- .debug_macro   0x0000000000009708       0xf3 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
- .debug_macro   0x00000000000097fb       0x7c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
- .debug_macro   0x0000000000009877       0x4e /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
- .debug_macro   0x00000000000098c5       0xc0 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strlen.c.o)
- .debug_macro   0x0000000000009985      0x778 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strlen.c.o)
- .debug_macro   0x000000000000a0fd      0x14b /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(_libc.a)
- .debug_macro   0x000000000000a248      0x1fd /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_ctype_ctype_.c.o)
- .debug_macro   0x000000000000a445       0x2c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_ctype_ctype_.c.o)
- .debug_macro   0x000000000000a471       0x60 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_errno_errno.c.o)
- .debug_macro   0x000000000000a4d1      0x251 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_errno_errno.c.o)
- .debug_macro   0x000000000000a722       0xe6 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strnlen.c.o)
- .debug_macro   0x000000000000a808       0x94 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strnlen.c.o)
- .debug_macro   0x000000000000a89c      0x11b /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_ungetc.c.o)
- .debug_macro   0x000000000000a9b7       0xf7 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
- .debug_macro   0x000000000000aaae      0x766 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
- .debug_macro   0x000000000000b214      0x11e /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
- .debug_macro   0x000000000000b332       0x34 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
- .debug_macro   0x000000000000b366       0x16 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
- .debug_macro   0x000000000000b37c       0x12 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
- .debug_macro   0x000000000000b38e       0x22 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
- .debug_macro   0x000000000000b3b0       0x6b /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
- .debug_macro   0x000000000000b41b       0xd4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivmoddi4.o)
- .debug_macro   0x000000000000b4ef       0xf7 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(fixunssfsi.o)
- .debug_macro   0x000000000000b5e6       0xd4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(clzsi2.o)
- .debug_macro   0x000000000000b6ba       0xd4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(ctzsi2.o)
- .debug_macro   0x000000000000b78e       0xd4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivdi3.o)
- .debug_macro   0x000000000000b862       0xd4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(umoddi3.o)
- .debug_macro   0x000000000000b936       0xa4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(console.o)
- .debug_macro   0x000000000000b9da       0xa9 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(system.o)
- .debug_macro   0x000000000000ba83       0x34 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(system.o)
- .debug_macro   0x000000000000bab7       0xc1 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(uart.o)
+ .debug_macro   0x00000000000029fc      0x222 ./obj/isr.o
+ .debug_macro   0x0000000000002c1e       0x10 ./obj/isr.o
+ .debug_macro   0x0000000000002c2e       0x16 ./obj/isr.o
+ .debug_macro   0x0000000000002c44       0x3a ./obj/isr.o
+ .debug_macro   0x0000000000002c7e     0x14bd ./obj/isr.o
+ .debug_macro   0x000000000000413b      0x7a0 ./obj/isr.o
+ .debug_macro   0x00000000000048db       0x16 ./obj/isr.o
+ .debug_macro   0x00000000000048f1       0x1c ./obj/isr.o
+ .debug_macro   0x000000000000490d       0x16 ./obj/isr.o
+ .debug_macro   0x0000000000004923      0x1ec ./obj/libisr.o
+ .debug_macro   0x0000000000004b0f       0xb5 ./obj/libspi.o
+ .debug_macro   0x0000000000004bc4      0x1a8 ./obj/libtimer.o
+ .debug_macro   0x0000000000004d6c      0x16d ./obj/libtimer.o
+ .debug_macro   0x0000000000004ed9       0x43 ./obj/libtimer.o
+ .debug_macro   0x0000000000004f1c      0x17c ./obj/donut.o
+ .debug_macro   0x0000000000005098       0x16 ./obj/donut.o
+ .debug_macro   0x00000000000050ae      0x100 ./obj/helloc.o
+ .debug_macro   0x00000000000051ae      0x234 ./obj/iotest.o
+ .debug_macro   0x00000000000053e2      0x287 ./obj/main.o
+ .debug_macro   0x0000000000005669       0x10 ./obj/main.o
+ .debug_macro   0x0000000000005679       0x10 ./obj/main.o
+ .debug_macro   0x0000000000005689      0x17f ./obj/simple.o
+ .debug_macro   0x0000000000005808      0x27f ./obj/test1.o
+ .debug_macro   0x0000000000005a87       0x2a ./obj/test1.o
+ .debug_macro   0x0000000000005ab1      0x1f4 ./obj/testspi.o
+ .debug_macro   0x0000000000005ca5       0x6d ./obj/delay.o
+ .debug_macro   0x0000000000005d12       0x76 ./obj/gpio.o
+ .debug_macro   0x0000000000005d88       0xb1 ./obj/timer.o
+ .debug_macro   0x0000000000005e39      0x1ed ./obj/sx1276.o
+ .debug_macro   0x0000000000006026       0xb9 ./obj/sx1276.o
+ .debug_macro   0x00000000000060df      0x194 ./obj/sx1276.o
+ .debug_macro   0x0000000000006273      0x1ad ./obj/board.o
+ .debug_macro   0x0000000000006420       0x6d ./obj/delay-board.o
+ .debug_macro   0x000000000000648d      0x128 ./obj/gpio-board.o
+ .debug_macro   0x00000000000065b5      0x1e4 ./obj/rtc-board.o
+ .debug_macro   0x0000000000006799       0x22 ./obj/rtc-board.o
+ .debug_macro   0x00000000000067bb       0xe0 ./obj/spi-board.o
+ .debug_macro   0x000000000000689b      0x1ca ./obj/sx1276-board.o
+ .debug_macro   0x0000000000006a65      0x17c ./obj/utilities.o
+ .debug_macro   0x0000000000006be1       0xab /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
+ .debug_macro   0x0000000000006c8c      0x77e /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
+ .debug_macro   0x000000000000740a       0x5c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
+ .debug_macro   0x0000000000007466      0x201 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
+ .debug_macro   0x0000000000007667       0x8d /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
+ .debug_macro   0x00000000000076f4      0x35e /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
+ .debug_macro   0x0000000000007a52       0x28 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
+ .debug_macro   0x0000000000007a7a      0x212 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .debug_macro   0x0000000000007c8c       0xe6 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .debug_macro   0x0000000000007d72      0x174 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .debug_macro   0x0000000000007ee6       0x7c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .debug_macro   0x0000000000007f62       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .debug_macro   0x0000000000007f72       0xf4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .debug_macro   0x0000000000008066      0x117 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .debug_macro   0x000000000000817d       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .debug_macro   0x000000000000818d      0x257 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .debug_macro   0x00000000000083e4       0x19 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .debug_macro   0x00000000000083fd       0x1c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .debug_macro   0x0000000000008419       0x3c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .debug_macro   0x0000000000008455       0x48 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .debug_macro   0x000000000000849d       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .debug_macro   0x00000000000084ad       0x5e /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .debug_macro   0x000000000000850b       0x29 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .debug_macro   0x0000000000008534       0xe4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strchr.c.o)
+ .debug_macro   0x0000000000008618      0x133 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fgetc.c.o)
+ .debug_macro   0x000000000000874b       0x5e /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fgetc.c.o)
+ .debug_macro   0x00000000000087a9       0x49 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fgetc.c.o)
+ .debug_macro   0x00000000000087f2      0x133 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputc.c.o)
+ .debug_macro   0x0000000000008925      0x11b /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputs.c.o)
+ .debug_macro   0x0000000000008a40       0xf2 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_printf.c.o)
+ .debug_macro   0x0000000000008b32      0x11b /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_puts.c.o)
+ .debug_macro   0x0000000000008c4d       0xf2 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_scanf.c.o)
+ .debug_macro   0x0000000000008d3f      0x23d /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
+ .debug_macro   0x0000000000008f7c       0x86 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
+ .debug_macro   0x0000000000009002      0x194 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
+ .debug_macro   0x0000000000009196       0x16 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
+ .debug_macro   0x00000000000091ac       0x16 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
+ .debug_macro   0x00000000000091c2      0x194 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
+ .debug_macro   0x0000000000009356       0x16 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
+ .debug_macro   0x000000000000936c       0x60 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
+ .debug_macro   0x00000000000093cc       0x2b /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
+ .debug_macro   0x00000000000093f7       0x10 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
+ .debug_macro   0x0000000000009407       0xc0 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
+ .debug_macro   0x00000000000094c7      0x211 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
+ .debug_macro   0x00000000000096d8       0x9b /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
+ .debug_macro   0x0000000000009773       0xf3 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
+ .debug_macro   0x0000000000009866       0x7c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
+ .debug_macro   0x00000000000098e2       0x4e /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
+ .debug_macro   0x0000000000009930       0xc0 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strlen.c.o)
+ .debug_macro   0x00000000000099f0      0x778 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strlen.c.o)
+ .debug_macro   0x000000000000a168      0x14b /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(_libc.a)
+ .debug_macro   0x000000000000a2b3      0x1fd /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_ctype_ctype_.c.o)
+ .debug_macro   0x000000000000a4b0       0x2c /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_ctype_ctype_.c.o)
+ .debug_macro   0x000000000000a4dc       0x60 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_errno_errno.c.o)
+ .debug_macro   0x000000000000a53c      0x251 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_errno_errno.c.o)
+ .debug_macro   0x000000000000a78d       0xe6 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strnlen.c.o)
+ .debug_macro   0x000000000000a873       0x94 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strnlen.c.o)
+ .debug_macro   0x000000000000a907      0x11b /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_ungetc.c.o)
+ .debug_macro   0x000000000000aa22       0xf7 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
+ .debug_macro   0x000000000000ab19      0x766 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
+ .debug_macro   0x000000000000b27f      0x11e /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
+ .debug_macro   0x000000000000b39d       0x34 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
+ .debug_macro   0x000000000000b3d1       0x16 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
+ .debug_macro   0x000000000000b3e7       0x12 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
+ .debug_macro   0x000000000000b3f9       0x22 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
+ .debug_macro   0x000000000000b41b       0x6b /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
+ .debug_macro   0x000000000000b486       0xd4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivmoddi4.o)
+ .debug_macro   0x000000000000b55a       0xf7 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(fixunssfsi.o)
+ .debug_macro   0x000000000000b651       0xd4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(clzsi2.o)
+ .debug_macro   0x000000000000b725       0xd4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(ctzsi2.o)
+ .debug_macro   0x000000000000b7f9       0xd4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivdi3.o)
+ .debug_macro   0x000000000000b8cd       0xd4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(umoddi3.o)
+ .debug_macro   0x000000000000b9a1       0xa4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(console.o)
+ .debug_macro   0x000000000000ba45       0xa9 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(system.o)
+ .debug_macro   0x000000000000baee       0x34 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(system.o)
+ .debug_macro   0x000000000000bb22       0xc1 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(uart.o)
 
-.debug_line     0x0000000000000000    0x1c0d8
+.debug_line     0x0000000000000000    0x1c1a8
  .debug_line    0x0000000000000000      0x7e5 ./obj/binary.o
  .debug_line    0x00000000000007e5      0x764 ./obj/console.o
  .debug_line    0x0000000000000f49      0x73c ./obj/delai.o
- .debug_line    0x0000000000001685      0x7db ./obj/isr.o
- .debug_line    0x0000000000001e60     0x11d5 ./obj/libisr.o
- .debug_line    0x0000000000003035      0xaaa ./obj/libspi.o
- .debug_line    0x0000000000003adf     0x11ef ./obj/libtimer.o
- .debug_line    0x0000000000004cce      0x999 ./obj/donut.o
- .debug_line    0x0000000000005667      0x3cf ./obj/helloc.o
- .debug_line    0x0000000000005a36      0x8e2 ./obj/iotest.o
- .debug_line    0x0000000000006318     0x12f1 ./obj/main.o
- .debug_line    0x0000000000007609      0x507 ./obj/simple.o
- .debug_line    0x0000000000007b10      0x9ac ./obj/test1.o
- .debug_line    0x00000000000084bc      0x89a ./obj/testspi.o
- .debug_line    0x0000000000008d56      0x2d6 ./obj/delay.o
- .debug_line    0x000000000000902c      0x32d ./obj/gpio.o
- .debug_line    0x0000000000009359      0xc26 ./obj/timer.o
- .debug_line    0x0000000000009f7f     0x341a ./obj/sx1276.o
- .debug_line    0x000000000000d399      0x632 ./obj/board.o
- .debug_line    0x000000000000d9cb      0x29e ./obj/delay-board.o
- .debug_line    0x000000000000dc69      0x652 ./obj/gpio-board.o
- .debug_line    0x000000000000e2bb      0xba8 ./obj/rtc-board.o
- .debug_line    0x000000000000ee63      0x5b9 ./obj/spi-board.o
- .debug_line    0x000000000000f41c      0xad4 ./obj/sx1276-board.o
- .debug_line    0x000000000000fef0      0x780 ./obj/utilities.o
- .debug_line    0x0000000000010670      0x1fa ./obj/crt0.o
- .debug_line    0x000000000001086a      0x36d /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
- .debug_line    0x0000000000010bd7      0xa7d /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
- .debug_line    0x0000000000011654      0x4e9 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strchr.c.o)
- .debug_line    0x0000000000011b3d      0x4b8 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fgetc.c.o)
- .debug_line    0x0000000000011ff5      0x432 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputc.c.o)
- .debug_line    0x0000000000012427      0x449 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputs.c.o)
- .debug_line    0x0000000000012870      0x424 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_printf.c.o)
- .debug_line    0x0000000000012c94      0x492 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_puts.c.o)
- .debug_line    0x0000000000013126      0x423 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_scanf.c.o)
- .debug_line    0x0000000000013549     0x13e2 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
- .debug_line    0x000000000001492b     0x1502 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
- .debug_line    0x0000000000015e2d       0xde /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(memcpy-asm.S.o)
- .debug_line    0x0000000000015f0b       0xce /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(memset.S.o)
- .debug_line    0x0000000000015fd9       0xd4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strcmp.S.o)
- .debug_line    0x00000000000160ad      0x457 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strlen.c.o)
- .debug_line    0x0000000000016504      0x60d /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(_libc.a)
- .debug_line    0x0000000000016b11      0x609 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_ctype_ctype_.c.o)
- .debug_line    0x000000000001711a      0x312 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_errno_errno.c.o)
- .debug_line    0x000000000001742c      0x455 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strnlen.c.o)
- .debug_line    0x0000000000017881      0x44e /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_ungetc.c.o)
- .debug_line    0x0000000000017ccf      0xaf3 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
- .debug_line    0x00000000000187c2      0xb7b /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivmoddi4.o)
- .debug_line    0x000000000001933d      0x591 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(fixunssfsi.o)
- .debug_line    0x00000000000198ce      0x5a6 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(clzsi2.o)
- .debug_line    0x0000000000019e74      0x590 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(ctzsi2.o)
- .debug_line    0x000000000001a404      0x465 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivdi3.o)
- .debug_line    0x000000000001a869      0x493 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(umoddi3.o)
- .debug_line    0x000000000001acfc      0x3d5 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(console.o)
- .debug_line    0x000000000001b0d1      0x62f /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(system.o)
- .debug_line    0x000000000001b700      0x9d8 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(uart.o)
+ .debug_line    0x0000000000001685      0x803 ./obj/isr.o
+ .debug_line    0x0000000000001e88     0x11d5 ./obj/libisr.o
+ .debug_line    0x000000000000305d      0xaaa ./obj/libspi.o
+ .debug_line    0x0000000000003b07     0x1224 ./obj/libtimer.o
+ .debug_line    0x0000000000004d2b      0x999 ./obj/donut.o
+ .debug_line    0x00000000000056c4      0x3cf ./obj/helloc.o
+ .debug_line    0x0000000000005a93      0x8e7 ./obj/iotest.o
+ .debug_line    0x000000000000637a     0x12f1 ./obj/main.o
+ .debug_line    0x000000000000766b      0x507 ./obj/simple.o
+ .debug_line    0x0000000000007b72      0x9ac ./obj/test1.o
+ .debug_line    0x000000000000851e      0x89a ./obj/testspi.o
+ .debug_line    0x0000000000008db8      0x2d6 ./obj/delay.o
+ .debug_line    0x000000000000908e      0x32d ./obj/gpio.o
+ .debug_line    0x00000000000093bb      0xc46 ./obj/timer.o
+ .debug_line    0x000000000000a001     0x341a ./obj/sx1276.o
+ .debug_line    0x000000000000d41b      0x632 ./obj/board.o
+ .debug_line    0x000000000000da4d      0x29e ./obj/delay-board.o
+ .debug_line    0x000000000000dceb      0x652 ./obj/gpio-board.o
+ .debug_line    0x000000000000e33d      0xbf6 ./obj/rtc-board.o
+ .debug_line    0x000000000000ef33      0x5b9 ./obj/spi-board.o
+ .debug_line    0x000000000000f4ec      0xad4 ./obj/sx1276-board.o
+ .debug_line    0x000000000000ffc0      0x780 ./obj/utilities.o
+ .debug_line    0x0000000000010740      0x1fa ./obj/crt0.o
+ .debug_line    0x000000000001093a      0x36d /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_atoi.c.o)
+ .debug_line    0x0000000000010ca7      0xa7d /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_stdlib_strtol.c.o)
+ .debug_line    0x0000000000011724      0x4e9 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strchr.c.o)
+ .debug_line    0x0000000000011c0d      0x4b8 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fgetc.c.o)
+ .debug_line    0x00000000000120c5      0x432 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputc.c.o)
+ .debug_line    0x00000000000124f7      0x449 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_fputs.c.o)
+ .debug_line    0x0000000000012940      0x424 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_printf.c.o)
+ .debug_line    0x0000000000012d64      0x492 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_puts.c.o)
+ .debug_line    0x00000000000131f6      0x423 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_scanf.c.o)
+ .debug_line    0x0000000000013619     0x13e2 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiprintf.c.o)
+ .debug_line    0x00000000000149fb     0x1502 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_vfiscanf.c.o)
+ .debug_line    0x0000000000015efd       0xde /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(memcpy-asm.S.o)
+ .debug_line    0x0000000000015fdb       0xce /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(memset.S.o)
+ .debug_line    0x00000000000160a9       0xd4 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strcmp.S.o)
+ .debug_line    0x000000000001617d      0x457 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(strlen.c.o)
+ .debug_line    0x00000000000165d4      0x60d /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(_libc.a)
+ .debug_line    0x0000000000016be1      0x609 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_ctype_ctype_.c.o)
+ .debug_line    0x00000000000171ea      0x312 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_errno_errno.c.o)
+ .debug_line    0x00000000000174fc      0x455 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_string_strnlen.c.o)
+ .debug_line    0x0000000000017951      0x44e /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libc/libc.a(libc_tinystdio_ungetc.c.o)
+ .debug_line    0x0000000000017d9f      0xaf3 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(mulsf3.o)
+ .debug_line    0x0000000000018892      0xb7b /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivmoddi4.o)
+ .debug_line    0x000000000001940d      0x591 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(fixunssfsi.o)
+ .debug_line    0x000000000001999e      0x5a6 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(clzsi2.o)
+ .debug_line    0x0000000000019f44      0x590 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(ctzsi2.o)
+ .debug_line    0x000000000001a4d4      0x465 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(udivdi3.o)
+ .debug_line    0x000000000001a939      0x493 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libcompiler_rt/libcompiler_rt.a(umoddi3.o)
+ .debug_line    0x000000000001adcc      0x3d5 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(console.o)
+ .debug_line    0x000000000001b1a1      0x62f /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(system.o)
+ .debug_line    0x000000000001b7d0      0x9d8 /home/grannhom/Bureau/nouveauNeufP/stage-terrine/examples/demo-lora//../../build/digilent_arty_cv32e41p/software/libbase/libbase.a(uart.o)
 
 .debug_str      0x0000000000000000    0x1b1fb
  .debug_str     0x0000000000000000     0x7c79 ./obj/binary.o
@@ -3898,34 +3903,34 @@ OUTPUT(demo.elf elf32-littleriscv)
                                        0x7fe8 (taille avant relaxe)
  .debug_str     0x0000000000007d96     0x246e ./obj/delai.o
                                        0x6a5e (taille avant relaxe)
- .debug_str     0x000000000000a204     0x7914 ./obj/isr.o
-                                      0x105c8 (taille avant relaxe)
- .debug_str     0x0000000000011b18      0x42f ./obj/libisr.o
+ .debug_str     0x000000000000a204     0x79d6 ./obj/isr.o
+                                      0x10783 (taille avant relaxe)
+ .debug_str     0x0000000000011bda      0x42f ./obj/libisr.o
                                       0x10a09 (taille avant relaxe)
- .debug_str     0x0000000000011f47      0x22d ./obj/libspi.o
+ .debug_str     0x0000000000012009      0x22d ./obj/libspi.o
                                        0x6c6f (taille avant relaxe)
- .debug_str     0x0000000000012174      0x5e5 ./obj/libtimer.o
-                                       0x9367 (taille avant relaxe)
- .debug_str     0x0000000000012759       0x8a ./obj/donut.o
+ .debug_str     0x0000000000012236      0x5f0 ./obj/libtimer.o
+                                       0x952d (taille avant relaxe)
+ .debug_str     0x0000000000012826       0x8a ./obj/donut.o
                                        0x7fc1 (taille avant relaxe)
- .debug_str     0x00000000000127e3       0x10 ./obj/helloc.o
+ .debug_str     0x00000000000128b0       0x10 ./obj/helloc.o
                                        0x6798 (taille avant relaxe)
- .debug_str     0x00000000000127f3       0xe1 ./obj/iotest.o
-                                      0x107cd (taille avant relaxe)
- .debug_str     0x00000000000128d4      0x689 ./obj/main.o
+ .debug_str     0x00000000000128c0       0xb1 ./obj/iotest.o
+                                      0x1086b (taille avant relaxe)
+ .debug_str     0x0000000000012971      0x689 ./obj/main.o
                                       0x124ba (taille avant relaxe)
- .debug_str     0x0000000000012f5d       0x1f ./obj/simple.o
+ .debug_str     0x0000000000012ffa       0x1f ./obj/simple.o
                                        0x9f47 (taille avant relaxe)
- .debug_str     0x0000000000012f7c      0x294 ./obj/test1.o
+ .debug_str     0x0000000000013019      0x294 ./obj/test1.o
                                       0x1233d (taille avant relaxe)
- .debug_str     0x0000000000013210       0x43 ./obj/testspi.o
+ .debug_str     0x00000000000132ad       0x43 ./obj/testspi.o
                                        0xc4a5 (taille avant relaxe)
- .debug_str     0x0000000000013253       0x38 ./obj/delay.o
+ .debug_str     0x00000000000132f0       0x38 ./obj/delay.o
                                        0x464e (taille avant relaxe)
- .debug_str     0x000000000001328b      0x161 ./obj/gpio.o
+ .debug_str     0x0000000000013328      0x161 ./obj/gpio.o
                                        0x4985 (taille avant relaxe)
- .debug_str     0x00000000000133ec      0x357 ./obj/timer.o
-                                       0x4e98 (taille avant relaxe)
+ .debug_str     0x0000000000013489      0x2ba ./obj/timer.o
+                                       0x4e9f (taille avant relaxe)
  .debug_str     0x0000000000013743     0x1333 ./obj/sx1276.o
                                        0xfac2 (taille avant relaxe)
  .debug_str     0x0000000000014a76       0xf8 ./obj/board.o
