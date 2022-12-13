@@ -146,7 +146,7 @@ void RtcDelayMs( TimerTime_t milliseconds )
     // Wait delay ms
     while( ( ( RtcGetTimerValue( ) - refTicks ) ) < delayTicks )
     {
-        __NOP( );
+        //__NOP( );
     }
 }
 
