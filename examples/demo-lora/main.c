@@ -7,12 +7,13 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "loramacnode/boards/LitexLib/libisr.h"
+#include "loramacnode/boards/LitexLib/libdio.h"
 #include "loramacnode/system/gpio.h"
 #include "loramacnode/radio/sx1276.h"
 #include "loramacnode/boards/sx1276-board.h"
 #include "loramacnode/radio/sx1276Regs-LoRa.h"
 #include "loramacnode/boards/LitexLib/delai.h"
+#include "libtimer.h"
 
 /*-----------------------------------------------------------------------*/
 /* Uart                                                                  */
@@ -265,11 +266,8 @@ int main(void)
 		irq_setmask(0);
 		irq_setie(1);
 	#endif
-	time0_init();
-	time1_init();
 	uart_init();
 	dio_init();
-
 	help();
 	prompt();
 
