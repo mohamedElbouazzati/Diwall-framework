@@ -27,7 +27,7 @@
 #include "../system/delay.h"
 #include "../radio/radio.h"
 #include "sx1276-board.h"
-#include "LitexLib/libisr.h" 
+#include "LitexLib/libdio.h" 
 #include <generated/csr.h>
 /*!
  * \brief Gets the board PA selection configuration

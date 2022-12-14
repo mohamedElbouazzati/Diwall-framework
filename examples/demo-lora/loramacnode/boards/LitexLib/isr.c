@@ -6,7 +6,8 @@
 #include <stdio.h>
 
 #include "isr.h"
-#include "libisr.h"
+#include "libdio.h"
+#include "libtimer.h"
 
 
 
@@ -23,6 +24,13 @@ void isr(void)
         #endif
     #endif
 
+    #ifdef CSR_TIMER0_BASE
+        #ifdef TIMER0_INTERRUPT
+            if(irqs & (1 << TIMER0_INTERRUPT))
+                timer0_isr();
+        #endif
+    #endif
+
     #ifdef CSR_UART_BASE
         #ifndef UART_POLLING
             if(irqs & (1 << UART_INTERRUPT))
@@ -35,7 +43,6 @@ void isr(void)
             if(irqs & (1 << DIO0_INTERRUPT))
             {
                 dio0_isr();
-               // printf("interruption\n");
             }
         #endif
     #endif
@@ -44,7 +51,6 @@ void isr(void)
             if(irqs & (1 << DIO1_INTERRUPT))
             {
                 dio1_isr();
-               // printf("interruption\n");
             }
         #endif
     #endif
@@ -53,7 +59,6 @@ void isr(void)
             if(irqs & (1 << DIO2_INTERRUPT))
             {
                 dio2_isr();
-               // printf("interruption\n");
             }
         #endif
     #endif
@@ -62,11 +67,8 @@ void isr(void)
             if(irqs & (1 << DIO3_INTERRUPT))
             {
                 dio3_isr();
-               // printf("interruption\n");
             }
         #endif
     #endif
     
 }
-
-
