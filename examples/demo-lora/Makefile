@@ -1,4 +1,4 @@
-BUILD_DIR?=../../build/digilent_arty_cv32e41p
+BUILD_DIR?=../../build/digilent_arty_lora
 
 include $(BUILD_DIR)/software/include/generated/variables.mak
 include $(SOC_DIRECTORY)/software/common.mak
