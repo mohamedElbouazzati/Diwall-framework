@@ -9,10 +9,10 @@ VARIANT?=standard
 APPLICATION?=demo
 
 gateware:
-	python3 -m boards.targets.digilent_arty_cv32e41p --variant=a7-100 --cpu-type=$(CPU_TYPE) --cpu-variant=$(VARIANT) --build
+	python3 -m boards.targets.digilent_arty_lora --variant=a7-100 --cpu-type=$(CPU_TYPE) --cpu-variant=$(VARIANT) --build
 
 load_bitstream:
-	python3 -m boards.targets.digilent_arty_cv32e41p --variant=a7-100 --cpu-type=$(CPU_TYPE) --cpu-variant=$(VARIANT) --load                           
+	python3 -m boards.targets.digilent_arty_lora --variant=a7-100 --cpu-type=$(CPU_TYPE) --cpu-variant=$(VARIANT) --load                           
 
 compile_app:
 	make -C examples/$(APPLICATION)
@@ -30,8 +30,7 @@ pyenv:
 	python3 -m venv venv/pyenv
 
 clean:
-	make -C examples/$(APPLICATION) clean
-	rm -rf examples/$(APPLICATION)/obj
+	rm -rf examples/*/obj
 	rm -rf build
 	
 	
