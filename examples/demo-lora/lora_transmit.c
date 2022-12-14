@@ -7,6 +7,7 @@
 #include "loramacnode/system/timer.h"
 #include "loramacnode/radio/radio.h"
 #include "loramacnode/radio/sx1276.h"
+#include "libtimer.h"
 #include "loramacnode/boards/sx1276-board.h"
 #include "loramacnode/radio/sx1276Regs-LoRa.h"
 
@@ -46,7 +47,7 @@ int lora_transmit( void )
       Radio.SetChannel( RF_FREQUENCY );
       Radio.SetTxConfig( MODEM_LORA, TX_OUTPUT_POWER, 0, LORA_BANDWIDTH, LORA_SPREADING_FACTOR, LORA_CODINGRATE, LORA_PREAMBLE_LENGTH, LORA_FIX_LENGTH_PAYLOAD_ON,true, 0, 0, LORA_IQ_INVERSION_ON, 3000 );
       // sync word:  0x34 reserved for lorawan network
-      SX1276Write( REG_LR_SYNCWORD, 0x34 );
+      Radio.SetPublicNetwork(true);
       Radio.SetMaxPayloadLength( MODEM_LORA, BUFFER_SIZE );
       Payload[0] = 'P';
       Payload[1] = 'I';
@@ -59,7 +60,7 @@ int lora_transmit( void )
       while (1)
       {
          Radio.Send(Payload,BUFFER_SIZE);
-         DelayMs(500);
+        DelayMs(100);
       }
       
 }
@@ -74,5 +75,6 @@ void OnTxDone( void )
 void OnRadioTxTimeout( void )
 {
     // Restarts continuous wave transmission when timeout expires
+    printf("Tx timeout\n");
     Radio.SetTxContinuousWave( RF_FREQUENCY, TX_OUTPUT_POWER, 65535 );
 }
