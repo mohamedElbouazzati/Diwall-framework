@@ -36,6 +36,12 @@ minicom -D /dev/ttyACM0 -b 921600
 ```
 
 
+The dummyMac communication use the following parameters:
+
+* Channel: 868.3 MHz
+* SF12
+* SYNC network public at true: Ox34
+
 # Test ping-pong default app
 
 $ mkdir build
