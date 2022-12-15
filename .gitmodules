@@ -22,3 +22,6 @@
 [submodule "third_party/litedram"]
 	path = third_party/litedram
 	url = https://github.com/enjoy-digital/litedram.git
+[submodule "testbed/end-devices/B-L072Z-LRWAN1/LoRaMac-node"]
+	path = testbed/end-devices/B-L072Z-LRWAN1/LoRaMac-node
+	url = https://github.com/Lora-net/LoRaMac-node.git
