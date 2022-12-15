@@ -1,4 +1,4 @@
-BUILD_DIR?=/home/med/Desktop/workflow/stage-terrine-modif/stage-terrine/build/digilent_arty_lora
+BUILD_DIR?=../../build/digilent_arty_lora
 
 include $(BUILD_DIR)/software/include/generated/variables.mak
 include $(SOC_DIRECTORY)/software/common.mak
