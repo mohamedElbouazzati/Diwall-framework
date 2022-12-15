@@ -30,9 +30,9 @@
 #include "../system/spi.h"
 //#include "../system/i2c.h"
 //#include "../system/uart.h"
-//#include "../system/timer.h"
+#include "../system/timer.h"
 //#include "../system/gps.h"
-//#include "rtc-board.h"
+#include "rtc-board.h"
 #include "sx1276-board.h"
 #include "board.h"
 #include <stddef.h>
@@ -76,7 +76,7 @@ void BoardInitMcu( void )
     //hri_gclk_write_PCHCTRL_reg( GCLK, EIC_GCLK_ID, CONF_GCLK_EIC_SRC | ( 1 << GCLK_PCHCTRL_CHEN_Pos ) );
     //hri_mclk_set_APBAMASK_EIC_bit( MCLK );
 
-    //RtcInit( );
+    RtcInit( );
 
     //NON GÉRÉ !
     //UartInit( &Uart1, UART_1, UART_TX, UART_RX );
