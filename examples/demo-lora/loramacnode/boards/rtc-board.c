@@ -29,6 +29,7 @@
 #include "systime.h"
 #include "gpio.h"
 #include "rtc-board.h"
+#include "libtimer.h"
 
 #define RTC_DEBUG_ENABLE                            1
 #define RTC_DEBUG_DISABLE                           0
