@@ -22,7 +22,7 @@
  */
 
 #include "utilities.h"
-#include "LitexLib/libisr.h"
+#include "LitexLib/libdio.h"
 #include "board-config.h"
 #include "rtc-board.h"
 #include "gpio-board.h"
