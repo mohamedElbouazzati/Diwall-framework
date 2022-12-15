@@ -1,29 +1,22 @@
 /*! -----------------------------------------------------------------------------------------------------
  * \file      libirq.h libirq.c
  *
- * \brief     delay implementation for Litex
+ * \brief     SPI implementation for Litex (loraspi)
  *
- * \copyright MadHighTech of source \ref LICENSE.
- *
- * \code
- *            _______              __                                            
- *           /       \            /  |                                           
- *           $$$$$$$  | ______   _$$ |_     ______                               
- *           $$ |__$$ |/      \ / $$   |   /      \                              
- *           $$    $$//$$$$$$  |$$$$$$/   /$$$$$$  |                             
- *           $$$$$$$/ $$ |  $$ |  $$ | __ $$ |  $$ |                             
- *           $$ |     $$ \__$$ |  $$ |/  |$$ \__$$ |                             
- *           $$ |     $$    $$/   $$  $$/ $$    $$/                              
- *           $$/       $$$$$$/     $$$$/   $$$$$$/                                                                                                                                                                                
- *                                   ╔═╗╔╦╗         
- *                                   ║   ║          
- *                                   ╚═╝╔═╗┬ ┬┬ ┬  ┬
- *                                      ╚═╗└┬┘│ └┐┌┘
- *                                      ╚═╝ ┴ ┴─┘└┘                                                                              
+ * \code                                                                                                                                                                          
+ *          ___  _ __   ___ _ __                  
+ *         / _ \| '_ \ / _ \ '_ \                 
+ *        | (_) | |_) |  __/ | | |                
+ *         \___/| .__/_\___|_| |_| _ _ __ ___ ___ 
+ *              | | / __|/ _ \| | | | '__/ __/ _ \
+ *              |_| \__ \ (_) | |_| | | | (_|  __/
+ *                  |___/\___/ \__,_|_|  \___\___|
+ *                                                                                                                      
  * \endcode
  *
- * \author    TERRINE Christophe ( MadHighTech )
- * ------------------------------------------------------------------------------------------------------
+ * \author    TERRINE Christophe ( www.ct-sylv.com )
+ * \author    Mohamed El Bouazzati ()  
+ *-------------------------------------------------------------------------------------------------------
  * \brief TO USE THIS LIBRARY :
  *        - define |CONFIG_CPU_HAS_INTERRUPT|
  *        - define Your interruption like |TIMER0_SET_INTERRUPT|
@@ -54,13 +47,20 @@ extern "C" {
      * @brief List of interruption handler functions. 
      * 
     */
-#include "../../system/gpio.h"
-#include "../board-config.h"
+#include "gpio.h"
+#include "board-config.h"
 #include "defint.h"
-#include "../../radio/sx1276.h"
+#include "sx1276.h"
 
-#define NBDIO 3
+#define NBDIO 4
+
+
 /*dio_edge_read, dio_edge_write, dio_mode_read, dio_mode_write, dio_in_read, dio_out_read, out_write,*/ //<-- INUTILE DANS LA STRUCTURE NON INDEPENDANT
+
+/**
+ * @brief Control structure of the GPIOS 
+ * 
+ */
 typedef struct   
 {
     IrqPriorities irqPriority; // 1
@@ -87,6 +87,7 @@ typedef struct
     uint8_t pinNumber;
 }GPIOs_control;
 
+
 typedef unsigned char uint8_t;
 /*********************************************************************
 DIO FUNCTION
@@ -96,12 +97,6 @@ void dio1_isr(void);
 void dio2_isr(void);
 void dio3_isr(void);
 void dio_init(void);
-/*********************************************************************
-TIMER0 and TIMER1 FUNCTION
-**********************************************************************/
-void time0_init(void);
-void time1_init(void);
-void timer1_isr(void);    
 
 /*********************************************************************
 CONTROL FUNCTION
@@ -121,11 +116,10 @@ void SetInterrupt(IrqModes irqMode, IrqPriorities irqPriority, GpioIrqHandler *i
 void RemoveInterrupt(uint8_t pinNumber );
 
 uint32_t Read(uint8_t pinNumber );
-uint32_t Write(uint8_t pinNumber,uint32_t value );
+void Write(uint8_t pinNumber,uint32_t value );
+
 #ifdef __cplusplus
 }
 #endif    
 
 #endif
-
-
