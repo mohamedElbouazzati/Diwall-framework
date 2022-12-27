@@ -46,7 +46,7 @@ for i in range(0,BoPacket):
     payload="\"\\x02"+ "\"\"" + str(hex(size)).replace('0','\\',1) + "\"\""+payload+"\\x04\"\n" 
     data.append(payload)	
 
-bot="; \n #endif"
+bot="; \n#endif"
 data.append(bot)
 with open("input_packet.h", "w") as fp:
 	fp.writelines(data)
