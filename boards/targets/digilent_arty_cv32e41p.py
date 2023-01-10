@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 #
 # This file is part of LiteX-Boards.
 #
@@ -7,17 +6,16 @@
 # Copyright (c) 2020 Antmicro <www.antmicro.com>
 # Copyright (c) 2022 Victor Suarez Rovere <suarezvictor@gmail.com>
 # SPDX-License-Identifier: BSD-2-Clause
-
+#
 # Note: For now, with --toolchain=yosys+nextpnr, DDR3 should be disabled and sys_clk_freq lowered, ex:
 # python3 -m litex_boards.targets.digilent_arty.py --sys-clk-freq=50e6 --integrated-main-ram-size=8192 --toolchain=yosys+nextpnr --build
-
+#
 
 from migen.genlib.cdc import MultiReg
 
 from litex.soc.interconnect.csr import *
 
 from litex.soc.interconnect.csr_eventmanager import *
-
 
 from migen import *
 
@@ -47,9 +45,6 @@ class _CRG(Module):
             self.clock_domains.cd_sys4x     = ClockDomain(reset_less=True)
             self.clock_domains.cd_sys4x_dqs = ClockDomain(reset_less=True)
             self.clock_domains.cd_idelay    = ClockDomain()
-
-
-        # # #
 
         # Clk/Rst.
         clk100 = platform.request("clk100")
@@ -104,30 +99,27 @@ class BaseSoC(SoCCore):
         # Lora / SPI DIO ---------------------------------------------------------------------
         if with_lora:
             from litex.soc.cores.spi import SPIMaster         
-            self.submodules.loraspi = SPIMaster(pads=platform.request("lora_spi"), data_width=8, sys_clk_freq=sys_clk_freq, spi_clk_freq=int(100e3), with_csr=True, mode="raw")
-            #platform.add_extension(digilent_arty_poto.dio_methode("dio"))
-            self.submodules.dio0 = GPIOIn(platform.request("dio0"), with_irq = self.irq.enabled )
+            self.submodules.loraspi = SPIMaster(pads=platform.request("lora_spi"), data_width=8,
+                sys_clk_freq=sys_clk_freq, spi_clk_freq=int(100e3), with_csr=True, mode="raw")
+           
+            self.submodules.dio0 = GPIOTristate(platform.request("dio0"), with_irq = True)
             self.add_interrupt("dio0")
             self.add_csr("dio0")
-            self.submodules.dio1 = GPIOIn(platform.request("dio1"), with_irq = self.irq.enabled )
+            self.submodules.dio1 = GPIOTristate(platform.request("dio1"), with_irq = True)
             self.add_interrupt("dio1")
             self.add_csr("dio1")
-            self.submodules.dio2 = GPIOIn(platform.request("dio2"), with_irq = self.irq.enabled )
+            self.submodules.dio2 = GPIOTristate(platform.request("dio2"), with_irq = True )
             self.add_interrupt("dio2")
             self.add_csr("dio2")
-            self.submodules.dio3 = GPIOIn(platform.request("dio3"), with_irq = self.irq.enabled )
+            self.submodules.dio3 = GPIOTristate(platform.request("dio3"), with_irq = True)
             self.add_interrupt("dio3")
             self.add_csr("dio3")            
-            #self.add_gpio(name="dio0",pads=platform.request("dio0"),with_irq=True)
-            #self.add_gpio(name="dio1",pads=platform.request("dio1"),with_irq=True)
-            #self.add_gpio(name="dio2",pads=platform.request("dio2"),with_irq=True)
-            #self.add_gpio(name="dio3",pads=platform.request("dio3"),with_irq=True)
-           # self.add_gpio(name="rst",pads=platform.request("rst"))
-            # self.add_gpio(name="rst",pads=platform.request("rst"),with_irq=False)
-            self.submodules.rst = GPIOOut(platform.request("rst"))
-            self.add_csr("rst")
 
-            #Adding Timer for Tests
+            self.submodules.rst = GPIOTristate(platform.request("rst"), with_irq = True)
+            self.add_interrupt("rst")
+            self.add_csr("rst")       
+
+            #Adding Timer
             from litex.soc.cores.timer import Timer
             self.submodules.timer1 = Timer()
             self.add_interrupt("timer1")
@@ -186,7 +178,10 @@ def main():
     target_group.add_argument("--sdcard-adapter",      type=str,                         help="SDCard PMOD adapter (digilent or numato).")
     target_group.add_argument("--with-jtagbone",       action="store_true",              help="Enable JTAGbone support.")
     target_group.add_argument("--with-spi-flash",      action="store_true",              help="Enable SPI Flash (MMAPed).")
-    target_group.add_argument("--with-pmod-gpio",      action="store_true",              help="Enable GPIOs through PMOD.") # FIXME: Temporary test.
+    target_group.add_argument("--with-pmod-gpio",      action="store_true",              help="Enable GPIOs through PMOD.") 
+    
+    # FIXME: Temporary test.
+
     builder_args(parser)
     soc_core_args(parser)
     vivado_build_args(parser)
@@ -209,10 +204,13 @@ def main():
     )
     if args.sdcard_adapter == "numato":
         soc.platform.add_extension(digilent_arty_cv32e41p._numato_sdcard_pmod_io)
+
     else:
         soc.platform.add_extension(digilent_arty_cv32e41p._sdcard_pmod_io)
+
     if args.with_spi_sdcard:
         soc.add_spi_sdcard()
+
     if args.with_sdcard:
         soc.add_sdcard()
 
@@ -222,8 +220,9 @@ def main():
 
     if args.load:
         prog = soc.platform.create_programmer()
-        #prog.load_bitstream(builder.get_bitstream_filename(mode="sram"))
-        prog.load_bitstream(os.path.join(builder.gateware_dir, soc.build_name + ".bit"))
+        prog.load_bitstream(builder.get_bitstream_filename(mode="sram"))
+        #prog.load_bitstream(os.path.join(builder.gateware_dir, soc.build_name + ".bit"))
+
     if args.flash:
         prog = soc.platform.create_programmer()
         prog.flash(0, builder.get_bitstream_filename(mode="flash"))

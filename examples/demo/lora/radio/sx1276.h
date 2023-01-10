@@ -30,8 +30,8 @@ extern "C"
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "lora/system/gpio.h"
-#include "lora/system/spi.h"
+#include "gpio.h"
+#include "spi.h"
 #include "radio.h"
 #include "sx1276Regs-Fsk.h"
 #include "sx1276Regs-LoRa.h"
@@ -145,7 +145,7 @@ typedef struct SX1276_s
     Gpio_t        DIO3;
     Gpio_t        DIO4;
     Gpio_t        DIO5;
-    //Spi_t         Spi;
+    Spi_t         Spi;
     RadioSettings_t Settings;
 }SX1276_t;
 

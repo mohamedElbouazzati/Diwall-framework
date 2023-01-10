@@ -104,6 +104,17 @@ static void help(void)
 	puts("donut              - Spinning Donut demo");
 	puts("helloc             - Hello C");
 	puts("test1              - Test reception");
+
+	puts("input_test         - GPIO TEST input test");
+	puts("output_test        - GPIO TEST output test");
+	puts("interruptIO_test   - GPIO TEST interrupt test");
+
+	puts("test_spiInOut      - SPI TEST spiinout test");
+
+	puts("timer_oneshot      - TIMER TEST timer test");
+	puts("timer_reloadshot   - TIMER TEST timer test");
+	puts("timer_interruption - TIMER TEST timer test");
+
 #ifdef WITH_CXX
 	puts("hellocpp           - Hello C++");
 #endif
@@ -202,6 +213,56 @@ static void test1_cmd(void)
 }
 
 
+extern void input_test(void);
+static void input_test_cmd(void)
+{
+	printf("input_test C demo...\n");
+    input_test();
+}
+
+extern void output_test(void);
+static void output_test_cmd(void)
+{
+	printf("output_test C demo...\n");
+    output_test();
+}
+
+extern void interruptIO_test(void);
+static void interruptIO_test_cmd(void)
+{
+	printf("interruptIO_test C demo...\n");
+    interruptIO_test();
+}
+
+extern void test_spiInOut(void);
+static void test_spiInOut_cmd(void)
+{
+	printf("test_spiInOut C demo...\n");
+    test_spiInOut();
+}
+
+extern void timer_oneshot(void);
+static void timer_oneshot_cmd(void)
+{
+	printf("timer_oneshot C demo...\n");
+    timer_oneshot();
+}
+
+extern void timer_reloadshot(void);
+static void timer_reloadshot_cmd(void)
+{
+	printf("timer_reloadshot C demo...\n");
+    timer_reloadshot();
+}
+
+extern void timer_interruption(void);
+static void timer_interruption_cmd(void)
+{
+	printf("timer_interruption C demo...\n");
+    timer_interruption();
+}
+
+
 
 #ifdef WITH_CXX
 extern void hellocpp(void);
@@ -247,6 +308,22 @@ static void console_service(void)
 			iotest_cmd();
 	else if(strcmp(token, "test1") == 0)
 			test1_cmd();
+
+	else if(strcmp(token, "input_test") == 0)
+			input_test_cmd();
+	else if(strcmp(token, "output_test") == 0)
+			output_test_cmd();
+	else if(strcmp(token, "interruptIO_test") == 0)
+			interruptIO_test_cmd();
+	else if(strcmp(token, "test_spiInOut") == 0)
+			test_spiInOut_cmd();
+	else if(strcmp(token, "timer_oneshot") == 0)
+			timer_oneshot_cmd();
+	else if(strcmp(token, "timer_reloadshot") == 0)
+			timer_reloadshot_cmd();
+	else if(strcmp(token, "timer_interruption") == 0)
+			timer_interruption_cmd();
+
 
 #ifdef __RADIO_H__
 	else if(strcmp(token, "a") == 0)

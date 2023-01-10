@@ -1,0 +1,9 @@
+Les scripts :
+    - generated.sh sert a initialiser le dossier zephyr, ce sont toutes les commandes
+que j'ai tapé pour génerer le projet.
+    - test.sh sert a compiler le programme hello word via west. 
+
+Les scripts dans zephyr-on-litex-vexriscv:
+    - isntall_litex.sh sont les commandes l'ensemble des commandes que j'ai tapé pour installer litex
+    - install_toolchain.sh sont les commandes que j'ai tapé pour installer la toolchain pour RISCV (mais ne fonctionne pas mauvais, c'est mon point d'arret)
+    - install.sh c'est pour installer conda mais je crois que ce n'est pas obligatoire c'est une étape qu'on peut s'en passer.

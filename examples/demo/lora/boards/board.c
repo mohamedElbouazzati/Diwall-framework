@@ -81,8 +81,8 @@ void BoardInitMcu( void )
     //NON GÉRÉ !
     //UartInit( &Uart1, UART_1, UART_TX, UART_RX );
     //UartConfig( &Uart1, RX_TX, 921600, UART_8_BIT, UART_1_STOP_BIT, NO_PARITY, NO_FLOW_CTRL );
-
-    SpiInit();
+    
+    SpiInit(NULL,0,0,0,0,0);
     SX1276IoInit( );
 
     //NON GÉRÉ !
@@ -103,7 +103,7 @@ void BoardResetMcu( void )
 
 void BoardDeInitMcu( void )
 {
-    SpiDeInit();
+    SpiDeInit(NULL);
 }
 
 uint32_t BoardGetRandomSeed( void )

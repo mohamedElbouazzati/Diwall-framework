@@ -30,7 +30,7 @@ extern "C"
 
 #include <stdint.h>
 #include <stdbool.h>
-//#include "timer.h"
+#include "timer.h"
 
 /*!
  * \brief Temperature coefficient of the clock source

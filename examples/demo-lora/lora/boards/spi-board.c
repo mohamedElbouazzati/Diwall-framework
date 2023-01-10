@@ -45,7 +45,7 @@ void SpiDeInit(Spi_t *obj )
     SpiInit(); //unique SPI
 }
 
-uint16_t SpiInOut(uint16_t outData )
+uint32_t SpiInOut(uint32_t outData )
 {   
     loraspi_mosi_write(outData);
     loraspi_control_start_write(1);

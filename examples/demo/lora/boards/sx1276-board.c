@@ -1,7 +1,7 @@
 /*!
- * \file      sx1276-board.c
+ * \file      sx1276mb1las-board.c
  *
- * \brief     Target board SX1276 driver implementation
+ * \brief     Target board SX1276MB1LAS shield driver implementation
  *
  * \copyright Revised BSD License, see section \ref LICENSE.
  *
@@ -19,18 +19,17 @@
  * \author    Miguel Luis ( Semtech )
  *
  * \author    Gregory Cristian ( Semtech )
- *
- * \author    Marten Lootsma(TWTG) on behalf of Microchip/Atmel (c)2017
  */
-//#include <peripheral_clk_config.h>
-//#include <hal_ext_irq.h>
-//#include <hal_gpio.h>
+#define RESET 1
+#include <stdlib.h>
+#include "utilities.h"
 #include "board-config.h"
 #include "../system/delay.h"
 #include "../radio/radio.h"
 #include "sx1276-board.h"
-#include <stddef.h>
-
+#include "../../tools/libdio.h" 
+#include <generated/csr.h>
+#include "sx1276-board.h"
 /*!
  * \brief Gets the board PA selection configuration
  *
@@ -79,14 +78,9 @@ const struct Radio_s Radio =
 };
 
 /*!
- * TCXO power control pin
- */
-Gpio_t tcxo_pin;
-
-/*!
  * Antenna switch GPIO pins objects
  */
-Gpio_t rfswitch_pin;
+//Gpio_t AntSwitch;
 
 /*!
  * Debug GPIO pins objects
@@ -98,85 +92,40 @@ Gpio_t DbgPinRx;
 
 void SX1276IoInit( void )
 {
-    //GpioInit( &SX1276.Spi.Nss, RADIO_NSS, PIN_OUTPUT, PIN_PUSH_PULL, PIN_NO_PULL, 1 );
-    //GpioInit( &rfswitch_pin, RF_SWITCH_PIN, PIN_OUTPUT, PIN_PUSH_PULL, PIN_NO_PULL, 0 );
-    //ext_irq_init( );
-
-    GpioInit( &SX1276.DIO0, DIO_NAME, PIN_INPUT, 0 );
-    //gpio_set_pin_function( RADIO_DIO_0, PINMUX_PB16A_EIC_EXTINT0 );
-    GpioInit( &SX1276.DIO1, DIO_NAME, PIN_INPUT, 0 );
-    // Must be setup to be trigged on both edges. See CONF_EIC_SENSE11 under hpl_eic_config.h
-    //gpio_set_pin_function( RADIO_DIO_1, PINMUX_PA11A_EIC_EXTINT11 );
-    GpioInit( &SX1276.DIO2, DIO_NAME, PIN_INPUT, 0 );
-    //gpio_set_pin_function( RADIO_DIO_2, PINMUX_PA12A_EIC_EXTINT12 );
-    GpioInit( &SX1276.DIO3, DIO_NAME, PIN_INPUT, 0 );
-    //gpio_set_pin_function( RADIO_DIO_3, PINMUX_PB17A_EIC_EXTINT1 );
-}
-
-static void Dio0IrqHandler( void );
-static void Dio1IrqHandler( void );
-static void Dio2IrqHandler( void );
-static void Dio3IrqHandler( void );
-
-static Gpio_t *DioIrqs[] = {
-    &SX1276.DIO0,
-    &SX1276.DIO1,
-    &SX1276.DIO2,
-    &SX1276.DIO3
-};
-
-static ext_irq_cb_t ExtIrqHandlers[] = {
-    Dio0IrqHandler,
-    Dio1IrqHandler,
-    Dio2IrqHandler,
-    Dio3IrqHandler
-};
-
-static void DioIrqHanlderProcess( uint8_t index )
-{
-    if( ( DioIrqs[index] != NULL ) && ( DioIrqs[index]->IrqHandler != NULL ) )
-    {
-        DioIrqs[index]->IrqHandler( DioIrqs[index]->Context );
-    }
-}
-
-static void Dio0IrqHandler( void )
-{
-    DioIrqHanlderProcess( 0 );
-}
-
-static void Dio1IrqHandler( void )
-{
-    DioIrqHanlderProcess( 1 );
-}
-
-static void Dio2IrqHandler( void )
-{
-    DioIrqHanlderProcess( 2 );
-}
-
-static void Dio3IrqHandler( void )
-{
-    DioIrqHanlderProcess( 3 );
-}
-
-static void IoIrqInit( uint8_t index, DioIrqHandler *irqHandler )
-{
-    DioIrqs[index]->IrqHandler = irqHandler;
-    ext_irq_register( DioIrqs[index]->pin, ExtIrqHandlers[index] );
+    GpioInit( &SX1276.Spi.Nss, RADIO_NSS, PIN_OUTPUT, PIN_PUSH_PULL, PIN_NO_PULL, 0 );
+    
+    
+    GpioInit( &SX1276.DIO0, RADIO_DIO_0, PIN_INPUT, PIN_PUSH_PULL, PIN_PULL_UP, 0 );
+    GpioInit( &SX1276.DIO1, RADIO_DIO_1, PIN_INPUT, PIN_PUSH_PULL, PIN_PULL_UP, 0 );
+    GpioInit( &SX1276.DIO2, RADIO_DIO_2, PIN_INPUT, PIN_PUSH_PULL, PIN_PULL_UP, 0 );
+    GpioInit( &SX1276.DIO3, RADIO_DIO_3, PIN_INPUT, PIN_PUSH_PULL, PIN_PULL_UP, 0 );
+    //GpioInit( &SX1276.DIO4, RADIO_DIO_4, PIN_INPUT, PIN_PUSH_PULL, PIN_PULL_UP, 0 );
+   // GpioInit( &SX1276.DIO5, RADIO_DIO_5, PIN_INPUT, PIN_PUSH_PULL, PIN_PULL_UP, 0 );
 }
 
 void SX1276IoIrqInit( DioIrqHandler **irqHandlers )
 {
-    for( int8_t i = 0; i < 4; i++ )
-    {
-        IoIrqInit( i, irqHandlers[i] );
-    }
+    
+    GpioSetInterrupt( &SX1276.DIO0, IRQ_RISING_EDGE, IRQ_HIGH_PRIORITY, irqHandlers[0] );
+    GpioSetInterrupt( &SX1276.DIO1, IRQ_RISING_FALLING_EDGE, IRQ_HIGH_PRIORITY, irqHandlers[1] );
+    GpioSetInterrupt( &SX1276.DIO2, IRQ_RISING_EDGE, IRQ_HIGH_PRIORITY, irqHandlers[2] );
+    GpioSetInterrupt( &SX1276.DIO3, IRQ_RISING_EDGE, IRQ_HIGH_PRIORITY, irqHandlers[3] );
+
 }
 
 void SX1276IoDeInit( void )
 {
-   SX1276IoInit();
+    //SX1276IoInit();
+    
+    //GpioInit( &SX1276.Spi.Nss, RADIO_NSS, PIN_OUTPUT, PIN_PUSH_PULL, PIN_NO_PULL, 1 );
+//
+    //GpioInit( &SX1276.DIO0, RADIO_DIO_0, PIN_INPUT, PIN_PUSH_PULL, PIN_NO_PULL, 0 );
+    //GpioInit( &SX1276.DIO1, RADIO_DIO_1, PIN_INPUT, PIN_PUSH_PULL, PIN_NO_PULL, 0 );
+    //GpioInit( &SX1276.DIO2, RADIO_DIO_2, PIN_INPUT, PIN_PUSH_PULL, PIN_NO_PULL, 0 );
+    //GpioInit( &SX1276.DIO3, RADIO_DIO_3, PIN_INPUT, PIN_PUSH_PULL, PIN_NO_PULL, 0 );
+    //GpioInit( &SX1276.DIO4, RADIO_DIO_4, PIN_INPUT, PIN_PUSH_PULL, PIN_NO_PULL, 0 );
+    //GpioInit( &SX1276.DIO5, RADIO_DIO_5, PIN_INPUT, PIN_PUSH_PULL, PIN_NO_PULL, 0 );
+
 }
 
 void SX1276IoDbgInit( void )
@@ -189,13 +138,23 @@ void SX1276IoDbgInit( void )
 
 void SX1276IoTcxoInit( void )
 {
-    GpioInit( &tcxo_pin, TCXO_PWR_PIN, PIN_OUTPUT, PIN_PUSH_PULL, PIN_NO_PULL, 0 );
+    // No TCXO component available on this board design.
 }
 
 void SX1276SetBoardTcxo( uint8_t state )
 {
-    GpioWrite( &tcxo_pin, state );
-    DelayMs( BOARD_TCXO_WAKEUP_TIME );
+    // No TCXO component available on this board design.
+#if 0
+    if( state == true )
+    {
+        TCXO_ON( );
+        DelayMs( BOARD_TCXO_WAKEUP_TIME );
+    }
+    else
+    {
+        TCXO_OFF( );
+    }
+#endif
 }
 
 uint32_t SX1276GetBoardTcxoWakeupTime( void )
@@ -219,6 +178,14 @@ void SX1276Reset( void )
 
     // Wait 6 ms
     DelayMs( 6 );
+
+    /*rst_out_write(rst_out_read() & ~(1 << 0) );  // set reset pin to 0
+
+    DelayMs(20);
+    rst_out_write(rst_out_read() | (1 << 0) );     // set reset pin to 1
+
+    DelayMs(6);*/
+
 }
 
 void SX1276SetRfTxPower( int8_t power )
@@ -291,20 +258,57 @@ void SX1276SetRfTxPower( int8_t power )
 
 static uint8_t SX1276GetPaSelect( uint32_t channel )
 {
-    return RF_PACONFIG_PASELECT_PABOOST;
+    if( channel > RF_MID_BAND_THRESH )
+    {
+        return RF_PACONFIG_PASELECT_PABOOST;
+    }
+    else
+    {
+        return RF_PACONFIG_PASELECT_RFO;
+    }
 }
 
 void SX1276SetAntSwLowPower( bool status )
 {
-    // Control the TCXO and Antenna switch
     if( RadioIsActive != status )
     {
         RadioIsActive = status;
+
+        if( status == false )
+        {
+            SX1276AntSwInit( );
+        }
+        else
+        {
+            SX1276AntSwDeInit( );
+        }
     }
+}
+
+void SX1276AntSwInit( void )
+{
+    //GpioInit( &AntSwitch, RADIO_ANT_SWITCH, PIN_OUTPUT, PIN_PUSH_PULL, PIN_PULL_UP, 0 );
+}
+
+void SX1276AntSwDeInit( void )
+{
+   // GpioInit( &AntSwitch, RADIO_ANT_SWITCH, PIN_OUTPUT, PIN_PUSH_PULL, PIN_NO_PULL, 0 );
 }
 
 void SX1276SetAntSw( uint8_t opMode )
 {
+    switch( opMode )
+    {
+    case RFLR_OPMODE_TRANSMITTER:
+        //GpioWrite( &AntSwitch, 1 );
+        break;
+    case RFLR_OPMODE_RECEIVER:
+    case RFLR_OPMODE_RECEIVER_SINGLE:
+    case RFLR_OPMODE_CAD:
+    default:
+      //  GpioWrite( &AntSwitch, 0 );
+        break;
+    }
 }
 
 bool SX1276CheckRfFrequency( uint32_t frequency )

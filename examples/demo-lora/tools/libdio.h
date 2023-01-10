@@ -40,9 +40,7 @@
 #define __LIBIRQ_H
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+
     /**
      * @brief List of interruption handler functions. 
      * 
@@ -51,9 +49,9 @@ extern "C" {
 #include "../lora/boards/board-config.h"
 #include "defint.h"
 #include "../lora/radio/sx1276.h"
+#include "generated/csr.h"
 
 #define NBDIO 4
-
 
 /*dio_edge_read, dio_edge_write, dio_mode_read, dio_mode_write, dio_in_read, dio_out_read, out_write,*/ //<-- INUTILE DANS LA STRUCTURE NON INDEPENDANT
 
@@ -63,30 +61,49 @@ extern "C" {
  */
 typedef struct   
 {
-    IrqPriorities irqPriority; // 1
-    uint32_t (*pending_read)(void); //2
-    void (*pending_write)(uint32_t);//3
-    
-    uint32_t (*enable_read)(void);//4
-    void (*enable_write)(uint32_t);//5
-    
-    uint32_t (*edge_read)(void);
-    void (*edge_write)(uint32_t);
-    
-    uint32_t (*mode_read)(void);
-    void (*mode_write)(uint32_t);
-    
-    uint32_t (*in_read)(void);
-    
+    //---------materiel----------
+    IrqPriorities irqPriority;      // 1
 
-    uint32_t (*status_read)(void);    
-    //DioIrqHandler irqhandler;
-   void (*irqHandler)(void *);
-   void *context;
-    uint8_t INTERRUPT;
-    uint8_t pinNumber;
+    uint32_t (*oe_read)(void);      // 2
+    void (*oe_write)(uint32_t);     // 3
+
+    uint32_t (*in_read)(void);      // 4
+
+    uint32_t (*out_read)(void);     // 5
+    void (*out_write)(uint32_t);    // 6
+
+    uint32_t (*mode_read)(void);    // 7
+    void (*mode_write)(uint32_t);   // 8
+    
+    uint32_t (*edge_read)(void);    // 9
+    void (*edge_write)(uint32_t);   // 10
+    
+    uint32_t (*pending_read)(void); // 11
+    void (*pending_write)(uint32_t);// 12
+    
+    uint32_t (*enable_read)(void);  // 13
+    void (*enable_write)(uint32_t); // 14
+    
+    uint32_t (*status_read)(void);  // 15
+
+    //---------logiciel----------
+    void (*irqHandler)(void *);     // 16
+    void *context;                  // 17
+
+    uint8_t INTERRUPT;              // 18
+    uint8_t pinNumber;              // 19
+
 }GPIOs_control;
 
+typedef enum DIOSelect DIOSelect;
+enum DIOSelect 
+{
+    DIO0 = 0,
+    DIO1 = 1,
+    DIO2 = 2,
+    DIO3 = 3,
+        //<--TODO HERE
+};
 
 typedef unsigned char uint8_t;
 /*********************************************************************
@@ -103,6 +120,7 @@ CONTROL FUNCTION
 **********************************************************************/
 
 /*Fonction inactif*/
+void InitGPIO(bool setOutput, bool flagOnChangeState, bool setFallingEdge, bool setEnableInterrupt,uint8_t dioNumber);
 void void0(void (*f));
 void void1(void);
 
@@ -118,8 +136,7 @@ void RemoveInterrupt(uint8_t pinNumber );
 uint32_t Read(uint8_t pinNumber );
 void Write(uint8_t pinNumber,uint32_t value );
 
-#ifdef __cplusplus
-}
-#endif    
+extern GPIOs_control DIOs[NBDIO];
+ 
 
 #endif

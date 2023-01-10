@@ -37,7 +37,7 @@ void f(char *text,bool *exit)
     {
         do
         {
-           text=input(&test0);
+           text=inputF(&test0);
         } while(text==NULL);
         /*do
         {

@@ -44,7 +44,8 @@ extern "C" {
 #endif
 
 #define DIO_SET_INTERRUPT
-
+#include "libdio.h"
+#include "libtimer.h"
     /**
      * @brief This function handles all interrupt transfers, you can set your irq functions here.
      * 

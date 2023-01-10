@@ -76,7 +76,7 @@ void BoardInitMcu( void )
     //hri_gclk_write_PCHCTRL_reg( GCLK, EIC_GCLK_ID, CONF_GCLK_EIC_SRC | ( 1 << GCLK_PCHCTRL_CHEN_Pos ) );
     //hri_mclk_set_APBAMASK_EIC_bit( MCLK );
 
-    //RtcInit( );
+    RtcInit( );
 
     //NON GÉRÉ !
     //UartInit( &Uart1, UART_1, UART_TX, UART_RX );

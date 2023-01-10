@@ -1,29 +1,22 @@
-/*!
+/*! -----------------------------------------------------------------------------------------------------
  * \file      delai.h delai.c
  *
- * \brief     delay implementation for Litex
+ * \brief     SPI implementation for Litex (loraspi)
  *
- * \copyright MadHighTech of source \ref LICENSE.
- *
- * \code
- *            _______              __                                            
- *           /       \            /  |                                           
- *           $$$$$$$  | ______   _$$ |_     ______                               
- *           $$ |__$$ |/      \ / $$   |   /      \                              
- *           $$    $$//$$$$$$  |$$$$$$/   /$$$$$$  |                             
- *           $$$$$$$/ $$ |  $$ |  $$ | __ $$ |  $$ |                             
- *           $$ |     $$ \__$$ |  $$ |/  |$$ \__$$ |                             
- *           $$ |     $$    $$/   $$  $$/ $$    $$/                              
- *           $$/       $$$$$$/     $$$$/   $$$$$$/                                                                                                                                                                                
- *                                   ╔═╗╔╦╗         
- *                                   ║   ║          
- *                                   ╚═╝╔═╗┬ ┬┬ ┬  ┬
- *                                      ╚═╗└┬┘│ └┐┌┘
- *                                      ╚═╝ ┴ ┴─┘└┘                                                                              
+ * \code                                                                                                                                                                          
+ *          ___  _ __   ___ _ __                  
+ *         / _ \| '_ \ / _ \ '_ \                 
+ *        | (_) | |_) |  __/ | | |                
+ *         \___/| .__/_\___|_| |_| _ _ __ ___ ___ 
+ *              | | / __|/ _ \| | | | '__/ __/ _ \
+ *              |_| \__ \ (_) | |_| | | | (_|  __/
+ *                  |___/\___/ \__,_|_|  \___\___|
+ *                                                                                                                      
  * \endcode
  *
- * \author    TERRINE Christophe ( MadHighTech )
- */
+ * \author    TERRINE Christophe ( www.ct-sylv.com )
+ * \author    Mohamed El Bouazzati ()  
+ *-------------------------------------------------------------------------------------------------------*/
 #ifndef DELAI_H
 #define DELAI_H
 
@@ -36,6 +29,6 @@
  */
 void delay_ms(unsigned int ms);
 void delay_us(unsigned int us);
-
+int elapsed(int *last_event, int period);
 
 #endif

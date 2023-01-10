@@ -22,15 +22,48 @@
  *
  * \author    Marten Lootsma(TWTG) on behalf of Microchip/Atmel (c)2017
  */
-#include <peripheral_clk_config.h>
-#include <hal_gpio.h>
-#include <hal_usart_sync.h>
+//#include <peripheral_clk_config.h>
+//#include <hal_gpio.h>
+//#include <hal_usart_sync.h>
 
 #include "board.h"
 #include "uart-board.h"
 
-struct usart_sync_descriptor Usart0;
 
+//struct usart_sync_descriptor Usart0;
+
+
+void UartMcuInit( Uart_t *obj, UartId_t uartId, PinNames tx, PinNames rx )
+{
+
+}
+void UartMcuConfig( Uart_t *obj, UartMode_t mode, uint32_t baudrate, WordLength_t wordLength, StopBits_t stopBits, Parity_t parity, FlowCtrl_t flowCtrl )
+{
+
+}
+void UartMcuDeInit( Uart_t *obj )
+{
+
+}
+uint8_t UartMcuPutChar( Uart_t *obj, uint8_t data )
+{
+
+}
+uint8_t UartMcuPutBuffer( Uart_t *obj, uint8_t *buffer, uint16_t size )
+{
+
+}
+uint8_t UartMcuGetChar( Uart_t *obj, uint8_t *data )
+{
+
+}
+uint8_t UartMcuGetBuffer( Uart_t *obj, uint8_t *buffer, uint16_t size, uint16_t *nbReadBytes )
+{
+
+}
+
+
+/*
 void UartMcuInit( Uart_t *obj, uint8_t uartId, PinNames tx, PinNames rx )
 {
     obj->UartId = uartId;
@@ -99,3 +132,4 @@ uint8_t UartMcuGetBuffer( Uart_t *obj, uint8_t *buffer, uint16_t size, uint16_t 
     }
     return 0; // OK
 }
+*/

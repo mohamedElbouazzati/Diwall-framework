@@ -35,7 +35,7 @@
 #ifndef __BOARD_CONFIG_H__
 #define __BOARD_CONFIG_H__
 
-#include "lora/system/gpio.h"
+#include "gpio.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -72,6 +72,14 @@ extern "C"
 #define I2C_SDA                                     GPIO( GPIO_PORTA, 16 )
 #define I2C_SCL                                     GPIO( GPIO_PORTA, 17 )*/
 
+// Debug pins definition.
+#define RADIO_DIO_0                                 0
+#define RADIO_DIO_1                                 1
+#define RADIO_DIO_2                                 2
+#define RADIO_DIO_3                                 3
+#define RADIO_NSS                                   14
+#define RADIO_RESET                                 15
+   
 // Debug pins definition.
 #define RADIO_DBG_PIN_TX                            NC
 #define RADIO_DBG_PIN_RX                            NC

@@ -2,10 +2,11 @@
 
 THIS_DIR := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 #Juste changer la target
-TARGET:=digilent_arty_cv32e41p
+TARGET:= digilent_arty_cv32e41p#digilent_arty_poto#
 
 gateware:
 	python3 -m boards.targets.$(TARGET) --variant="a7-100" --build
+#--cpu-type=cv32e41p
 
 load_bitstream:
 	python3 -m boards.targets.$(TARGET) --variant="a7-100" --load

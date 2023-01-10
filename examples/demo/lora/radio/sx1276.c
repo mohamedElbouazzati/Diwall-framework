@@ -24,12 +24,12 @@
  */
 #include <math.h>
 #include <string.h>
-#include "../boards/utilities.h"
-#include "../system/timer.h"
+#include "utilities.h"
+#include "timer.h"
 #include "radio.h"
-#include "../system/delay.h"
+#include "delay.h"
 #include "sx1276.h"
-#include "../boards/sx1276-board.h"
+#include "sx1276-board.h"
 
 /*!
  * \brief Internal frequency of the radio
@@ -1034,8 +1034,6 @@ void SX1276SetRx( uint32_t timeout )
         break;
     }
 
-    memset( RxTxBuffer, 0, ( size_t )RX_TX_BUFFER_SIZE );
-
     SX1276.Settings.State = RF_RX_RUNNING;
     if( timeout != 0 )
     {
@@ -1297,16 +1295,16 @@ void SX1276WriteBuffer( uint32_t addr, uint8_t *buffer, uint8_t size )
     uint8_t i;
 
     //NSS = 0;
-    //GpioWrite( &SX1276.Spi.Nss, 0 );
+    GpioWrite( &SX1276.Spi.Nss, 0 );
 
-    SpiInOut( addr | 0x80 );
+    SpiInOut( &SX1276.Spi, addr | 0x80 );
     for( i = 0; i < size; i++ )
     {
-        SpiInOut( buffer[i] );
+        SpiInOut( &SX1276.Spi, buffer[i] );
     }
 
     //NSS = 1;
-   // GpioWrite( &SX1276.Spi.Nss, 1 );
+    GpioWrite( &SX1276.Spi.Nss, 1 );
 }
 
 void SX1276ReadBuffer( uint32_t addr, uint8_t *buffer, uint8_t size )
@@ -1314,17 +1312,17 @@ void SX1276ReadBuffer( uint32_t addr, uint8_t *buffer, uint8_t size )
     uint8_t i;
 
     //NSS = 0;
-    //GpioWrite( &SX1276.Spi.Nss, 0 );
+    GpioWrite( &SX1276.Spi.Nss, 0 );
 
-    SpiInOut( addr & 0x7F );
+    SpiInOut( &SX1276.Spi, addr & 0x7F );
 
     for( i = 0; i < size; i++ )
     {
-        buffer[i] = SpiInOut(0 );
+        buffer[i] = SpiInOut( &SX1276.Spi, 0 );
     }
 
     //NSS = 1;
-    //GpioWrite( &SX1276.Spi.Nss, 1 );
+    GpioWrite( &SX1276.Spi.Nss, 1 );
 }
 
 static void SX1276WriteFifo( uint8_t *buffer, uint8_t size )
@@ -1913,7 +1911,7 @@ static void SX1276OnDio2Irq( void* context )
             {
             case MODEM_FSK:
                 // Checks if DIO4 is connected. If it is not PreambleDetected is set to true.
-                if( SX1276.DIO4.Context == NULL )
+                if( SX1276.DIO4.port == NULL )
                 {
                     SX1276.Settings.FskPacketHandler.PreambleDetected = true;
                 }

@@ -1,13 +1,13 @@
-#include "tools/delai.h"
+#include "delai.h"
 #include <stdio.h>
-#include "tools/defint.h"
+#include "defint.h"
 #include <libbase/console.h>
 #include "tools/binary.h"
 #include <system.h>
 #include <generated/csr.h>
 #include <irq.h>
-#include "tools/isr.h"
-#include "tools/libisr.h"
+#include "isr.h"
+#include "libdio.h"
 
 /**
  * @brief POUR TESTER IOTEST:

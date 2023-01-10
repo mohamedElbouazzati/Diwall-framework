@@ -76,19 +76,14 @@ _io = [
         Subsignal("miso", Pins("G1")),           # MODIFY J6 SPI KIT CHIP ARDUINO
         IOStandard("LVCMOS33")
     ),
-
     #DIO
     #solution1       0   1   2   3     N15  ->T11
     #("dio",0, Pins("P14 T15 T16"),IOStandard("LVCMOS33")),
-    
     #solution2
     ("dio0", 0, Pins("P14"),  IOStandard("LVCMOS33")),
     ("dio1", 1, Pins("T15"), IOStandard("LVCMOS33")),
     ("dio2", 2, Pins("T16"), IOStandard("LVCMOS33")),
     ("dio3", 3, Pins("T11"), IOStandard("LVCMOS33")),
-
-
-
     #RESET
     ("rst", 0, Pins("M16"), IOStandard("LVCMOS33")),# MODIFY J3 RESET KIT CHIP ARDUINO
     ## --- DESIGN LORA END --- ##
@@ -357,7 +352,7 @@ class Platform(XilinxPlatform):
     default_clk_name   = "clk100"
     default_clk_period = 1e9/100e6
 
-    def __init__(self, variant="a7-35", toolchain="vivado"):
+    def __init__(self, variant="a7-100", toolchain="vivado"):
         device = {
             "a7-35":  "xc7a35ticsg324-1L",
             "a7-100": "xc7a100tcsg324-1"

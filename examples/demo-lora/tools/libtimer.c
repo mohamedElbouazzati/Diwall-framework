@@ -78,6 +78,7 @@ void InitTimer(
  bool enableTimer, bool enableUptadate,
  bool enableInterrupt, TimerSelect timerSelect)
 {
+    TIMERs[timerSelect].ev_pending_write(1); 
     // set value
     enableReaload   ?
     (TIMERs[timerSelect].load_write(0),
@@ -88,25 +89,29 @@ void InitTimer(
     //update
     if(enableUptadate)TIMERs[timerSelect].update_value_write(1);
     //start timer
+
     if(enableTimer)TIMERs[timerSelect].en_write(1);
     // interupt
+    
     if(enableInterrupt)
     {
         irq_setmask(irq_getmask() | (1 << TIMER_INT[timerSelect]));
         TIMERs[timerSelect].ev_enable_write(1);
+        
     }
+    
 }
 
 void timer1_isr(void){
 	timer1_ev_pending_write(1);
+    //if(debugmode)printf("Timer has elapsed!\n");
 	updateSoftTimerInterrupt();
-    //printf("Timer has elapsed!\n");
 	timer1_ev_enable_write(1);
 }
 
 void timer0_isr(void){
 	timer0_ev_pending_write(1);
-	//printf("Timer has elapsed!\n");
+	//if(debugmode)printf("Timer has elapsed!\n");
 	timer0_ev_enable_write(1);
 }
 

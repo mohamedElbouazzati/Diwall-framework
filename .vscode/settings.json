@@ -10,6 +10,8 @@
         "sx1276-board.h": "c",
         "rtc-board.h": "c",
         "gpio.h": "c",
-        "libdio.h": "c"
+        "libdio.h": "c",
+        "sx1276.h": "c",
+        "console.h": "c"
     }
 }

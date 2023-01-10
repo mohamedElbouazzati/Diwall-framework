@@ -33,7 +33,7 @@ endef
 
 
 OBJECTS = $(COBJS) $(AOBJS)
-OTHER_OBJECTS   = donut.o helloc.o crt0.o testspi.o iotest.o main.o test1.o
+OTHER_OBJECTS   = donut.o helloc.o crt0.o testspi.o iotest.o main.o test1.o all_test.o
 
 all: demo.bin
 

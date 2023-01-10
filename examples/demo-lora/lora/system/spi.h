@@ -100,7 +100,7 @@ void SpiFormat( Spi_t *obj, int8_t bits, int8_t cpol, int8_t cpha, int8_t slave 
  * \param [IN] outData Byte to be sent
  * \retval inData      Received byte.
  */
-uint16_t SpiInOut( uint16_t outData );
+uint32_t SpiInOut( uint32_t outData );
 
 #ifdef __cplusplus
 }

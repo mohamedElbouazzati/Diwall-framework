@@ -60,7 +60,7 @@ char *get_token(char **str)
 /*----------------------------------------------*/
 // FONCTION POUR ENTRER DES VALEURS
 /*----------------------------------------------*/
-char *input(void (*function)(char *))
+char *inputF(void (*function)(char *))
 {
 					
             char *buff;
@@ -77,5 +77,33 @@ char *input(void (*function)(char *))
                 else return NULL;    
             }
             else return NULL;
+            
+}
+
+char *input(void)
+{
+	char * val;
+	printf("Write here : ");
+	do
+    {
+		
+        char *buff;
+            char *token;
+            buff = readstr();
+            if(buff !=NULL)
+            {
+                token = get_token(&buff);
+                if(token[0]!='\0' && token[0]!='\n')
+                {
+					
+                    val =token;
+					//printf("token val = %s\n",val);
+                    //return token;
+                }
+                else val = NULL;    
+            }
+            else val= NULL;
+    }while(val==NULL);	
+            return val;
             
 }

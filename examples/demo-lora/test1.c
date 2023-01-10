@@ -84,7 +84,7 @@ int test1( void )
 //while( 1 )
 //{
 
- for (uint16_t addr = 0; addr < 0x3F; addr++) {
+    for (uint16_t addr = 0; addr < 0x3F; addr++) {
         uint8_t val = Read_SPI(addr);
         printf("Register 0x%02x = 0x%02x\r\n", addr, val);
     }

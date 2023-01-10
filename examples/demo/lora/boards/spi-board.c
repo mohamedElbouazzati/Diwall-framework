@@ -22,28 +22,31 @@
  */
 
 #include "spi-board.h"
-#include "../../tools/libspi.h"
+#include "libspi.h"
+#include <stddef.h>
 
 
-void SpiFormat( void)
+void SpiFormat( Spi_t *obj, int8_t bits, int8_t cpol, int8_t cpha, int8_t slave )
 {
     /*DEFINE IN LITEX*/
 }
-void SpiFrequency( void )
+void SpiFrequency( Spi_t *obj, uint32_t hz )
 {
     /*DEFINE IN LITEX*/
 }
-void SpiInit(void)
+
+void SpiInit( Spi_t *obj, SpiId_t spiId, PinNames mosi, PinNames miso, PinNames sclk, PinNames nss )
 {
     InitSPI();
 }
 
-void SpiDeInit(void )
+void SpiDeInit( Spi_t *obj )
 {
- SpiInit();
+    SpiInit(NULL,0,0,0,0,0);
 }
 
-uint16_t SpiInOut(uint16_t outData )
+uint16_t SpiInOut( Spi_t *obj, uint16_t outData )
+//uint32_t SpiInOut(uint32_t outData )
 {
     /*
     // Wait for bus idle (ready to write)
@@ -67,5 +70,5 @@ uint16_t SpiInOut(uint16_t outData )
     outData = ( uint16_t )hri_sercomspi_read_DATA_reg( SERCOM4 );
 
     return outData;*/
-    return WriteRead_SPI((outData|1<<15)>>8,(uint8_t)outData);
+    return WriteRead_SPI(outData);
 }

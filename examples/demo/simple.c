@@ -24,7 +24,7 @@ void simple_test(void)
     while(1)
     {
         printf("         \r         ");
-        print_bin(WriteRead_SPI(reg,reg_value) );// afficher
+        //print_bin(WriteRead_SPI(reg,reg_value) );// afficher
         delay_ms(ms_wait);
     }
     

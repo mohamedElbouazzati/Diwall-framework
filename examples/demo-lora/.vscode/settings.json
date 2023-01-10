@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "csr.h": "c",
+        "libtimer.h": "c",
+        "*.tcc": "c"
+    }
+}

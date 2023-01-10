@@ -22,6 +22,7 @@
 
 #include "defint.h"
 #include "../lora/boards/rtc-board.h"
+#include "generated/csr.h"
 
 // Number of Timer available in hardward.
 #define NBTIMER 2 //<--TODO HERE
@@ -32,6 +33,7 @@
 // Value to set in register counter of your timer.
 #define COUNTER_TIMER CONFIG_CLOCK_FREQUENCY/FREQ
 
+extern bool debugmode;
 /**
  * @brief Control structure of the TIMERs 
  * 
@@ -82,7 +84,7 @@ struct Time
     uint64_t seconds;
     void (*TimerAlarmCallback)(void);
     void (*RtcOverflowIrq)(void);
-    void (* RtcProcess)( void )
+    void (* RtcProcess)( void );
 };
 
 /*********************************************************************
@@ -92,8 +94,6 @@ TIMER HARDWARE FUNCTION
  * @brief Control structure of the TIMERS 
  * 
  */
-void time0_init(void);
-void time1_init(void);
 void timer1_isr(void);   
 void timer0_isr(void);   
 void InitTimer(
@@ -118,5 +118,6 @@ uint64_t HwTimerGetTime(void);
 * \ticks Time value in terms of timer ticks
 */
 bool HwTimerLoadAbsoluteTicks(uint32_t ticks);
+extern TIMERs_control TIMERs[NBTIMER];
 
 #endif

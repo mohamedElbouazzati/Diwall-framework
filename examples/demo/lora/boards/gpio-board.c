@@ -22,7 +22,7 @@
  */
 
 #include "utilities.h"
-#include "../../tools/libisr.h"
+#include "../../tools/libdio.h"
 #include "board-config.h"
 #include "rtc-board.h"
 #include "gpio-board.h"
@@ -34,7 +34,15 @@ static Gpio_t *GpioIrq[16];
 
 void GpioMcuInit( Gpio_t *obj, PinNames pin, PinModes mode, PinConfigs config, PinTypes type, uint32_t value )
 {
-    
+    obj->pin = pin;
+         // Sets initial output value
+    if( pin > 5 )
+    {
+        return;
+    }    
+    printf("mode %d  -  pin %d \n",mode,obj->pin);
+    InitGPIO(mode,false,false,true,obj->pin);
+
 }
 
 void GpioMcuSetContext( Gpio_t *obj, void* context )
@@ -44,24 +52,28 @@ void GpioMcuSetContext( Gpio_t *obj, void* context )
 
 void GpioMcuSetInterrupt( Gpio_t *obj, IrqModes irqMode, IrqPriorities irqPriority, GpioIrqHandler *irqHandler )
 {
-    SetInterrupt(irqMode,irqPriority,irqHandler, obj->pinIndex);
+    SetInterrupt(irqMode,irqPriority,irqHandler, obj->pin);
     obj->IrqHandler=irqHandler;
     
 }
 
 void GpioMcuRemoveInterrupt( Gpio_t *obj )
 {
-    RemoveInterrupt(obj->pinIndex);
+    RemoveInterrupt(obj->pin);
     obj->IrqHandler=((void *)0);
 }
 
 void GpioMcuToggle( Gpio_t *obj )
 {
-    Toggle(obj->pinIndex );
+  //  Toggle(obj->pin );
     obj->pull^=1;
 }
 
 uint32_t GpioMcuRead( Gpio_t *obj )
 {
-   return Read((uint8_t)obj->pinIndex);
+   return Read((uint8_t)obj->pin);
+}
+void GpioMcuWrite( Gpio_t *obj, uint32_t value )
+{
+   Write((uint8_t)obj->pin, value);
 }

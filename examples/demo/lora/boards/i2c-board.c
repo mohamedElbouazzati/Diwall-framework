@@ -31,34 +31,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <peripheral_clk_config.h>
-#include <hal_gpio.h>
-#include <hal_i2c_m_sync.h>
+
 
 #include "board.h"
 #include "i2c-board.h"
 
-struct i2c_m_sync_desc I2C_INSTANCE;
+//struct i2c_m_sync_desc I2C_INSTANCE;
 
 void I2cMcuInit( I2c_t* obj, I2cId_t i2cId, PinNames scl, PinNames sda )
 {
-    obj->I2cId = i2cId;
-
-    // Clock initialization
-    hri_gclk_write_PCHCTRL_reg( GCLK, SERCOM1_GCLK_ID_CORE,
-                                CONF_GCLK_SERCOM1_CORE_SRC | ( 1 << GCLK_PCHCTRL_CHEN_Pos ) );
-    hri_gclk_write_PCHCTRL_reg( GCLK, SERCOM1_GCLK_ID_SLOW,
-                                CONF_GCLK_SERCOM1_SLOW_SRC | ( 1 << GCLK_PCHCTRL_CHEN_Pos ) );
-
-    hri_mclk_set_APBCMASK_SERCOM1_bit( MCLK );
-
-    // I2c initialization
-    i2c_m_sync_init( &I2C_INSTANCE, SERCOM1 );
-
-    gpio_set_pin_function( sda, PINMUX_PA16C_SERCOM1_PAD0 );
-    gpio_set_pin_function( scl, PINMUX_PA17C_SERCOM1_PAD1 );
-
-    i2c_m_sync_enable( &I2C_INSTANCE );
+  
 }
 
 void I2cMcuDeInit( I2c_t* obj )
@@ -75,52 +57,20 @@ void I2cMcuFormat( I2c_t* obj, I2cMode mode, I2cDutyCycle dutyCycle, bool I2cAck
 
 LmnStatus_t I2cMcuWriteBuffer( I2c_t *obj, uint8_t deviceAddr, uint8_t *buffer, uint16_t size )
 {
-    i2c_m_sync_set_slaveaddr( &I2C_INSTANCE, deviceAddr, I2C_M_SEVEN );
-    if( io_write( &I2C_INSTANCE.io, buffer, size ) == size )
-    {
-        return 1;  // ok
-    }
-    else
-    {
-        return 0;  // something went wrong
-    }
+    return 0;
 }
 
 LmnStatus_t I2cMcuReadBuffer( I2c_t *obj, uint8_t deviceAddr, uint8_t *buffer, uint16_t size )
 {
-    i2c_m_sync_set_slaveaddr( &I2C_INSTANCE, deviceAddr, I2C_M_SEVEN );
-    if( io_read( &I2C_INSTANCE.io, buffer, size ) == size )
-    {
-        return 1;  // ok
-    }
-    else
-    {
-        return 0;  // something went wrong
-    }
+ return 0;
 }
 
 LmnStatus_t I2cMcuWriteMemBuffer( I2c_t* obj, uint8_t deviceAddr, uint16_t addr, uint8_t* buffer, uint16_t size )
 {
-    i2c_m_sync_set_slaveaddr( &I2C_INSTANCE, deviceAddr, I2C_M_SEVEN );
-    if( i2c_m_sync_cmd_write( &I2C_INSTANCE, addr, buffer, size ) == size )
-    {
-        return 1;  // ok
-    }
-    else
-    {
-        return 0;  // something went wrong
-    }
+    return 0;
 }
 
 LmnStatus_t I2cMcuReadMemBuffer( I2c_t* obj, uint8_t deviceAddr, uint16_t addr, uint8_t* buffer, uint16_t size )
 {
-    i2c_m_sync_set_slaveaddr( &I2C_INSTANCE, deviceAddr, I2C_M_SEVEN );
-    if( i2c_m_sync_cmd_read( &I2C_INSTANCE, addr, buffer, size ) == size )
-    {
-        return 1;  // ok
-    }
-    else
-    {
-        return 0;  // something went wrong
-    }
+    return 0;
 }
