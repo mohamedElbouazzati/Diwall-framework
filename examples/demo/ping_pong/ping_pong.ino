@@ -1,3 +1,5 @@
+
+
 #include <LoRaLib.h>
 
 /// Default config
@@ -21,11 +23,11 @@
 // My arduino uno wiring
 #define RFM95_CS 10
 #define RFM95_INT0 2 // verify that on arduino it is an hardware interrupt pin. On arduino UNO pin3 is INT1
-#define RFM95_INT1 3
-#define RFM95_RST 5
+#define RFM95_INT1 6
+#define RFM95_RST 9
 
 // LoRa parameters
-#define RF95_FREQ 868.3
+#define RF95_FREQ 868.8
 #define RF95_BW 125.0
 #define RF95_SF 12
 #define RF95_CR 5
@@ -48,7 +50,7 @@ void setup() {
   while (!Serial) ;
   // initialize SX1278 with default settings
   Serial.print(F("Initializing ... "));
-  int state = lora.begin(RF95_FREQ, RF95_BW, RF95_SF, RF95_CR, SYNC_WORD,17, 200, 8,0);
+  int state = lora.begin(RF95_FREQ, RF95_BW, RF95_SF, RF95_CR, SYNC_WORD,20, 200, 8,0);
   if (state == ERR_NONE) 
   {
     Serial.println(F("success!"));
