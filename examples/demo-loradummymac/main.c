@@ -90,6 +90,7 @@ static void help(void)
 	puts("reboot             - Reboot CPU");
 	puts("lora_receive            - Test de recepteur lora");
 	puts("lora_transmit             - Test de l'emetteur lora");
+	puts("lora_pingpong             - Test de l'emetteur lora");
 }
 
 /*-----------------------------------------------------------------------*/
@@ -115,6 +116,12 @@ static void lora_transmit_cmd(void)
      lora_transmit();
 }
 
+extern void lora_pingpong(void);
+static void lora_pingpong_cmd(void)
+{
+	printf("lora_transmit C demo...\n");
+     lora_pingpong();
+}
 
 /*-----------------------------------------------------------------------*/
 /* Console service / Main                                                */
@@ -139,6 +146,8 @@ static void console_service(void)
 			lora_receive_cmd();
 	else if(strcmp(token, "lora_transmit") == 0)
 			lora_transmit_cmd();
+	else if(strcmp(token, "lora_pingpong") == 0)
+			lora_pingpong_cmd();		
 	prompt();
 }
 

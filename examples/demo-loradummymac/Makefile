@@ -1,4 +1,4 @@
-BUILD_DIR?=../../build/digilent_arty_lora
+BUILD_DIR?=../../build/digilent_arty_cv32e41p
 
 include $(BUILD_DIR)/software/include/generated/variables.mak
 include $(SOC_DIRECTORY)/software/common.mak
@@ -32,7 +32,7 @@ endef
 
 
 OBJECTS = $(COBJS) $(AOBJS)
-OTHER_OBJECTS   = crt0.o  main.o lora_receive.o lora_transmit.o
+OTHER_OBJECTS   = crt0.o  main.o lora_receive.o lora_transmit.o lora_pingpong.o
 
 all: demo.bin
 
