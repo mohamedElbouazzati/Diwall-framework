@@ -50,6 +50,8 @@ void setup() {
 
 void loop() {
   int i = 0;
+  
+
   for (int j = 0; j < sizeof(Packet); ++j + i) {
   Serial.print(F("[SX1278] Transmitting packet ... "));  
     if (Packet[j] == 2) {
