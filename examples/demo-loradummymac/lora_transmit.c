@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <generated/csr.h>
 #include "lora-litex/boards/board.h"
@@ -31,7 +32,7 @@
 #define LORA_IQ_INVERSION_ON                        false
 
 #define RX_TIMEOUT_VALUE                            3500
-#define BUFFER_SIZE                                 4 // Define the payload size here
+#define BUFFER_SIZE                                255 // Define the payload size here
 
 
 
@@ -52,18 +53,24 @@ int lora_transmit( void )
       Radio.SetMaxPayloadLength( MODEM_LORA, BUFFER_SIZE );
       while (1)
       {
+        int p=0;
         int i=0;
   for (int j = 0; j < sizeof(Packet); ++j + i) {
 
-    if (Packet[j] == 2) {
+    if (Packet[j] == '!') {
       printf(" Transmitting packet ... ");  
-      uint8_t Payload[Packet[j+1]];
+      //uint8_t Payload[(int)(Packet[j+1]+6)];
+      char* Payload;
+      Payload = (char *)malloc((Packet[j+1]+7) * sizeof(char));
       int u = 0;
-      for (int i = j + 2; i < Packet[j + 1] + 4 + j; ++i) {
-        if (Packet[i] == 4) {
+      for (int i = j ; i <Packet[j+1]+6+j; ++i) {
+        if (Packet[i] == '#') {
+          Payload[u] = Packet[i];
+          Payload[Packet[j+1]+7] = '\0';
           Radio.Send(Payload,sizeof(Payload));
           printf("\nPacket Sent :: Payload : %s : size : %d\n",Payload, sizeof(Payload));
           DelayMs(1000);
+          free(Payload);
           break;
         } else {
           Payload[u] = Packet[i];
@@ -80,9 +87,9 @@ int lora_transmit( void )
  
 void OnTxDone( void )
 {
-       leds_out_write(0b1000);
+       //leds_out_write(0b1000);
        DelayMs(20);
-       leds_out_write(0b0000);
+       //leds_out_write(0b0000);
 }
 void OnRadioTxTimeout( void )
 {
@@ -90,3 +97,68 @@ void OnRadioTxTimeout( void )
     printf("Tx timeout\n");
     Radio.SetTxContinuousWave( RF_FREQUENCY, TX_OUTPUT_POWER, 65535 );
 }
+
+/*
+#include <stdlib.h>
+#include <string.h>
+
+int main() {
+    int n = 5;
+    char **table;
+
+    table = (char **)malloc(n * sizeof(char *));
+
+    for (int i = 0; i < n; i++) {
+        table[i] = (char *)malloc(20 * sizeof(char)); //allocate memory for each string
+    }
+
+    strcpy(table[0], "Hello");
+    strcpy(table[1], "world");
+    strcpy(table[2], "this");
+    strcpy(table[3], "is");
+    strcpy(table[4], "a");
+    strcpy(table[5], "example");
+   
+
+    for (int i = 0; i < n; i++) {
+        printf("%s ", table[i]);
+    }
+    printf("\n");
+
+    for (int i = 0; i < n; i++) {
+        free(table[i]);
+    }
+    free(table);
+
+    return 0;
+}
+
+
+*/
+
+
+/*
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+   
+    int length = 20;
+    char *str;
+
+    str = (char *)malloc((length + 1) * sizeof(char)); //allocate memory for the string, +1 for the null character
+
+    for (int i = 0; i < length; i++) {
+        str[i] = 'A' + i; //store a character in each element of the string
+    }
+    str[length] = '\0'; //add the null character at the end of the string
+
+    printf("The string is: %s\n", str); //print the string
+    printf("The length of the string is: %lu\n", strlen(str)); //print the length of the string
+
+    free(str); //deallocate the memory to avoid memory leaks
+
+    return 0;
+}
+
+*/

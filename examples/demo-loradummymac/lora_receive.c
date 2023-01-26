@@ -39,7 +39,7 @@
 
 uint16_t BufferSize = BUFFER_SIZE;
 uint8_t Buffer[BUFFER_SIZE];
-uint8_t Buf[BUFFER_SIZE];
+
 
 static RadioEvents_t RadioEvents;
 
@@ -61,27 +61,32 @@ int lora_receive( void )
     Radio.SetPublicNetwork(true);
     Radio.SetMaxPayloadLength( MODEM_LORA, BUFFER_SIZE );
     Radio.Rx(3000);
-    DummyMacParser("payloadaaaaaaaaaaa",50);
+  //DummyMacParser("payloadaaaaaaaaaaa",10);
+
+
+    
+    
 }
  
 void OnRxDone( uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr )
 {  
     
-    leds_out_write(0b0100);
+    //leds_out_write(0b0100);
     DelayMs(20);
-    leds_out_write(0b0000);
+    //leds_out_write(0b0000);
     DummyMacParser(payload,size);
     BufferSize = size;
-    memcpy( Buffer, payload, BufferSize );
+    uint8_t Buf[BufferSize];
+    memcpy( Buf, payload, size );
     RssiValue = rssi;
     SnrValue = snr;
-    printf("\nPacket received: ");
-    printf("\t  %s ", Buffer);
-    printf("\t RSSI : %ld",  RssiValue);
-    printf("\t SNR : %ld", SnrValue);
-
+    printf("%s,%d ", Buf, sizeof(Buf));
+    printf(",%d",  RssiValue);
+    printf(",%d\n", SnrValue);
+    strcpy(Buf, "\0");
+    strcpy(payload, "\0");
 }
 void OnRxTimeout(void){
     printf("Rx timeout\n");
-    leds_out_write(0b0001);
+    //leds_out_write(0b0001);
 }
