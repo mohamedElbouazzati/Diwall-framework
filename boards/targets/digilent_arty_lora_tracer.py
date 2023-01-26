@@ -21,7 +21,7 @@ from litex.soc.interconnect.csr_eventmanager import *
 
 from migen import *
 
-from litex_boards.platforms import digilent_arty_cv32e41p
+from boards.platforms import digilent_arty_cv32e41p
 from litex.build.xilinx.vivado import vivado_build_args, vivado_build_argdict
 
 from litex.soc.cores.clock import *
