@@ -34,7 +34,7 @@ from litex.soc.cores.gpio import *
 from litedram.modules import MT41K128M16
 from litedram.phy import s7ddrphy
 
-
+from litescope import LiteScopeAnalyzer
 # CRG ----------------------------------------------------------------------------------------------
 
 class _CRG(Module):
@@ -47,9 +47,6 @@ class _CRG(Module):
             self.clock_domains.cd_sys4x_dqs = ClockDomain(reset_less=True)
             self.clock_domains.cd_idelay    = ClockDomain()
 
-
-        # # #
-
         # Clk/Rst.
         clk100 = platform.request("clk100")
         rst    = ~platform.request("cpu_reset") if with_rst else 0
@@ -61,7 +58,8 @@ class _CRG(Module):
         pll.create_clkout(self.cd_sys, sys_clk_freq)
         pll.create_clkout(self.cd_eth, 25e6)
         self.comb += platform.request("eth_ref_clk").eq(self.cd_eth.clk)
-        platform.add_false_path_constraints(self.cd_sys.clk, pll.clkin) # Ignore sys_clk to pll.clkin path created by SoC's rst.
+        platform.add_false_path_constraints(self.cd_sys.clk, pll.clkin) 
+        
         if with_dram:
             pll.create_clkout(self.cd_sys4x,     4*sys_clk_freq)
             pll.create_clkout(self.cd_sys4x_dqs, 4*sys_clk_freq, phase=90)
@@ -99,37 +97,35 @@ class BaseSoC(SoCCore):
                 module        = MT41K128M16(sys_clk_freq, "1:4"),
                 l2_cache_size = kwargs.get("l2_size", 8192)
             )
-
         # Lora / SPI DIO ---------------------------------------------------------------------
         if with_lora:
             from litex.soc.cores.spi import SPIMaster         
             self.submodules.loraspi = SPIMaster(pads=platform.request("lora_spi"), data_width=8, sys_clk_freq=sys_clk_freq, spi_clk_freq=int(100e3), with_csr=True, mode="raw")
-            #platform.add_extension(digilent_arty_poto.dio_methode("dio"))
-            self.submodules.dio0 = GPIOIn(platform.request("dio0"), with_irq = self.irq.enabled )
-            self.add_interrupt("dio0")
+            #DIOXs 1 à 3 :            
+            self.submodules.dio0 = GPIOIn(self.platform.request("dio0"),with_irq=True )
+            self.irq.add("dio0")
             self.add_csr("dio0")
-            self.submodules.dio1 = GPIOIn(platform.request("dio1"), with_irq = self.irq.enabled )
-            self.add_interrupt("dio1")
+
+            self.submodules.dio1 = GPIOIn(self.platform.request("dio1"),with_irq=True )
+            self.irq.add("dio1")
             self.add_csr("dio1")
-            self.submodules.dio2 = GPIOIn(platform.request("dio2"), with_irq = self.irq.enabled )
-            self.add_interrupt("dio2")
+
+            self.submodules.dio2 = GPIOIn(self.platform.request("dio2"),with_irq=True )
+            self.irq.add("dio2")
             self.add_csr("dio2")
-            self.submodules.dio3 = GPIOIn(platform.request("dio3"), with_irq = self.irq.enabled )
-            self.add_interrupt("dio3")
-            self.add_csr("dio3")            
-            #self.add_gpio(name="dio0",pads=platform.request("dio0"),with_irq=True)
-            #self.add_gpio(name="dio1",pads=platform.request("dio1"),with_irq=True)
-            #self.add_gpio(name="dio2",pads=platform.request("dio2"),with_irq=True)
-            #self.add_gpio(name="dio3",pads=platform.request("dio3"),with_irq=True)
-           # self.add_gpio(name="rst",pads=platform.request("rst"))
-            # self.add_gpio(name="rst",pads=platform.request("rst"),with_irq=False)
+
+            self.submodules.dio3 = GPIOIn(self.platform.request("dio3"),with_irq=True )
+            self.irq.add("dio3")
+            self.add_csr("dio3")
+
+            #LoRa Reset    
             self.submodules.rst = GPIOOut(platform.request("rst"))
             self.add_csr("rst")
 
-            #Adding Timer for Tests
+            #Timer
             from litex.soc.cores.timer import Timer
             self.submodules.timer1 = Timer()
-            self.add_interrupt("timer1")
+            self.irq.add("timer1")
             self.add_csr("timer1")
 
         # Jtagbone ---------------------------------------------------------------------------------
@@ -144,14 +140,7 @@ class BaseSoC(SoCCore):
 
         # Leds -------------------------------------------------------------------------------------
         if with_led_chaser:
-            self.submodules.leds = LedChaser(
-                pads         = platform.request_all("user_led"),
-                sys_clk_freq = sys_clk_freq)
-
-        # GPIOs ------------------------------------------------------------------------------------
-        if with_pmod_gpio:
-            platform.add_extension(digilent_arty_lora.raw_pmod_io("pmoda"))
-            self.submodules.gpio = GPIOTristate(platform.request("pmoda"))
+           self.submodules.leds = LedChaser(  pads         = platform.request_all("user_led"),   sys_clk_freq = sys_clk_freq)
 
 # Build --------------------------------------------------------------------------------------------
 
@@ -163,7 +152,7 @@ def main():
     target_group.add_argument("--load",                action="store_true",              help="Load bitstream.")
     target_group.add_argument("--flash",               action="store_true",              help="Flash bitstream.")
     target_group.add_argument("--variant",             default="a7-35",                  help="Board variant (a7-35 or a7-100).")
-    target_group.add_argument("--sys-clk-freq",        default=100e6,                    help="System clock frequency.")
+    target_group.add_argument("--sys-clk-freq",        default=50e6,                    help="System clock frequency.")
     ethopts = target_group.add_mutually_exclusive_group()
     ethopts.add_argument("--with-ethernet",      action="store_true",              help="Enable Ethernet support.")
     ethopts.add_argument("--with-etherbone",     action="store_true",              help="Enable Etherbone support.")
@@ -211,7 +200,6 @@ def main():
 
     if args.load:
         prog = soc.platform.create_programmer()
-        #prog.load_bitstream(builder.get_bitstream_filename(mode="sram"))
         prog.load_bitstream(os.path.join(builder.gateware_dir, soc.build_name + ".bit"))
     if args.flash:
         prog = soc.platform.create_programmer()

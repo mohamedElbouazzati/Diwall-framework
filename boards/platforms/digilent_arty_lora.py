@@ -66,6 +66,11 @@ _io = [
         Subsignal("rx", Pins("A9")),
         IOStandard("LVCMOS33")
     ),
+    ("serial_litescope", 0,
+        Subsignal("tx", Pins("U12")),
+        Subsignal("rx", Pins("V12")),
+        IOStandard("LVCMOS33")
+    ),
     ## --- DESIGN LORA START --- ##
     #SPI  
     (   "lora_spi", 0,
@@ -355,7 +360,7 @@ _numato_sdcard_pmod_io = numato_sdcard_pmod_io("pmodd") # SDCARD PMOD on JD.
 
 class Platform(XilinxPlatform):
     default_clk_name   = "clk100"
-    default_clk_period = 2e9/100e6
+    default_clk_period = 1e9/100e6
 
     def __init__(self, variant="a7-35", toolchain="vivado"):
         device = {
@@ -376,4 +381,4 @@ class Platform(XilinxPlatform):
 
     def do_finalize(self, fragment):
         XilinxPlatform.do_finalize(self, fragment)
-        self.add_period_constraint(self.lookup_request("clk100", loose=True), 2e9/100e6)
+        self.add_period_constraint(self.lookup_request("clk100", loose=True), 1e9/100e6)
