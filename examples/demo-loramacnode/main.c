@@ -91,6 +91,7 @@ static void help(void)
 	puts("led                - Led demo");
 #endif
 	puts("helloc             - Hello C");
+	puts("uplink             - Performs a periodic uplink");
 #ifdef WITH_CXX
 	puts("hellocpp           - Hello C++");
 #endif
