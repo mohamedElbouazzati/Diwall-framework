@@ -104,7 +104,7 @@ void BoardResetMcu( void )
 
 void BoardDeInitMcu( void )
 {
-    //SpiDeInit();
+    SpiDeInit(0);
 }
 
 uint32_t BoardGetRandomSeed( void )

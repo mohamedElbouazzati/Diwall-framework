@@ -22,6 +22,7 @@
 
 #include "defint.h"
 #include "rtc-board.h"
+#include "generated/csr.h"
 
 // Number of Timer available in hardward.
 #define NBTIMER 2 //<--TODO HERE
@@ -92,8 +93,6 @@ TIMER HARDWARE FUNCTION
  * @brief Control structure of the TIMERS 
  * 
  */
-void time0_init(void);
-void time1_init(void);
 void timer1_isr(void);   
 void timer0_isr(void);   
 void InitTimer(
@@ -118,5 +117,6 @@ uint64_t HwTimerGetTime(void);
 * \ticks Time value in terms of timer ticks
 */
 bool HwTimerLoadAbsoluteTicks(uint32_t ticks);
+extern TIMERs_control TIMERs[NBTIMER];
 
 #endif
