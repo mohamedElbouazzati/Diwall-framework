@@ -78,6 +78,7 @@ void InitTimer(
  bool enableTimer, bool enableUptadate,
  bool enableInterrupt, TimerSelect timerSelect)
 {
+    TIMERs[timerSelect].ev_pending_write(1); 
     // set value
     enableReaload   ?
     (TIMERs[timerSelect].load_write(0),
