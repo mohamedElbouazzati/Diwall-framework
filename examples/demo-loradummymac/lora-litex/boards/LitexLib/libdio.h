@@ -51,6 +51,7 @@ extern "C" {
 #include "board-config.h"
 #include "defint.h"
 #include "sx1276.h"
+#include "generated/csr.h"
 
 #define NBDIO 4
 

@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "libspi.h"
 #include <generated/csr.h>
+#include <generated/soc.h>
 #include "isr.h"
 #include <irq.h>
 /*********************************************************************
@@ -55,8 +56,6 @@ GPIOs_control DIOs[NBDIO]=
         dio2_mode_read,
         dio2_mode_write,
         dio2_in_read,
-        //void0, 
-        //void0, 
         dio2_ev_status_read, 
         void0, 
         void1, 
@@ -91,7 +90,7 @@ DIO FUNCTION
 void dio0_isr(void)
 {
     DIOs[0].pending_write(1);
-    //printf("interruption dio0\n");//DIOs[0].irqHandler();
+    printf("interruption dio0\n");//DIOs[0].irqHandler();
     DIOs[0].irqHandler(void0);
     DIOs[0].enable_write(1);             
 }
@@ -128,8 +127,8 @@ void dio_init(void)
     irq_setmask(irq_getmask()|1<<DIO2_INTERRUPT);
     DIOs[2].enable_write(1);
 
-    //irq_setmask(irq_getmask()|1<<DIO3_INTERRUPT);
-    //DIOs[3].enable_write(1);
+    irq_setmask(irq_getmask()|1<<DIO3_INTERRUPT);
+    DIOs[3].enable_write(1);
 }
 
 void SetInterrupt(IrqModes irqMode, IrqPriorities irqPriority, GpioIrqHandler *irqHandler, uint8_t num )
