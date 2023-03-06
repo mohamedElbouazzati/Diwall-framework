@@ -7,6 +7,10 @@
 -e third_party/pythondata-software-picolibc
 -e third_party/pythondata-software-compiler_rt
 
+# cv32e41p based network processor 
+-e third_party/litex/litex/soc/cores/cpu/cv32e41p_nwsec
+-e third_party/pythondata-cpu-cv32e41p_nwsec
+
 # Toolchain litex
 meson
 ninja
