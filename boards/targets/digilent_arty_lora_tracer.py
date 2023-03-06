@@ -21,7 +21,7 @@ from litex.soc.interconnect.csr_eventmanager import *
 
 from migen import *
 
-from boards.platforms import digilent_arty_cv32e41p
+from boards.platforms import digilent_arty_lora
 from litex.build.xilinx.vivado import vivado_build_args, vivado_build_argdict
 
 from litex.soc.cores.clock import *
@@ -33,8 +33,6 @@ from litex.soc.cores.gpio import GPIOTristate
 from litex.soc.cores.gpio import *
 from litedram.modules import MT41K128M16
 from litedram.phy import s7ddrphy
-
-from liteeth.phy.mii import LiteEthPHYMII
 from litescope import LiteScopeAnalyzer
 # CRG ----------------------------------------------------------------------------------------------
 
@@ -48,9 +46,6 @@ class _CRG(Module):
             self.clock_domains.cd_sys4x_dqs = ClockDomain(reset_less=True)
             self.clock_domains.cd_idelay    = ClockDomain()
 
-
-        # # #
-
         # Clk/Rst.
         clk100 = platform.request("clk100")
         rst    = ~platform.request("cpu_reset") if with_rst else 0
@@ -62,7 +57,7 @@ class _CRG(Module):
         pll.create_clkout(self.cd_sys, sys_clk_freq)
         pll.create_clkout(self.cd_eth, 25e6)
         self.comb += platform.request("eth_ref_clk").eq(self.cd_eth.clk)
-        platform.add_false_path_constraints(self.cd_sys.clk, pll.clkin) # Ignore sys_clk to pll.clkin path created by SoC's rst.
+        platform.add_false_path_constraints(self.cd_sys.clk, pll.clkin)
         if with_dram:
             pll.create_clkout(self.cd_sys4x,     4*sys_clk_freq)
             pll.create_clkout(self.cd_sys4x_dqs, 4*sys_clk_freq, phase=90)
@@ -77,9 +72,9 @@ class _CRG(Module):
 class BaseSoC(SoCCore):
     def __init__(self, variant="a7-35", toolchain="vivado", sys_clk_freq=int(50e6), with_lora=True,
                  with_ethernet=False, with_etherbone=False, eth_ip="192.168.1.50",
-                 eth_dynamic_ip=False, with_led_chaser=False, with_jtagbone=True,
+                 eth_dynamic_ip=False, with_led_chaser=True, with_jtagbone=True,
                  with_spi_flash=False, with_pmod_gpio=False, **kwargs):
-        platform = digilent_arty_cv32e41p.Platform(variant=variant, toolchain=toolchain)
+        platform = digilent_arty_lora.Platform(variant=variant, toolchain=toolchain)
 
         # SoCCore ----------------------------------------------------------------------------------
         SoCCore.__init__(self, platform, sys_clk_freq,
@@ -102,28 +97,17 @@ class BaseSoC(SoCCore):
             )
         # Tracer Litescope --------------------------------------------------------------------------
             analyzer_signals = [
-                # add HPMtracer signals :
+                #add HPMtracer signals :
                 self.cpu.csr_data,
                 self.cpu.HPM_alert_counter,
-                self.cpu.HPMcycles,
-               # self.cpu.HPMinstr,
-               # self.cpu.HPMld_stall,
-                #self.cpu.HPMjmp_stall,
-               # self.cpu.HPMimiss,  
-              #  self.cpu.HPMld,  
-             #   self.cpu.HPMst,  
-               # self.cpu.HPMjump,    
-              #  self.cpu.HPMbranch,     
-               # self.cpu.HPMbranch_taken, 
-               # self.cpu.HPMcomp_instr,      
-                #self.cpu.HPMpip_stall,    
+                self.cpu.HPMcycles,   
                 self.cpu.analyze,
                 self.cpu.alert,
-                #self.cpu.csr_add,
+                self.cpu.csr_add,
                 # IBus (could also just added as self.cpu.ibus)
-                #self.cpu.ibus.stb,
+                self.cpu.ibus.stb,
                 # DBus (could also just added as self.cpu.dbus)
-                #self.cpu.dbus.stb,
+                self.cpu.dbus.stb,
            ]
             self.submodules.analyzer = LiteScopeAnalyzer(analyzer_signals,depth  = 1024, clock_domain = "sys", samplerate   = sys_clk_freq,csr_csv      = "analyzer.csv" )       
             self.add_uartbone(name="serial_litescope")
@@ -131,43 +115,28 @@ class BaseSoC(SoCCore):
         if with_lora:
             from litex.soc.cores.spi import SPIMaster         
             self.submodules.loraspi = SPIMaster(pads=platform.request("lora_spi"), data_width=8, sys_clk_freq=sys_clk_freq, spi_clk_freq=int(100e3), with_csr=True, mode="raw")
-            #platform.add_extension(digilent_arty_poto.dio_methode("dio"))
+           #DIOXs 0 à 3 :
             self.submodules.dio0 = GPIOIn(platform.request("dio0"), with_irq = self.irq.enabled )
-            self.add_interrupt("dio0")
+            self.irq.add("dio0")
             self.add_csr("dio0")
             self.submodules.dio1 = GPIOIn(platform.request("dio1"), with_irq = self.irq.enabled )
-            self.add_interrupt("dio1")
+            self.irq.add("dio1")
             self.add_csr("dio1")
             self.submodules.dio2 = GPIOIn(platform.request("dio2"), with_irq = self.irq.enabled )
-            self.add_interrupt("dio2")
+            self.irq.add("dio2")
             self.add_csr("dio2")
             self.submodules.dio3 = GPIOIn(platform.request("dio3"), with_irq = self.irq.enabled )
-            self.add_interrupt("dio3")
-            self.add_csr("dio3")            
-            #self.add_gpio(name="dio0",pads=platform.request("dio0"),with_irq=True)
-            #self.add_gpio(name="dio1",pads=platform.request("dio1"),with_irq=True)
-            #self.add_gpio(name="dio2",pads=platform.request("dio2"),with_irq=True)
-            #self.add_gpio(name="dio3",pads=platform.request("dio3"),with_irq=True)
-           # self.add_gpio(name="rst",pads=platform.request("rst"))
-            # self.add_gpio(name="rst",pads=platform.request("rst"),with_irq=False)
+            self.irq.add("dio3")
+            self.add_csr("dio3") 
+            #LoRa Reset            
             self.submodules.rst = GPIOOut(platform.request("rst"))
             self.add_csr("rst")
 
             #Adding Timer for Tests
             from litex.soc.cores.timer import Timer
             self.submodules.timer1 = Timer()
-            self.add_interrupt("timer1")
+            self.irq.add("timer1")
             self.add_csr("timer1")
-
-        # Ethernet / Etherbone ---------------------------------------------------------------------
-        if with_ethernet or with_etherbone:
-            self.submodules.ethphy = LiteEthPHYMII(
-                clock_pads = self.platform.request("eth_clocks"),
-                pads       = self.platform.request("eth"))
-            if with_ethernet:
-                self.add_ethernet(phy=self.ethphy, dynamic_ip=eth_dynamic_ip)
-            if with_etherbone:
-                self.add_etherbone(phy=self.ethphy, ip_address=eth_ip)
 
         # Jtagbone ---------------------------------------------------------------------------------
         if with_jtagbone:
@@ -185,7 +154,7 @@ class BaseSoC(SoCCore):
             
         # GPIOs ------------------------------------------------------------------------------------
         if with_pmod_gpio:
-            platform.add_extension(digilent_arty_cv32e41p.raw_pmod_io("pmoda"))
+            platform.add_extension(digilent_arty_lora.raw_pmod_io("pmoda"))
             self.submodules.gpio = GPIOTristate(platform.request("pmoda"))
         self.comb+=platform.request_all("user_led").eq(self.cpu.alert)
         #self.submodules.comb+=led.eq(self.cpu.analyze)
@@ -237,9 +206,9 @@ def main():
         **soc_core_argdict(args)
     )
     if args.sdcard_adapter == "numato":
-        soc.platform.add_extension(digilent_arty_cv32e41p._numato_sdcard_pmod_io)
+        soc.platform.add_extension(digilent_arty_lora._numato_sdcard_pmod_io)
     else:
-        soc.platform.add_extension(digilent_arty_cv32e41p._sdcard_pmod_io)
+        soc.platform.add_extension(digilent_arty_lora._sdcard_pmod_io)
     if args.with_spi_sdcard:
         soc.add_spi_sdcard()
     if args.with_sdcard:
@@ -251,7 +220,6 @@ def main():
 
     if args.load:
         prog = soc.platform.create_programmer()
-        #prog.load_bitstream(builder.get_bitstream_filename(mode="sram"))
         prog.load_bitstream(os.path.join(builder.gateware_dir, soc.build_name + ".bit"))
     if args.flash:
         prog = soc.platform.create_programmer()
