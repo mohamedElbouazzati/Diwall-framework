@@ -1,5 +1,5 @@
 .global main
-.global isr
+.global lisr
 .global _start
 
 .global smp_ap_args
@@ -34,7 +34,7 @@ trap_entry:
   sd x30, -15*8(sp)
   sd x31, -16*8(sp)
   addi sp,sp,-16*8
-  call isr
+  call lisr
   ld x1 , 15*8(sp)
   ld x5,  14*8(sp)
   ld x6,  13*8(sp)
