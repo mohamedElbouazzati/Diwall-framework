@@ -63,7 +63,7 @@ $(OBJ_DIR)/main.o: main.c
 $(OBJ_DIR)/%.o: %.c
 	$(compile)
 
-$(OBJ_DIR)/crt0.o: $(CPU_DIRECTORY)/crt0.S
+$(OBJ_DIR)/crt0.o: $(START_UP)/crt0.S
 	$(assemble)
 
 $(OBJ_DIR)/%.o: $(LITEX_LIB_DIR)/%.c 
