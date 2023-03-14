@@ -298,15 +298,15 @@ static volatile uint32_t FileRxCrc = 0;
 /*!
  * LED GPIO pins objects
  */
-extern Gpio_t Led1; // Tx
-extern Gpio_t Led2; // Blinks every 5 seconds when beacon is acquired
-extern Gpio_t Led3; // Rx
-extern Gpio_t Led4; // App
+//extern Gpio_t Led1; // Tx
+//extern Gpio_t Led2; // Blinks every 5 seconds when beacon is acquired
+//extern Gpio_t Led3; // Rx
+//extern Gpio_t Led4; // App
 
 /*!
  * UART object used for command line interface handling
  */
-extern Uart_t Uart2;
+//extern Uart_t Uart2;
 
 /*!
  * Main application entry point.
@@ -366,7 +366,7 @@ int fuota_test( void )
     while( 1 )
     {
         // Process characters sent over the command line interface
-        CliProcess( &Uart2 );
+        //CliProcess( &Uart2 );
 
         // Processes the LoRaMac events
         LmHandlerProcess( );
@@ -466,7 +466,7 @@ static void OnClassChange( DeviceClass_t deviceClass )
         {
             IsMcSessionStarted = true;
             // Switch LED 3 ON
-            GpioWrite( &Led3, 1 );
+            //GpioWrite( &Led3, 1 );
             break;
         }
     }
@@ -539,7 +539,7 @@ static int8_t FragDecoderRead( uint32_t addr, uint8_t *data, uint32_t size )
 static void OnFragProgress( uint16_t fragCounter, uint16_t fragNb, uint8_t fragSize, uint16_t fragNbLost )
 {
     // Switch LED 3 OFF for each received downlink
-    GpioWrite( &Led3, 0 );
+    //GpioWrite( &Led3, 0 );
     TimerStart( &Led3Timer );
 
     printf( "\n###### =========== FRAG_DECODER ============ ######\n" );
@@ -556,7 +556,7 @@ static void OnFragDone( int32_t status, uint32_t size )
     FileRxCrc = Crc32( UnfragmentedData, size );
     IsFileTransferDone = true;
     // Switch LED 3 OFF
-    GpioWrite( &Led3, 0 );
+   // GpioWrite( &Led3, 0 );
 
     printf( "\n###### =========== FRAG_DECODER ============ ######\n" );
     printf( "######               FINISHED                ######\n");
@@ -570,7 +570,7 @@ static void OnFragDone( int32_t status, uint8_t *file, uint32_t size )
     FileRxCrc = Crc32( file, size );
     IsFileTransferDone = true;
     // Switch LED 3 OFF
-    GpioWrite( &Led3, 0 );
+    //GpioWrite( &Led3, 0 );
 
     printf( "\n###### =========== FRAG_DECODER ============ ######\n" );
     printf( "######               FINISHED                ######\n");
@@ -658,7 +658,7 @@ static void UplinkProcess( void )
             if( status == LORAMAC_HANDLER_SUCCESS )
             {
                 // Switch LED 1 ON
-                GpioWrite( &Led1, 1 );
+               // GpioWrite( &Led1, 1 );
                 TimerStart( &Led1Timer );
             }
         }
@@ -711,7 +711,7 @@ static void OnLed1TimerEvent( void* context )
 {
     TimerStop( &Led1Timer );
     // Switch LED 1 OFF
-    GpioWrite( &Led1, 0 );
+    //GpioWrite( &Led1, 0 );
 }
 
 /*!
@@ -721,7 +721,7 @@ static void OnLed2TimerEvent( void* context )
 {
     TimerStop( &Led2Timer );
     // Switch LED 2 OFF
-    GpioWrite( &Led2, 0 );
+   // GpioWrite( &Led2, 0 );
 }
 
 /*!
@@ -731,7 +731,7 @@ static void OnLed3TimerEvent( void* context )
 {
     TimerStop( &Led3Timer );
     // Switch LED 3 ON
-    GpioWrite( &Led3, 1 );
+    //GpioWrite( &Led3, 1 );
 }
 
 /*!
@@ -739,7 +739,7 @@ static void OnLed3TimerEvent( void* context )
  */
 static void OnLedBeaconTimerEvent( void* context )
 {
-    GpioWrite( &Led2, 1 );
+   // GpioWrite( &Led2, 1 );
     TimerStart( &Led2Timer );
 
     TimerStart( &LedBeaconTimer );

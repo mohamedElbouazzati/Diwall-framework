@@ -92,6 +92,7 @@ static void help(void)
 #endif
 	puts("helloc             - Hello C");
 	puts("uplink             - Performs a periodic uplink");
+	puts("fuota             - Firmware update over the air");
 #ifdef WITH_CXX
 	puts("hellocpp           - Hello C++");
 #endif
@@ -154,6 +155,12 @@ static int uplink_cmd(void)
 	printf("periodic_uplink  demo...\n");
 	periodic_uplink();
 }
+extern int fuota_test(void);
+static int fuota_cmd(void)
+{
+	printf("FUOTA interop tests  demo...\n");
+	fuota_test();
+}
 
 #ifdef WITH_CXX
 extern void hellocpp(void);
@@ -191,8 +198,10 @@ static void console_service(void)
 	
 	else if(strcmp(token, "helloc") == 0)
 		helloc_cmd();
-else if(strcmp(token, "uplink") == 0)
+	else if(strcmp(token, "uplink") == 0)
 		uplink_cmd();
+	else if(strcmp(token, "fuota") == 0)
+		fuota_cmd();	
 #ifdef WITH_CXX
 	else if(strcmp(token, "hellocpp") == 0)
 		hellocpp_cmd();

@@ -403,6 +403,7 @@ static void OnRxData( LmHandlerAppData_t* appData, LmHandlerRxParams_t* params )
     // Switch LED 2 ON for each received downlink
     //GpioWrite( &Led3, 1 );
     TimerStart( &Led3Timer );
+    printf("Led3 = 1 \n ");
 }
 
 static void OnClassChange( DeviceClass_t deviceClass )
@@ -426,6 +427,7 @@ static void OnBeaconStatusChange( LoRaMacHandlerBeaconParams_t* params )
         case LORAMAC_HANDLER_BEACON_RX:
         {
             TimerStart( &LedBeaconTimer );
+            printf("Led2 = 1 \n ");
             break;
         }
         case LORAMAC_HANDLER_BEACON_LOST:
@@ -481,6 +483,7 @@ static void PrepareTxFrame( void )
         // Switch LED 1 ON
         //GpioWrite( &Led1, 1 );
         TimerStart( &Led1Timer );
+         printf("Led1 = 1 \n ");  
     }
 }
 
@@ -564,6 +567,7 @@ static void OnLed1TimerEvent( void* context )
 {
     TimerStop( &Led1Timer );
     // Switch LED 1 OFF
+    printf("Led1 = 0 \n ");   
   //  GpioWrite( &Led1, 0 );
 }
 
@@ -574,6 +578,7 @@ static void OnLed2TimerEvent( void* context )
 {
     TimerStop( &Led2Timer );
     // Switch LED 2 OFF
+     printf("Led2 = 0 \n");   
   //  GpioWrite( &Led2, 0 );
 }
 
@@ -585,6 +590,7 @@ static void OnLed3TimerEvent( void* context )
     TimerStop( &Led3Timer );
     // Switch LED 3 OFF
   //  GpioWrite( &Led3, 0 );
+  printf("Led3 = 0 \n");
 }
 
 /*!
@@ -594,6 +600,6 @@ static void OnLedBeaconTimerEvent( void* context )
 {
    // GpioWrite( &Led2, 1 );
     TimerStart( &Led2Timer );
-
+    printf("Led2 = 1 \n ");
     TimerStart( &LedBeaconTimer );
 }
