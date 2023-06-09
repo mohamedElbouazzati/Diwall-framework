@@ -1,4 +1,4 @@
-BUILD_DIR?=../../build/digilent_arty_lora_tracer
+BUILD_DIR?=../../build/digilent_arty_lora
 
 include $(BUILD_DIR)/software/include/generated/variables.mak
 include $(SOC_DIRECTORY)/software/common.mak
@@ -95,7 +95,6 @@ demo.elf: $(OBJECTS)
 	$(CC) $(l_flags) -T $(LD_DIR)/linker.ld -N -o $@ \
 		$(OBJECTS) \
 		$(PACKAGES:%=-L$(BUILD_DIR)/software/%) \
-        -Wl,--whole-archive \
 		-Wl,--defsym=vfprintf=__d_vfprintf \
         -Wl,--defsym=vfscanf=__d_vfscanf \
 		-Wl,--gc-sections \
