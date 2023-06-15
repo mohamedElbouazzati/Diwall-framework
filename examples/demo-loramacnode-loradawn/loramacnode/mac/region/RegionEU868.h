@@ -52,12 +52,12 @@ extern "C"
 /*!
  * Number of default channels
  */
-#define EU868_NUMB_DEFAULT_CHANNELS                 3
+#define EU868_NUMB_DEFAULT_CHANNELS                 1
 
 /*!
  * Number of channels to apply for the CF list
  */
-#define EU868_NUMB_CHANNELS_CF_LIST                 5
+#define EU868_NUMB_CHANNELS_CF_LIST                 0
 
 /*!
  * Minimal datarate that can be used by the node
