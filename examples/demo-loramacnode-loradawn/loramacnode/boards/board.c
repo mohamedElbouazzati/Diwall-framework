@@ -84,7 +84,7 @@ void BoardInitMcu( void )
 
     SpiInit();
     SX1276IoInit( );
-    
+    //HwTimerInit();
 
     //NON GÉRÉ !
     //I2cInit( &I2c, I2C_1, I2C_SCL, I2C_SDA );

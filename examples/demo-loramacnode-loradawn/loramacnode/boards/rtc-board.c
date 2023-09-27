@@ -236,7 +236,7 @@ void RtcBkupRead( uint32_t* data0, uint32_t* data1 )
 
 void RtcProcess( void )
 {
-    CRITICAL_SECTION_BEGIN( );
+    //CRITICAL_SECTION_BEGIN( );
     if( (  RtcTimerContext.AlarmState == ALARM_RUNNING ) )//&& ( RtcTimeoutPendingPolling == true ) )
     {
         if( RtcGetTimerElapsedTime( ) >= RtcTimerContext.Delay )
@@ -256,7 +256,7 @@ void RtcProcess( void )
 #endif
         }
     }
-    CRITICAL_SECTION_END( );
+    //CRITICAL_SECTION_END( );
 }
 
 TimerTime_t RtcTempCompensation( TimerTime_t period, float temperature )//ok
