@@ -98,16 +98,20 @@ class BaseSoC(SoCCore):
         # Tracer Litescope --------------------------------------------------------------------------
             analyzer_signals = [
                 #add HPMtracer signals :
-                self.cpu.csr_data,
+                # self.cpu.csr_data,
                 self.cpu.HPM_alert_counter,
-                self.cpu.HPMcycles,   
-                self.cpu.analyze,
-                self.cpu.alert,
-                self.cpu.csr_add,
+                self.cpu.HPMrssi,   
+                self.cpu.ewmaRSSIsig,  
+                # self.cpu.HPMcycles,   
+                # self.cpu.analyze,
+                # self.cpu.alert,
+                # self.cpu.csr_add,
+                # self.cpu.HPMinstr,
+                # self.cpu.HPMld_stall,
                 # IBus (could also just added as self.cpu.ibus)
-                self.cpu.ibus.stb,
+                # self.cpu.ibus.stb,
                 # DBus (could also just added as self.cpu.dbus)
-                self.cpu.dbus.stb,
+                # self.cpu.dbus.stb,
            ]
             self.submodules.analyzer = LiteScopeAnalyzer(analyzer_signals,depth  = 1024, clock_domain = "sys", samplerate   = sys_clk_freq,csr_csv      = "analyzer.csv" )       
             self.add_uartbone(name="serial_litescope")
@@ -115,23 +119,22 @@ class BaseSoC(SoCCore):
         if with_lora:
             from litex.soc.cores.spi import SPIMaster         
             self.submodules.loraspi = SPIMaster(pads=platform.request("lora_spi"), data_width=8, sys_clk_freq=sys_clk_freq, spi_clk_freq=int(100e3), with_csr=True, mode="raw")
-           #DIOXs 0 à 3 :
-            self.submodules.dio0 = GPIOIn(platform.request("dio0"), with_irq = self.irq.enabled )
+          #DIOXs 0 à 3 :            
+            self.submodules.dio0 = GPIOIn(self.platform.request("dio0"),with_irq=True )
             self.irq.add("dio0")
             self.add_csr("dio0")
-            self.submodules.dio1 = GPIOIn(platform.request("dio1"), with_irq = self.irq.enabled )
+            self.submodules.dio1 = GPIOIn(self.platform.request("dio1"),with_irq=True )
             self.irq.add("dio1")
             self.add_csr("dio1")
-            self.submodules.dio2 = GPIOIn(platform.request("dio2"), with_irq = self.irq.enabled )
+            self.submodules.dio2 = GPIOIn(self.platform.request("dio2"),with_irq=True )
             self.irq.add("dio2")
             self.add_csr("dio2")
-            self.submodules.dio3 = GPIOIn(platform.request("dio3"), with_irq = self.irq.enabled )
-            self.irq.add("dio3")
-            self.add_csr("dio3") 
-            #LoRa Reset            
+            # self.submodules.dio3 = GPIOIn(self.platform.request("dio3"),with_irq=True )
+            # self.irq.add("dio3")
+            # self.add_csr("dio3") 
+            #LoRa Reset    
             self.submodules.rst = GPIOOut(platform.request("rst"))
             self.add_csr("rst")
-
             #Adding Timer for Tests
             from litex.soc.cores.timer import Timer
             self.submodules.timer1 = Timer()
@@ -153,10 +156,10 @@ class BaseSoC(SoCCore):
            self.submodules.leds = LedChaser(  pads         = platform.request_all("user_led"),   sys_clk_freq = sys_clk_freq)
             
         # GPIOs ------------------------------------------------------------------------------------
-        if with_pmod_gpio:
-            platform.add_extension(digilent_arty_lora.raw_pmod_io("pmoda"))
-            self.submodules.gpio = GPIOTristate(platform.request("pmoda"))
-        self.comb+=platform.request_all("user_led").eq(self.cpu.alert)
+        # if with_pmod_gpio:
+        #     platform.add_extension(digilent_arty_lora.raw_pmod_io("pmoda"))
+        #     self.submodules.gpio = GPIOTristate(platform.request("pmoda"))
+        # self.comb+=platform.request_all("user_led").eq(self.cpu.alert)
         #self.submodules.comb+=led.eq(self.cpu.analyze)
         #self.comb += leds.eq(self.cpu.analyze)
 

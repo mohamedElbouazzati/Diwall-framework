@@ -85,7 +85,7 @@ _io = [
     ("dio0",0, Pins("P14"),IOStandard("LVCMOS33")),
     ("dio1",0, Pins("T15"),IOStandard("LVCMOS33")),
     ("dio2",0, Pins("T16"),IOStandard("LVCMOS33")),
-    ("dio3",0, Pins("N15"),IOStandard("LVCMOS33")),
+    # ("dio3",0, Pins("N15"),IOStandard("LVCMOS33")),
     #RESET
     ("rst", 0, Pins("M16"), IOStandard("LVCMOS33")),# MODIFY J3 RESET KIT CHIP ARDUINO
     ## --- DESIGN LORA END --- ##

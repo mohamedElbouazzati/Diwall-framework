@@ -57,7 +57,7 @@ class _CRG(Module):
         pll.create_clkout(self.cd_sys, sys_clk_freq)
         pll.create_clkout(self.cd_eth, 25e6)
         self.comb += platform.request("eth_ref_clk").eq(self.cd_eth.clk)
-        platform.add_false_path_constraints(self.cd_sys.clk, pll.clkin) 
+        platform.add_false_path_constraints(self.cd_sys.clk, pll.clkin)
         if with_dram:
             pll.create_clkout(self.cd_sys4x,     4*sys_clk_freq)
             pll.create_clkout(self.cd_sys4x_dqs, 4*sys_clk_freq, phase=90)
@@ -109,9 +109,9 @@ class BaseSoC(SoCCore):
             self.submodules.dio2 = GPIOIn(self.platform.request("dio2"),with_irq=True )
             self.irq.add("dio2")
             self.add_csr("dio2")
-            self.submodules.dio3 = GPIOIn(self.platform.request("dio3"),with_irq=True )
-            self.irq.add("dio3")
-            self.add_csr("dio3") 
+            # self.submodules.dio3 = GPIOIn(self.platform.request("dio3"),with_irq=True )
+            # self.irq.add("dio3")
+            # self.add_csr("dio3") 
             #LoRa Reset    
             self.submodules.rst = GPIOOut(platform.request("rst"))
             self.add_csr("rst")
