@@ -71,7 +71,7 @@ extern "C" {
 /*!
  * end-device IEEE EUI (big endian)
  */
-#define LORAWAN_DEVICE_EUI                                 { 0x49,0x06,0x34,0x64,0x2e,0x46,0xd7,0x34 }
+#define LORAWAN_DEVICE_EUI                                 {0x36, 0x57, 0xa0, 0x86, 0xed, 0xaa, 0xfc, 0xca}
 
 /*!
  * App/Join server IEEE EUI (big endian)
@@ -94,7 +94,6 @@ extern "C" {
  * Device address on the network (big endian)
  */
 #define LORAWAN_DEVICE_ADDRESS                             ( uint32_t )0x00000000
-
 #define SOFT_SE_KEY_LIST                                                                                            \
     {                                                                                                               \
         {                                                                                                           \
@@ -112,7 +111,7 @@ extern "C" {
              * WARNING: FOR 1.0.x DEVICES IT IS THE \ref LORAWAN_APP_KEY                                            \
              */                                                                                                     \
             .KeyID    = NWK_KEY,                                                                                    \
-            .KeyValue = { 0xf8 ,0x58 ,0x2a ,0x4d ,0xb9 ,0x64 ,0x46 ,0x66 ,0xec ,0xf1 ,0x13 ,0x0e ,0xf0 ,0xfe ,0xfc ,0x68 },                                                                                   \
+            .KeyValue = { 0x69 ,0x56 ,0x33 ,0x3a ,0x4e ,0x18 ,0x33 ,0x62 ,0xf6 ,0xf7 ,0x49 ,0x21 ,0xe0 ,0xbb ,0xe8 ,0xb2},                                                                                   \
         },                                                                                                          \
         {                                                                                                           \
             /*!                                                                                                     \
