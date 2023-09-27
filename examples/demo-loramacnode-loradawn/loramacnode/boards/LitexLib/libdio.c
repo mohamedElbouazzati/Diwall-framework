@@ -64,20 +64,20 @@ GPIOs_control DIOs[NBDIO]=
     },
     {   
         IRQ_VERY_LOW_PRIORITY,
-        dio3_ev_pending_read,
-        dio3_ev_pending_write, 
-        dio3_ev_enable_read, 
-        dio3_ev_enable_write, 
-        dio3_edge_read,
-        dio3_edge_write,
-        dio3_mode_read,
-        dio3_mode_write,
-        dio3_in_read,
-        dio3_ev_status_read, 
+        // dio3_ev_pending_read,
+        // dio3_ev_pending_write, 
+        // dio3_ev_enable_read, 
+        // dio3_ev_enable_write, 
+        // dio3_edge_read,
+        // dio3_edge_write,
+        // dio3_mode_read,
+        // dio3_mode_write,
+        // dio3_in_read,
+        // dio3_ev_status_read, 
         void0, 
         void1, 
         3,
-        1<<DIO3_INTERRUPT,
+        // 1<<DIO3_INTERRUPT,
     },
     
 
@@ -90,16 +90,19 @@ DIO FUNCTION
 void dio0_isr(void)
 {
     DIOs[0].pending_write(1);
-   // printf("interruption dio0\n");//DIOs[0].irqHandler();
+    //printf("DIO %d done with mode %d and edge %d , and state = %d", 1,DIOs[1].mode_read(),DIOs[1].edge_read(),DIOs[1].in_read());
+
+   printf("IRQ dio0\n");//DIOs[0].irqHandler();
     DIOs[0].irqHandler(void0);
     DIOs[0].enable_write(1);             
 }
 void dio1_isr(void)
 { 
-    DIOs[1].pending_write(1);
-   // printf("interruption dio1\n");//DIOs[1].irqHandler();
-    DIOs[1].irqHandler(void0);
-    DIOs[1].enable_write(1); 
+   DIOs[1].pending_write(1);
+   //printf("interruption dio1\n");//DIOs[1].irqHandler();
+   //printf("DIO %d done with mode %d and edge %d , and state = %d", 1,DIOs[1].mode_read(),DIOs[1].edge_read(),DIOs[1].in_read());
+   DIOs[1].irqHandler(void0);
+   DIOs[1].enable_write(1); 
 }
 void dio2_isr(void)
 {
@@ -110,10 +113,11 @@ void dio2_isr(void)
 }
 void dio3_isr(void)
 {            
-    DIOs[3].pending_write(1);
-  //  printf("interruption dio3\n");//DIOs[3].irqHandler();
-    DIOs[3].irqHandler(void0);
-    DIOs[3].enable_write(1);
+    // DIOs[3].pending_write(1);
+ //printf("interruption dio3\n");//DIOs[3].irqHandler();
+ 
+  // DIOs[3].irqHandler(void0);
+//    DIOs[3].enable_write(1);
 }
 
 void dio_init(void)
@@ -127,8 +131,8 @@ void dio_init(void)
     irq_setmask(irq_getmask()|1<<DIO2_INTERRUPT);
     DIOs[2].enable_write(1);
 
-    irq_setmask(irq_getmask()|1<<DIO3_INTERRUPT);
-    DIOs[3].enable_write(1);
+   // irq_setmask(irq_getmask()|1<<DIO3_INTERRUPT);
+   // DIOs[3].enable_write(1);
 }
 
 void SetInterrupt(IrqModes irqMode, IrqPriorities irqPriority, GpioIrqHandler *irqHandler, uint8_t num )
@@ -148,7 +152,9 @@ void SetInterrupt(IrqModes irqMode, IrqPriorities irqPriority, GpioIrqHandler *i
             break;
         case IRQ_RISING_FALLING_EDGE:
             DIOs[num].mode_write(1);
-            //printf("DIO %d done with mode %d and edge %d ", num,DIOs[num].mode_read(),DIOs[num].edge_read() );
+           // DIOs[num].edge_write(1);
+            //DIOs[num].edge_write(0);
+            //printf("DIO %d done with mode %d and edge %d , and state = %d", num,DIOs[num].mode_read(),DIOs[num].edge_read(),DIOs[num].in_read());
             break;    
         default:
             break;
