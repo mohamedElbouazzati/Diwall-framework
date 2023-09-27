@@ -41,6 +41,8 @@
 #include "LoRaMacSerializer.h"
 #include "LoRaMacCrypto.h"
 
+
+
 /*
  * Frame direction definition for uplink communications
  */
@@ -993,6 +995,7 @@ LoRaMacCryptoStatus_t LoRaMacCryptoPrepareJoinRequest( LoRaMacMessageJoinRequest
 #else
     CryptoNvm->DevNonce++;
 #endif
+    CryptoNvm->DevNonce = CryptoNvm->DevNonce+6687;
     macMsg->DevNonce = CryptoNvm->DevNonce;
 
 #if( USE_LRWAN_1_1_X_CRYPTO == 1 )
