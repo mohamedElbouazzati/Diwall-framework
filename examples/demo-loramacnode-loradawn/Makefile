@@ -60,8 +60,8 @@ c_flags = $(LOCAL_INCLUDE) $(CFLAGS) \
           -DREGION_IN865=0 \
           -DREGION_RU864=0 \
           -DACTIVE_REGION="LORAMAC_REGION_EU868" \
-          -DCLASSB_ENABLED=1 \
-          -DUSE_RADIO_DEBUG=0 
+          -DCLASSB_ENABLED=0 \
+          -DUSE_RADIO_DEBUG=0
                   #  -DPICOLIBC_DOUBLE_PRINTF_SCANF 
 
 l_flags = $(L_INCLUDE) $(LOCAL_INCLUDE) $(LDFLAGS)
