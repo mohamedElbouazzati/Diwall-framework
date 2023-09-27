@@ -5,14 +5,14 @@ SHELL := /bin/bash
 
 #Processor and firmware : 
 CPU_TYPE?=cv32e41p 
-VARIANT?=standard
+VARIANT?=HIDS_SYNTH
 APPLICATION?=demo
 
 gateware: 
-	python3 -m boards.targets.digilent_arty_lora --variant=a7-100 --cpu-type=$(CPU_TYPE) --cpu-variant=$(VARIANT) --integrated-sram-size=32768  --build
+	python3 -m boards.targets.digilent_arty_lora_tracer --variant=a7-100 --cpu-type=$(CPU_TYPE) --cpu-variant=$(VARIANT) --integrated-sram-size=32768 --sys-clk-freq=50e6 --csr-csv=csr.csv   --build
 
 load_bitstream:
-	python3 -m boards.targets.digilent_arty_lora --variant=a7-100 --cpu-type=$(CPU_TYPE) --cpu-variant=$(VARIANT) --integrated-sram-size=32768 --load      
+	python3 -m boards.targets.digilent_arty_lora_tracer --variant=a7-100 --cpu-type=$(CPU_TYPE) --cpu-variant=$(VARIANT) --integrated-sram-size=32768 --sys-clk-freq=50e6 --csr-csv=csr.csv --load    
 	
 compile_app:
 	make -C examples/$(APPLICATION)
