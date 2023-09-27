@@ -47,17 +47,17 @@ extern "C"
 /*!
  * LoRaMac maximum number of channels
  */
-#define EU868_MAX_NB_CHANNELS                       16
+#define EU868_MAX_NB_CHANNELS                      16
 
 /*!
  * Number of default channels
  */
-#define EU868_NUMB_DEFAULT_CHANNELS                 1
+#define EU868_NUMB_DEFAULT_CHANNELS                1
 
 /*!
  * Number of channels to apply for the CF list
  */
-#define EU868_NUMB_CHANNELS_CF_LIST                 0
+#define EU868_NUMB_CHANNELS_CF_LIST                0
 
 /*!
  * Minimal datarate that can be used by the node
@@ -112,22 +112,22 @@ extern "C"
 /*!
  * Default Max EIRP
  */
-#define EU868_DEFAULT_MAX_EIRP                      16.0f
+#define EU868_DEFAULT_MAX_EIRP                      16
 
 /*!
  * Default antenna gain
  */
-#define EU868_DEFAULT_ANTENNA_GAIN                  2.15f
+#define EU868_DEFAULT_ANTENNA_GAIN                  3
 
 /*!
  * Enabled or disabled the duty cycle
  */
-#define EU868_DUTY_CYCLE_ENABLED                    1
+#define EU868_DUTY_CYCLE_ENABLED                   0
 
 /*!
  * Maximum RX window duration
  */
-#define EU868_MAX_RX_WINDOW                         3000
+#define EU868_MAX_RX_WINDOW                         3000 //3000
 
 #if ( EU868_DEFAULT_DATARATE > DR_5 )
 #error "A default DR higher than DR_5 may lead to connectivity loss."
