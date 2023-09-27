@@ -64,20 +64,20 @@ GPIOs_control DIOs[NBDIO]=
     },
     {   
         IRQ_VERY_LOW_PRIORITY,
-        dio3_ev_pending_read,
-        dio3_ev_pending_write, 
-        dio3_ev_enable_read, 
-        dio3_ev_enable_write, 
-        dio3_edge_read,
-        dio3_edge_write,
-        dio3_mode_read,
-        dio3_mode_write,
-        dio3_in_read,
-        dio3_ev_status_read, 
+        // dio3_ev_pending_read,
+        // dio3_ev_pending_write, 
+        // dio3_ev_enable_read, 
+        // dio3_ev_enable_write, 
+        // dio3_edge_read,
+        // dio3_edge_write,
+        // dio3_mode_read,
+        // dio3_mode_write,
+        // dio3_in_read,
+        // dio3_ev_status_read, 
         void0, 
         void1, 
         3,
-        1<<DIO3_INTERRUPT,
+        // 1<<DIO3_INTERRUPT,
     },
     
 
@@ -110,10 +110,10 @@ void dio2_isr(void)
 }
 void dio3_isr(void)
 {            
-    DIOs[3].pending_write(1);
-    printf("interruption dio3\n");//DIOs[3].irqHandler();
-    DIOs[3].irqHandler(void0);
-    DIOs[3].enable_write(1);
+    // DIOs[3].pending_write(1);
+    // printf("interruption dio3\n");//DIOs[3].irqHandler();
+    // DIOs[3].irqHandler(void0);
+    // DIOs[3].enable_write(1);
 }
 
 void dio_init(void)
@@ -127,8 +127,8 @@ void dio_init(void)
     irq_setmask(irq_getmask()|1<<DIO2_INTERRUPT);
     DIOs[2].enable_write(1);
 
-    irq_setmask(irq_getmask()|1<<DIO3_INTERRUPT);
-    DIOs[3].enable_write(1);
+    // irq_setmask(irq_getmask()|1<<DIO3_INTERRUPT);
+    // DIOs[3].enable_write(1);
 }
 
 void SetInterrupt(IrqModes irqMode, IrqPriorities irqPriority, GpioIrqHandler *irqHandler, uint8_t num )

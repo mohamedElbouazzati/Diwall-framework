@@ -62,13 +62,13 @@ void isr(void)
             }
         #endif
     #endif
-         #ifdef CSR_DIO3_BASE
-        #ifdef DIO3_INTERRUPT
-            if(irqs & (1 << DIO3_INTERRUPT))
-            {
-                dio3_isr();
-            }
-        #endif
-    #endif
+    //      #ifdef CSR_DIO3_BASE
+    //     #ifdef DIO3_INTERRUPT
+    //         if(irqs & (1 << DIO3_INTERRUPT))
+    //         {
+    //             dio3_isr();
+    //         }
+    //     #endif
+    // #endif
     
 }
