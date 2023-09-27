@@ -22,7 +22,7 @@
                                                               //  1: 250 kHz,
                                                               //  2: 500 kHz,
                                                               //  3: Reserved]
-#define LORA_SPREADING_FACTOR                    12      // [SF7..SF12]
+#define LORA_SPREADING_FACTOR                      12      // [SF7..SF12]
 #define LORA_CODINGRATE                             1        // [1: 4/5,
                                                               //  2: 4/6,
                                                               //  3: 4/7,
@@ -33,7 +33,7 @@
 #define LORA_IQ_INVERSION_ON                        false
 
 #define RX_TIMEOUT_VALUE                            3500
-#define BUFFER_SIZE                                 4 // Define the payload size here
+#define BUFFER_SIZE                                 255 // Define the payload size here
 
 
 uint16_t BufferSize = BUFFER_SIZE;
@@ -59,7 +59,7 @@ int lora_receive( void )
     //sync word: 0x34 reserved for lorawan network
     Radio.SetPublicNetwork(true);
     Radio.SetMaxPayloadLength( MODEM_LORA, BUFFER_SIZE );
-    Radio.Rx(3000);
+    Radio.Rx(6000);
 }
  
 void OnRxDone( uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr )
