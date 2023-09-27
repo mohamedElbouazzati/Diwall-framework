@@ -24,7 +24,7 @@
 
 void CliProcess()
 {   
-    if(NvmDataMgmtFactoryReset())
+   // if(NvmDataMgmtFactoryReset())
     DelayMs(10);
     // uint8_t data = 0;
 
