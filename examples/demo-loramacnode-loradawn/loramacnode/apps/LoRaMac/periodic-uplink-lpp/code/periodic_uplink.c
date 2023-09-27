@@ -28,23 +28,27 @@
 #include "board.h"
 #include "gpio.h"
 #include "uart.h"
+#include "libtimer.h"
 #include "RegionCommon.h"
-
 #include "cli.h"
 #include "Commissioning.h"
 #include "LmHandler.h"
 #include "LmhpCompliance.h"
 #include "CayenneLpp.h"
 #include "LmHandlerMsgDisplay.h"
+#include <generated/csr.h>
+#include "radio.h"
+
 
 int periodic_uplink( void );
-#ifndef ACTIVE_REGION
 
-#warning "No active region defined, LORAMAC_REGION_EU868 will be used as default."
+// #ifndef ACTIVE_REGION
+
+// #warning "No active region defined, LORAMAC_REGION_EU868 will be used as default."
 
 #define ACTIVE_REGION LORAMAC_REGION_EU868
 
-#endif
+// #endif
 
 #define SOFT_SE 1 
 #define SECURE_ELEMENT SOFT_SE
@@ -95,7 +99,7 @@ int periodic_uplink( void );
  *
  * \remark Please note that ETSI mandates duty cycled transmissions. Use only for test purposes
  */
-#define LORAWAN_DUTYCYCLE_ON                        true
+#define LORAWAN_DUTYCYCLE_ON                        false
 
 /*!
  * LoRaWAN application port
@@ -273,9 +277,13 @@ static volatile uint32_t TxPeriodicity = 0;
  */
 int periodic_uplink( void )
 {
+
+
+    
     BoardInitMcu( );
     BoardInitPeriph( );
-
+    HwTimerInit();
+    
     TimerInit( &Led1Timer, OnLed1TimerEvent );
     TimerSetValue( &Led1Timer, 25 );
 
@@ -287,25 +295,14 @@ int periodic_uplink( void )
 
     TimerInit( &LedBeaconTimer, OnLedBeaconTimerEvent );
     TimerSetValue( &LedBeaconTimer, 5000 );
-  
     // Initialize transmission periodicity variable
     TxPeriodicity = APP_TX_DUTYCYCLE + randr( -APP_TX_DUTYCYCLE_RND, APP_TX_DUTYCYCLE_RND );
 
     const Version_t appVersion = { .Value = FIRMWARE_VERSION };
     const Version_t gitHubVersion = { .Value = GITHUB_VERSION };
-    DisplayAppInfo( "periodic-uplink-lpp",   &appVersion, &gitHubVersion );
-//     static CommissioningParams_t CommissioningParams1 =
-// {
-//     .IsOtaaActivation = OVER_THE_AIR_ACTIVATION,
-//     .DevEui = { 1 },  // Automatically filed from secure-element
-//     .JoinEui = { 1 }, // Automatically filed from secure-element
-//     .SePin = { 1 },   // Automatically filed from secure-element
-//     .NetworkId = LORAWAN_NETWORK_ID,
-//     .DevAddr = LORAWAN_DEVICE_ADDRESS,
-// };
+    //DisplayAppInfo( "periodic-uplink-lpp",   &appVersion, &gitHubVersion );
 
-
-//     DisplayNetworkParametersUpdate(&CommissioningParams1);
+//     //DisplayNetworkParametersUpdate(&CommissioningParams1);
 
     if ( LmHandlerInit( &LmHandlerCallbacks, &LmHandlerParams ) != LORAMAC_HANDLER_SUCCESS )
     {
@@ -319,7 +316,7 @@ int periodic_uplink( void )
 
 
     // Set system maximum tolerated rx error in milliseconds
-    LmHandlerSetSystemMaxRxError( 20 );
+    LmHandlerSetSystemMaxRxError( 50 );
 
     // The LoRa-Alliance Compliance protocol package should always be
     // initialized and activated.
@@ -328,12 +325,12 @@ int periodic_uplink( void )
     LmHandlerJoin( );
 
     StartTxProcess( LORAMAC_HANDLER_TX_ON_TIMER );
-
+  CliProcess();
 
     while( 1 )
     {
 
-      CliProcess();
+
         // Process characters sent over the command line interface
      //  CliProcess( &Uart2 );
 
@@ -343,19 +340,21 @@ int periodic_uplink( void )
         // Process application uplinks management
         UplinkProcess( );
 
-        CRITICAL_SECTION_BEGIN( );
+        //CRITICAL_SECTION_BEGIN( );
         if( IsMacProcessPending == 1 )
         {
             // Clear flag and prevent MCU to go into low power modes.
             IsMacProcessPending = 0;
         }
-        else
-        {
-            // The MCU wakes up through events
-            BoardLowPowerHandler( );
-        }
-        CRITICAL_SECTION_END( );
+        // else
+        // {
+        //     // The MCU wakes up through events
+        //     //BoardLowPowerHandler( );
+        // }
+        // //CRITICAL_SECTION_END( );
     }
+
+    
 }
 
 static void OnMacProcessNotify( void )
@@ -365,27 +364,27 @@ static void OnMacProcessNotify( void )
 
 static void OnNvmDataChange( LmHandlerNvmContextStates_t state, uint16_t size )
 {
-    DisplayNvmDataChange( state, size );
+    //DisplayNvmDataChange( state, size );
 }
 
 static void OnNetworkParametersChange( CommissioningParams_t* params )
 {
-    DisplayNetworkParametersUpdate( params );
+    //DisplayNetworkParametersUpdate( params );
 }
 
 static void OnMacMcpsRequest( LoRaMacStatus_t status, McpsReq_t *mcpsReq, TimerTime_t nextTxIn )
 {
-    DisplayMacMcpsRequestUpdate( status, mcpsReq, nextTxIn );
+    //DisplayMacMcpsRequestUpdate( status, mcpsReq, nextTxIn );
 }
 
 static void OnMacMlmeRequest( LoRaMacStatus_t status, MlmeReq_t *mlmeReq, TimerTime_t nextTxIn )
 {
-    DisplayMacMlmeRequestUpdate( status, mlmeReq, nextTxIn );
+    //DisplayMacMlmeRequestUpdate( status, mlmeReq, nextTxIn );
 }
 
 static void OnJoinRequest( LmHandlerJoinParams_t* params )
 {
-    DisplayJoinRequestUpdate( params );
+    //DisplayJoinRequestUpdate( params );
     if( params->Status == LORAMAC_HANDLER_ERROR )
     {
         LmHandlerJoin( );
@@ -398,12 +397,12 @@ static void OnJoinRequest( LmHandlerJoinParams_t* params )
 
 static void OnTxData( LmHandlerTxParams_t* params )
 {
-    DisplayTxUpdate( params );
+    //DisplayTxUpdate( params );
 }
 
 static void OnRxData( LmHandlerAppData_t* appData, LmHandlerRxParams_t* params )
 {
-    DisplayRxUpdate( appData, params );
+    //DisplayRxUpdate( appData, params );
 
     switch( appData->Port )
     {
@@ -411,7 +410,8 @@ static void OnRxData( LmHandlerAppData_t* appData, LmHandlerRxParams_t* params )
     case LORAWAN_APP_PORT:
         {
             AppLedStateOn = appData->Buffer[0] & 0x01;
-            //GpioWrite( &Led4, ( ( AppLedStateOn & 0x01 ) != 0 ) ? 1 : 0 );
+            leds_out_write(((( AppLedStateOn & 0x01 ) != 0 ) ? 1 : 0)<<3);
+            //GpioWrite( &Led4,  );
         }
         break;
     default:
@@ -419,14 +419,14 @@ static void OnRxData( LmHandlerAppData_t* appData, LmHandlerRxParams_t* params )
     }
 
     // Switch LED 2 ON for each received downlink
-    //GpioWrite( &Led3, 1 );
-    TimerStart( &Led3Timer );
-    printf("Led3 = 1 \n ");
+   leds_out_write(0b0100);
+   TimerStart( &Led3Timer );
+    // printf("Led3 = 1 \n ");
 }
 
 static void OnClassChange( DeviceClass_t deviceClass )
 {
-    DisplayClassUpdate( deviceClass );
+    //DisplayClassUpdate( deviceClass );
 
     // Inform the server as soon as possible that the end-device has switched to ClassB
     LmHandlerAppData_t appData =
@@ -444,8 +444,9 @@ static void OnBeaconStatusChange( LoRaMacHandlerBeaconParams_t* params )
     {
         case LORAMAC_HANDLER_BEACON_RX:
         {
+    
             TimerStart( &LedBeaconTimer );
-            printf("Led2 = 1 \n ");
+        
             break;
         }
         case LORAMAC_HANDLER_BEACON_LOST:
@@ -460,7 +461,7 @@ static void OnBeaconStatusChange( LoRaMacHandlerBeaconParams_t* params )
         }
     }
 
-    DisplayBeaconUpdate( params );
+    //DisplayBeaconUpdate( params );
 }
 
 #if( LMH_SYS_TIME_UPDATE_NEW_API == 1 )
@@ -500,8 +501,9 @@ static void PrepareTxFrame( void )
     {
         // Switch LED 1 ON
         //GpioWrite( &Led1, 1 );
+        leds_out_write(0b0001);
         TimerStart( &Led1Timer );
-         printf("Led1 = 1 \n ");  
+      
     }
 }
 
@@ -529,13 +531,14 @@ static void StartTxProcess( LmHandlerTxEvents_t txEvent )
 static void UplinkProcess( void )
 {
     uint8_t isPending = 0;
-    CRITICAL_SECTION_BEGIN( );
+   // CRITICAL_SECTION_BEGIN( );
     isPending = IsTxFramePending;
     IsTxFramePending = 0;
-    CRITICAL_SECTION_END( );
+   // CRITICAL_SECTION_END( );
     if( isPending == 1 )
     {
         PrepareTxFrame( );
+     
     }
 }
 
@@ -583,9 +586,10 @@ static void OnTxTimerEvent( void* context )
  */
 static void OnLed1TimerEvent( void* context )
 {
+   
     TimerStop( &Led1Timer );
     // Switch LED 1 OFF
-    printf("Led1 = 0 \n ");   
+    leds_out_write(0b0000);
   //  GpioWrite( &Led1, 0 );
 }
 
@@ -594,9 +598,10 @@ static void OnLed1TimerEvent( void* context )
  */
 static void OnLed2TimerEvent( void* context )
 {
+    
     TimerStop( &Led2Timer );
     // Switch LED 2 OFF
-     printf("Led2 = 0 \n");   
+      leds_out_write(0b0000);
   //  GpioWrite( &Led2, 0 );
 }
 
@@ -607,8 +612,9 @@ static void OnLed3TimerEvent( void* context )
 {
     TimerStop( &Led3Timer );
     // Switch LED 3 OFF
+    leds_out_write(0b0000);
   //  GpioWrite( &Led3, 0 );
-  printf("Led3 = 0 \n");
+
 }
 
 /*!
@@ -616,8 +622,10 @@ static void OnLed3TimerEvent( void* context )
  */
 static void OnLedBeaconTimerEvent( void* context )
 {
+
    // GpioWrite( &Led2, 1 );
+   leds_out_write(0b0010);
     TimerStart( &Led2Timer );
-    printf("Led2 = 1 \n ");
+    
     TimerStart( &LedBeaconTimer );
 }
