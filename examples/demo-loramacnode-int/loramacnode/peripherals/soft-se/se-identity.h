@@ -71,7 +71,7 @@ extern "C" {
 /*!
  * end-device IEEE EUI (big endian)
  */
-#define LORAWAN_DEVICE_EUI                                 { 0x49,0x06,0x34,0x64,0x2e,0x46,0xd7,0x34 }
+#define LORAWAN_DEVICE_EUI                                 {0x51,0xeb,0x04,0x40,0x4d,0x82,0xcd,0x7d}
 
 /*!
  * App/Join server IEEE EUI (big endian)
@@ -93,7 +93,7 @@ extern "C" {
 /*!
  * Device address on the network (big endian)
  */
-#define LORAWAN_DEVICE_ADDRESS                             ( uint32_t )0x00000000
+#define LORAWAN_DEVICE_ADDRESS                             ( uint32_t )0xa4518201
 
 #define SOFT_SE_KEY_LIST                                                                                            \
     {                                                                                                               \
