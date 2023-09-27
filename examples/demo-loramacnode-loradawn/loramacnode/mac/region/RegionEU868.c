@@ -537,7 +537,12 @@ bool RegionEU868RxConfig( RxConfigParams_t* rxConfig, int8_t* datarate )
     else
     {
         modem = MODEM_LORA;
-        Radio.SetRxConfig( modem, rxConfig->Bandwidth, phyDr, 1, 0, 8, rxConfig->WindowTimeout, false, 0, false, 0, 0, true, rxConfig->RxContinuous );
+        // Radio for gateway:
+       // Radio.SetRxConfig( modem, rxConfig->Bandwidth, phyDr, 1, 0, 8, rxConfig->WindowTimeout, false, 0, false, 0, 0, true, rxConfig->RxContinuous );
+        // Radio for attacker:
+       //Radio.SetRxConfig( modem, rxConfig->Bandwidth, 7, 1, 0, 8, rxConfig->WindowTimeout, false, 0, false, 0, 0, true, rxConfig->RxContinuous );
+
+       Radio.SetRxConfig( modem, rxConfig->Bandwidth, 7, 1, 0, 8, rxConfig->WindowTimeout, false, 0, false, 0, 0, false, true );
     }
 
     Radio.SetMaxPayloadLength( modem, MaxPayloadOfDatarateEU868[dr] + LORAMAC_FRAME_PAYLOAD_OVERHEAD_SIZE );
@@ -568,7 +573,7 @@ bool RegionEU868TxConfig( TxConfigParams_t* txConfig, int8_t* txPower, TimerTime
     else
     {
         modem = MODEM_LORA;
-        Radio.SetTxConfig( modem, phyTxPower, 0, bandwidth, phyDr, 1, 8, false, true, 0, 0, false, 4000 );
+        Radio.SetTxConfig( modem, phyTxPower, 0, bandwidth,phyDr, 1, 8, false, true, 0, 0, false, 4000 );
     }
 
     // Update time-on-air
