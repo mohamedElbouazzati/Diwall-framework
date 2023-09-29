@@ -1,24 +1,37 @@
 
 .PHONY: pyenv
 
-gateware:
-	python3 -m boards.targets.poto_digilent_basys3 --integrated-main-ram-size=0x20000 --build
+SHELL := /bin/bash 
+
+#Processor and firmware : 
+CPU_TYPE?=cv32e41p 
+VARIANT?=HIDS_SYNTH
+APPLICATION?=demo
+
+gateware: 
+	python3 -m boards.targets.digilent_arty_lora_tracer --variant=a7-100 --cpu-type=$(CPU_TYPE) --cpu-variant=$(VARIANT) --integrated-sram-size=32768 --sys-clk-freq=50e6 --csr-csv=csr.csv   --build
 
 load_bitstream:
-	python3 -m boards.targets.poto_digilent_basys3 --load                           
+	python3 -m boards.targets.digilent_arty_lora_tracer --variant=a7-100 --cpu-type=$(CPU_TYPE) --cpu-variant=$(VARIANT) --integrated-sram-size=32768 --sys-clk-freq=50e6 --csr-csv=csr.csv --load    
+	
+compile_app:
+	make -C examples/$(APPLICATION)
 
-demo:
-	make -C examples/demo
+load_app:
+	litex_term /dev/ttyUSB1 --kernel examples/$(APPLICATION)/demo.bin                              
 
-load_demo:
-	litex_term /dev/ttyUSB1 --kernel examples/demo/demo.bin                              
-
-python-deps: pyenv  # installs python dependencies inside virtual environment
+python-deps: activate-pyenv  # installs python dependencies inside virtual environment
 	pip install -r requirements.txt
 
-pyenv:  # creates virtual environment if it does not exist
-	python3 -m venv venv/pyvenv
+activate-pyenv:  
 	source venv/pyenv/bin/activate
 
+pyenv:  
+	python3 -m venv venv/pyenv
+
 clean:
+	rm -rf examples/*/obj
 	rm -rf build
+	
+	
+	

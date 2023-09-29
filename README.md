@@ -11,10 +11,28 @@ git submodule update
 Setup env:
 
 ```
+make pyenv
 source venv/pyenv/bin/activate
 pip3 install -r requirements.txt
+```
+
+Fix picolibc missing data:
+```
+cd third_party/pythondata-software-picolibc
+git submodule init
+git submodule update
+```
+
+Install toolchain:
+
+```
 cd third_party/litex
 ./litex_setup.py --gcc=riscv
+```
+
+Install openocd:
+
+```
 sudo apt-get install openocd
 ```
 
@@ -27,17 +45,25 @@ export PATH="INSTALL-PATH/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-u
 Generate bitstream:
 
 ```
-python3 -m boards.targets.poto_digilent_basys3 --integrated-main-ram-size=0x20000 --build 
+make gateware CPU_TYPE=(cv32e41p/vexriscv) VARIANT=(standard/HIDS_SYNTH) 
+
 ```
 
 Load bitstream:
 ```
-python3 -m boards.targets.poto_digilent_basys3 --load 
+make load_bitstream CPU_TYPE=(cv32e41p/vexriscv) VARIANT=(standard/HIDS_SYNTH)
 ```
 
-Load application via serial
+Compile application:
 ```
-litex_term /dev/ttyUSB1 --kernel examples/demo.bin
+make compile_app APPLICATION=(demo/demo-lora/demo-loramacnode)
+```
+
+
+Load application via serial
+
+```
+make load_app APPLICATION=(demo/demo-lora/demo-loramacnode)
 ```
 
 To start the loading process press button BTNC on basys3

@@ -1,64 +1,78 @@
-BUILD_DIR?=/home/tanguy/travail/recherche/supervisions/stages/stage-Christophe_TERRINE/repo/build/poto_digilent_basys3
+BUILD_DIR?=../../build/digilent_arty_lora
 
 include $(BUILD_DIR)/software/include/generated/variables.mak
 include $(SOC_DIRECTORY)/software/common.mak
 
-OBJECTS   = donut.o helloc.o crt0.o testspi.o iotest.o \
-			tools/binary.o tools/delai.o tools/libspi.o tools/console.o\
-			main.o
-#lora/system/delay.o lora/system/fifo.o lora/system/gpio.o lora/system/timer.o \
-#lora/boards/board.o lora/boards/spi-board.o lora/boards/gpio-board.o lora/boards/sx1276-board.o \
-#lora/radio/sx1276.o \  test1.o
+BASE_DIR = .
+OBJ_DIR = $(BASE_DIR)/obj
+LITEX_LIB_DIR = $(BASE_DIR)/LitexLib
+LD_DIR = $(LITEX_LIB_DIR)/ld
 
-			
-#lora/sx1276mb1las-board.o  
-ifdef WITH_CXX
-	OBJECTS += hellocpp.o
-endif
 
+CSOURCES   :=  $(wildcard $(LITEX_LIB_DIR)/*.c)  $(wildcard $(BASE_DIR)/*.c)  
+ASOURCES   :=  $(wildcard $(CPU_DIRECTORY)/crt0.S)
+COBJS      := $(addprefix $(OBJ_DIR)/, $(notdir $(CSOURCES:.c=.o)))
+AOBJS      := $(addprefix $(OBJ_DIR)/, $(notdir $(ASOURCES:.S=.o)))
+
+LOCAL_INCLUDE = -I$(LITEX_LIB_DIR)  
+L_INCLUDE = -L$(LITEX_LIB_DIR) 
+
+c_flags = $(LOCAL_INCLUDE) $(CFLAGS)
+l_flags = $(L_INCLUDE) $(LOCAL_INCLUDE) $(LDFLAGS)
+
+define compile
+$(CC) -c $(c_flags) $(1) $< -o $@
+endef
+
+
+OBJECTS = $(COBJS) $(AOBJS)
+OTHER_OBJECTS   = crt0.o helloc.o main.o 
 
 all: demo.bin
 
+$(OBJECTS): | $(OBJ_DIR)
+
+$(OBJ_DIR):
+	@mkdir $(OBJ_DIR)
+
+-include $(OBJECTS:.o=.d)
 
 %.bin: %.elf
 	$(OBJCOPY) -O binary $< $@
-ifneq ($(OS),Windows_NT)
 	chmod -x $@
-endif
-
-vpath %.a $(PACKAGES:%=../%)
 
 demo.elf: $(OBJECTS)
-	$(CC) $(LDFLAGS) -T linker.ld -N -o $@ \
+	$(CC) $(l_flags) -T $(LD_DIR)/linker.ld -N -o $@ \
 		$(OBJECTS) \
 		$(PACKAGES:%=-L$(BUILD_DIR)/software/%) \
-		-Wl,--whole-archive \
 		-Wl,--gc-sections \
 		-Wl,-Map,$@.map \
 		$(LIBS:lib%=-l%)
-
-ifneq ($(OS),Windows_NT)
 	chmod -x $@
-endif
 
-# pull in dependency info for *existing* .o files
--include $(OBJECTS:.o=.d)
+$(OBJ_DIR)/main.o: main.c
+	$(compile)
 
-donut.o: CFLAGS   += -w
+$(OBJ_DIR)/%.o: %.c
+	$(compile)
 
-VPATH = $(BIOS_DIRECTORY):$(BIOS_DIRECTORY)/cmds:$(CPU_DIRECTORY)
+$(OBJ_DIR)/crt0.o: $(CPU_DIRECTORY)/crt0.S
+	$(assemble)
 
-
+$(OBJ_DIR)/%.o: $(LITEX_LIB_DIR)/%.c 
+	$(compile)
 %.o: %.cpp
 	$(compilexx)
-
-%.o: %.c
-	$(compile)
 
 %.o: %.S
 	$(assemble)
 
-clean:
-	$(RM) $(OBJECTS) demo.elf demo.bin .*~ *~ *.d ./lora/*/*~ ./lora/*/*.d ./tools/*.d
+prog:demo.bin
+	sudo chmod -R 777 /dev/ttyUSB*
+	litex_term --kernel=demo.bin /dev/ttyUSB*
 
-.PHONY: all clean
+clean:
+	$(RM) $(OBJECTS) $(OBJECTS:.o=.d) demo.elf demo.bin demo.elf.map .*~ *~
+	$(RM) -r $(OBJ_DIR)
+
+.PHONY: all $(OBJ_DIR)/main.o clean screen

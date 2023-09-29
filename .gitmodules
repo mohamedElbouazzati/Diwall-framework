@@ -19,3 +19,16 @@
 [submodule "third_party/pythondata-cpu-cv32e41p"]
 	path = third_party/pythondata-cpu-cv32e41p
 	url = https://github.com/litex-hub/pythondata-cpu-cv32e41p.git
+[submodule "third_party/litedram"]
+	path = third_party/litedram
+	url = https://github.com/enjoy-digital/litedram.git
+[submodule "testbed/end-devices/B-L072Z-LRWAN1/LoRaMac-node"]
+	path = testbed/end-devices/B-L072Z-LRWAN1/LoRaMac-node
+	url = https://github.com/Lora-net/LoRaMac-node.git
+[submodule "third_party/litex/litex/soc/cores/cpu/cv32e41p_nwsec"]
+	path = third_party/litex/litex/soc/cores/cpu/cv32e41p_nwsec
+	url = https://github.com/mohamedElbouazzati/cv32e41p_nwsec.git	
+[submodule "third_party/pythondata-cpu-cv32e41p_nwsec"]
+	path = third_party/pythondata-cpu-cv32e41p_nwsec
+	url = https://github.com/mohamedElbouazzati/pythondata-cpu-cv32e41p_nwsec.git	
+
