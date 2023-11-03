@@ -106,5 +106,7 @@ firefox doc/build/html/index.html
 * [] add submodule for LoRa-MAC node stack and fork it to  add support for LoRa
   Shield by following the steps details here https://github.com/Lora-net/LoRaMac-node/discussions/1101
   or by following the porting guide https://stackforce.github.io/LoRaMac-doc/LoRaMac-doc-v4.5.1/_p_o_r_t_i_n_g__g_u_i_d_e.html
-
+## References : 
+- Conference paper : [M. E. Bouazzati, R. Tessier, P. Tanguy and G. Gogniat, "A Lightweight Intrusion Detection System against IoT Memory Corruption Attacks," 2023 26th International Symposium on Design and Diagnostics of Electronic Circuits and Systems (DDECS), Tallinn, Estonia, 2023, pp. 118-123, doi: 10.1109/DDECS57882.2023.10139718.](https://ieeexplore.ieee.org/document/10139718)
+- Journal paper : "under submission"
 
